@@ -23,3 +23,5 @@ clean:
 distclean:
 	cd standalone/progs.d; $(MAKE) clean
 	$(RM) -f $(BIN)/*
+
+.PHONY: targets bindir gap clean distclean doc
