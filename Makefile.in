@@ -20,9 +20,7 @@ distclean:
 	$(RM) -f $(BIN)/*
 
 doc:
-	cd doc;\
-        tex manual;bibtex manual;\
-	../../../doc/manualindex manual;tex manual;tex manual;
+	cd doc && ./make_doc
 
 Makefile: configure Makefile.in
 	./configure "@GAPPATH@"

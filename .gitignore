@@ -7,7 +7,6 @@ Makefile
 
 /doc/manual.aux
 /doc/manual.bbl
-/doc/manual.bib
 /doc/manual.blg
 /doc/manual.dvi
 /doc/manual.idx
@@ -21,3 +20,7 @@ Makefile
 /doc/manual.six
 /doc/manual.toc
 /doc/manual.example-1.tst
+/doc/tthmacros.tex
+/doc/tthout
+
+/htm/
