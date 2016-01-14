@@ -7,13 +7,8 @@ RM = /bin/rm
 CC=gcc
 CFLAGS = -O
 
-targets: gap
-
-# this target creates a bin-directory
-bindir:
+all:
 	mkdir -p bin/@GAPARCH@;
-
-gap: bindir
 	cd standalone/progs.d;\
 	$(MAKE) CC="$(CC)" BIN="..//..//$(BIN)" COPTS="$(COPTS)"
 
@@ -32,4 +27,4 @@ doc:
 Makefile: configure Makefile.in
 	./configure "@GAPPATH@"
 
-.PHONY: targets bindir gap clean distclean doc
+.PHONY: all clean distclean doc
