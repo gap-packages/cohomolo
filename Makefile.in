@@ -24,4 +24,12 @@ distclean:
 	cd standalone/progs.d; $(MAKE) clean
 	$(RM) -f $(BIN)/*
 
+doc:
+	cd doc;\
+        tex manual;bibtex manual;\
+	../../../doc/manualindex manual;tex manual;tex manual;
+
+Makefile: configure Makefile.in
+	./configure "@GAPPATH@"
+
 .PHONY: targets bindir gap clean distclean doc
