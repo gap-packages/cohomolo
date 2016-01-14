@@ -48,8 +48,8 @@ AbstractHTML :=
 
 PackageDoc := rec(
   BookName  := "cohomolo",
-  ArchiveURLSubset := [ "doc" ],
-  # HTMLStart := "",
+  ArchiveURLSubset := ["doc", "htm"],
+  HTMLStart := "htm/chapters.htm",
   PDFFile   := "doc/manual.pdf",
   SixFile   := "doc/manual.six",
   LongTitle := "Computing Cohomology groups and Schur Multipliers",
