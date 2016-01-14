@@ -1,0 +1,124 @@
+6.   Other Programs.
+The programs listed in this file are more experimental and less well
+supported than those in Section 2 and 3.
+
+The following two programs are an attempt at improving the performance of
+nqrun for second cohomology groups for larger groups. They are awkward to use,
+since they require a lot of preliminary work by the user, but they are worth it
+in terms of time and space requirements for groups P which act to a fairly large
+depth on the module M. Hopefully some more automatic method will be devised
+eventually.
+The idea is as follows. Find subgroups Q(1),...,Q(m) of P, for which
+[M,Q(1),Q(2),...,Q(m)] = 0, where the Q(i) are as large as possible, and m is as
+small as possible. (These two conditions conflict, of course). Then when the
+Frattini module F(M) of P is computed, the conditions will be imposed on F(M)
+at all depths l>=m, since [F(M),Q(1),...,Q(m)] must be in the kernel of all
+P-homomorphisms F(M) -> P. The resultant  decrease in the size of F(M) can be
+considerable, with consequent savings in time and space.
+To use the programs, for each such set  of subgroups Q(1),...,Q(m) make a file
+gpname.x?, where ?=a,b,c,... (So, for example, if 3 such systems are found for
+the group l52, we make files l52.xa, l52.xb and l52.xc, and the programs note
+that there is no file l52.xd in order to cease this phase of the processing.)
+Similarly, for computing in the intersections, for each file gpname.sci, we
+make files gpname.sciaxa, gpname.scibxa,... (one for each intersection Q in the
+sci file), gpname.sciaxb, gpname.scibxb,.... and so on. For example, if
+l52.sc2 contains 3 intersections, and we have 2 systems of subgroups of Q for
+each of these, then we make files l52.sc2axa,l52.sc2bxa,l52.sc2cxa, and
+l52.sc2axb,l52.sc2bxb,l52.sc2cxb.
+The format of these files is as follows. Line 1 contains the number n(1) of
+generators of Q(1) and m. Normally, the next n(1) lines contain the generators
+of Q(1) (a minimal generating set is most efficient).  These consist of a string
+of generators power pairs, preceded by total length.
+For example, g(1)^3 * g(3)^2 * g(4) is written as
+6 1 3 3 2 4 1
+on a single line. The generators are the pcp generators of P or of the
+appropriate intersection Q. An exception is when Q(1) is the whole of P or the
+intersection Q. In this case, the number n(1) should be the full exponent of
+the order of P or Q, and the list of generators MUST be omitted, since the
+program can compute them itself.
+     Next, if Q(2) is the same as Q(1), then the following line should contain
+a single 0. If not, then it contains the number of generators n(2) of Q(2),
+and if Q(2) is not the whole of P or Q, the list of generators follows as for
+for Q(1). Similarly for Q(3), Q(4), ... Put a single 0 if Q(i+1)=Q(i).
+
+(i) nq+chrun
+Source files: nq+chd.c nq+chp.c nq+chfns.c matfns.c
+Usage:    nq+chrun [-o] gpname [inf] [inf] ...
+inf should take values sc, sc1, sc2, etc., one for each intersection file,
+(but not for those containing g in N(P)).
+This program is used to check that the subgroups Q(1),..,Q(m) in all of the
+files described above really satisfy the required condition on their action on
+P. It should always be used before nqrun+, since a mistake of this kind would
+cause errors in the final answer.
+First the files gpname.pgmat and gpname.pcp are used to compute the matrices
+of all pcp generators of P (acting on M, not d(M)). The files gpname.inf are
+then used to compute the matrices of the intersections Q.
+If the -o option is used, then these matrices can be output to files
+gpname.mats (for P itself) and gpname.infmats for intersection files. It
+is a good idea to use the -o option BEFORE making any of the Q(i) files (in
+which case the program computes the matrices only), since the matrices can
+then be used to look for suitable sets of subgroups Q(i). It should then be
+run again without the -o option to check the conditions on the Q(i).
+
+(ii) nqrun+
+Source files: nqd.c nqp1+.c nqp2.c nqp3+.c nqfns.c matfns.c
+(Only two are different from nqrun. nqp3+.c contains the extra procedure that
+ looks for and uses the intersection files, and nqp1+.c calls it in the
+ procedure calcfm.)
+Usage:  As for nqrun.
+(If -1 is used, there is no difference from nqrun)
+This is used in place of nqrun when the Q(i) files described above are present.
+
+(ii)a nqrun+s
+Source files: nqds.c nqp1+s.c nqp2s.c nqp3+s.c nqfnss.c matfns.c
+As for nqrun+, but state saving procedures are used. (Local to Warwick system)
+ 
+
+The following two programs are intended as converses of the programs to 
+compute H^2 and extensions. Given an extension of a module M by H, where
+P <= H <= G, they restrict the extension to P, and decide whether it splits,
+or whether it is stable with respect to G. As input, they take the output of
+extprun applied to the file gpname.hsg.er, where gpname.hsg is the strong-
+generator file for H. If gpname.hsg.er is produced by corestricting stable
+elements of H^2(P,M) in the usual way, then of course this extension will be
+stable and usually nonsplit. Thus, for this purpose, they only provide an
+additional check on everything.
+If, in future, some other method should be found to produce the file, then
+they would be useful.
+
+(iii) respcrun
+Source files: respcd.c respcp.c idextp.c pf.c matfns.c
+(pf.c is a variation of permfns.c, with more use of pointers)
+
+Usage: respcrun [-s] gpname [inf1]
+
+Default: inf1 = sg
+The following files are needed for input:
+gpname.spc, gpname.inf1, gpname.inf1mat, gpname.cbmats, gpname.ep
+(output of extprun), gpname.pcp.
+(These are all produced by group and matrix theoretical programs)
+      If -s is not called, gpname.ch2 is also required.
+In this case, the program determines firstly if the extension splits, and
+and secondly whether it is stable. It does this by computing the PCP for the
+extension, and then identifying it using the information in gpname.ch2.
+      If -s is called, then gpname.ch2 is not required, and the PCP for the
+extension of M by P is output to a file gpname.eop, in the usual PCP format.
+This is then used by splitrun to determine whether the extension splits, and
+it should be quicker overall than the above method, since it does not
+involve the prior use of nqrun.
+
+(iv) splitrun
+Source files: splitd.c splitp.c splitfns.c matfns.c
+Usage: splitrun [inf1] [inf2]
+Defaults: (probably always) inf1 = eop, inf2 = pgmat.
+
+This program is similar in structure, time and space requirements to nqrun -1,
+(which is much quicker than nqrun alone). Given a PCP for an extension E of M by
+P, it lets this extension act on the dual module d(M) of M (with M acting
+trivially on d(M). We now proceed to compute the p-multiplier of the semidirect
+product of d(M) by E, as in the computation of H^1(E,M), with the difference
+that we start by introducing a "key" generator G(1) say, with [d(b),b]=1, for
+each element b of a basis of M, where d(b) is the corresponding element in the
+dual basis of d(M). Then if G(1) gets eliminated, the extension does not split.
+Otherwise it does.
+

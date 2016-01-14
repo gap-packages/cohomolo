@@ -1,0 +1,267 @@
+4. Examples.
+These examples should provide a model, which can be followed in any similar
+computation. There are several possible orders for the individual program
+calls, and we have chosen always to carry out all of the computations within
+the group first, and then to do the cohomology computations.
+This practice is followed by "cohomology", although its order of commands will
+not necessarily be identical to that given here.
+The instructions (or options) in brackets are only included if the
+corestriction is to be computed.
+
+a) Computation of 2-part of multiplier of m21=PSL(3,4).
+The following commands are given. The file m24.inperm is already there.
+
+gprun m24
+egrun -s m24 outperm st3
+  (Stabilize 3 points to give m21.)
+mv m24.st3 m21.sg
+  (Change group name.)
+sylrun m21 sg
+  (prime=2. |P|=64.)
+egrun m21 sylp psg
+normrun -n m21 sg sylp
+  (Compute N(P).    N(P):P=3.)
+egrun m21 norm nsg
+egrun -s m21 sg sg1
+  (Stabilize 4 points to give subgroup H(1) with G > H(1) > N(P).
+   G:H(1)=21, H(1):N(P)=5.)
+pcrun -m (-c) m21
+selgen -w m21
+  (Select minimal generating set for P.)
+(conrun -g m21 nsg psg)
+scrun -m m21 sc0 ng
+conrun (-g) -c -d0 m21 sg1 nsg pg dcr1 cr1
+scrun -m m21 sc1 dcr1
+conrun (-g) -d1 m21 sg sg1
+scrun -s1 -m m21
+(grrun m21 psg)
+(grrun m21 nsg)
+(grrun m21 sg1)
+(grrun m21)
+nqmrun m21
+  (Compute multiplier of P. Order 4.2.4.2.)
+nqmrun -a m21 sc0
+  (Action of N(P) on M(P). No change.)
+nqmrun -a m21 sc1
+  (Gives 2-part of multiplier of H(1). Order 4.2.4.)
+nqmrun (-c) -a m21
+  (Gives result. Order 4.4.)
+(extprun -m m21 psg)
+(crrun -m m21 nsg psg)
+(extprun -m m21 nsg)
+(crrun -m m21 sg1 nsg)
+(extprun -m m21 sg1)
+(crrun -m m21 sg sg1)
+((extprun -m m21))
+(The last command is only necessary to check consistency of the presentation.)
+
+b) Computation of H^2(SL(3,5),M)  (M=natural module).
+In examples b) and c), H^1 can be computed by setting -1 option in all calls
+of nqrun, but corestriction cannot be computed in this case.
+We assume that the file sl35.inmat is present (as follows)
+
+5 3 3
+
+0 1 0
+1 0 0
+0 0 4
+
+4 0 0
+0 0 1
+0 1 0
+
+1 0 0
+1 1 0
+0 0 1
+
+Then the following commands are given.
+
+matperm sl35
+  (Constructs generators of permutation representation of sl35 on 31 points.
+   Input one dimensional subspace  1 0 0  on terminal.)
+  ( At this point we could use the shell program
+    cohomology (-c) sl35 , 
+    which would carry out most of the remaining commands. )
+gprun -w sl35
+egrun sl35
+egrun -s sl35 sg sg1
+  (Stabilize one point to give H(1). G:H(1)=31.)
+  (Under "cohomology", this command alone would be executed by the user
+   when control was returned to him.)
+sylrun sl35
+  (Prime 5. |P|=5^3.)
+egrun sl35 sylp psg
+normrun -n sl35 sg sylp
+  (N(P):P=8, H(1):N(P)=6)
+egrun sl35 norm nsg
+pcrun (-c) sl35
+selgen -w sl35
+(conrun -g -c sl35 nsg psg cr0)
+scrun sl35 sc0 ng
+conrun (-g) -c -d0 sl35 sg1 nsg pg dcr1 cr1
+scrun sl35 sc1 dcr1
+conrun (-g -c) -d1 sl35 sg sg1
+scrun -s1 sl35
+matcalc sl35 (sg sg1 nsg psg -cr0 -cr1 -cr) pg ng dcr1 dcr
+(grrun sl35 psg)
+(grrun sl35 nsg)
+(grrun sl35 sg1)
+(grrun sl35)
+nqrun sl35
+    (Gives H^2(P,M). Dimension=4.)
+nqrun -a sl35 sc0 ngmat
+    (Gives H^2(N(P),M). Dimension=1.)
+nqrun -a sl35 sc1 dcr1mat
+    (Gives H^2(H(1),M). Dimension=1.)
+nqrun (-c) -a sl35
+(extprun sl35 psg)
+(crrun sl35 nsg psg cr0)
+(extprun sl35 nsg)
+(crrun sl35 sg1 nsg cr1)
+(extprun sl35 sg1)
+(crrun sl35 sg sg1 cr)
+((extprun sl35))
+    (Gives H^2(G,M). Dimension=1.)
+
+c)  Computation of H^2(SL(5,2),M).  M=natural module.)
+Assume l52.inmat is present.
+
+matperm l52
+    (Input subspace 1 0 0 0 0 to give permutation representation on 31 points.)
+    ( At this point we could run 'cohomology l52'.)
+gprun -w l52
+egrun l52
+sylrun l52
+    (Prime 2. |P|=2^10)
+(We now construct intermediate subgroups H(1),H(2),H(3)  with G:H(3)=31,
+ H(3):H(2)=15, H(2):H(1)=7  and  H(1):P=3.
+ The following five commands would be executed directly by the user at the
+ interrupt point of the 'cohomology! run.)
+egrun -s l52 sg sg3
+    (Stabilize one point to give H(3).)
+egrun -s l52 sg3 stab
+    (Stabilize two points.)
+normrun l52 sg3 stab sg2
+    (Gives H(2).)
+egrun -s l52 sg2 stab
+    (Stabilize three points.)
+normrun l52 sg2 stab sg1
+    (Gives H(1).)
+pcrun l52
+selgen -w l52
+conrun -c -d l52 sg1 sylp pg dcr1 cr1
+scrun l52 sc1 dcr1
+conrun -c -d1 l52 sg2 sg1 pg dcr2 cr2
+scrun -s1 l52 sc2 dcr2
+conrun -c -d2 l52 sg3 sg2 pg dcr3 cr3
+scrun -s2 l52 sc3 dcr3
+conrun -d3 l52 sg sg3
+scrun -s3 l52
+matcalc l52 pg dcr1 dcr2 dcr3 dcr
+nqrun l52
+   (Dim H^2(P,M)=13.)
+nqrun -a l52 sc1 dcr1mat
+   (Dim H^2(H(1),M)=10.)
+nqrun -a l52 sc2 dcr2mat
+   (Dim H^2(H(2),M)=4.)
+nqrun -a l52 sc3 dcr3mat
+   (Dim H^2(H(3),M)=2.)
+nqrun -a l52
+   (Dim H^2(G,M)=1.)
+
+The last five commands together will take up about 99% of the total process
+time.
+
+d) Computation of a presentation of the nonsplit extension of SL(3,2) on its
+natural module, starting from a given presentation of SL(3,2).
+
+We start with the file l32.tc, defining the given presentation:
+2 3 4
+ab
+a
+(ab)-2b(ab)2
+bab-
+a2
+b3
+(ab)7
+(a-b-ab)4
+y
+l32.inperm
+
+(The subgroup has index 7.)
+And the corresponding matrix file l32.inmat:
+   2   3   2
+ 0 0 1
+ 1 1 1
+ 1 0 0
+
+ 0 1 0
+ 1 1 0
+ 0 0 1
+
+tcrun<l32.tc
+    (Produces file l32.inperm (permutation representation on 7 points).
+    (The remaining commands (with one exception) are the "history" file 
+     resulting from "cohomology -ch l32".)
+gprun -n -w l32
+   (-n merely checks that no generator is the identity.)
+egrun -f l32
+   (-f ensures that the original generators remain present.)
+sylrun l32
+   (The prime 2 was read from l32.inmat by "cohomology".)
+egrun l32 sylp psg
+normrun -n l32 sg psg
+   (P turned out to be self-normalizing.)
+pcrun -c l32
+selgen -w l32
+grrun l32 psg
+   (At this point "cohomology" returned control to the user, who
+    constructed H(1) of index 7 in G by the following command.)
+egrun -s sg sg1
+   (Stabilize 1 point)
+conrun -g -c -d l32 sg1 psg pg dcr1 cr1
+scrun l32 sc1 dcr1
+grrun l32 sg1
+conrun -g -c -d1 l32 sg sg1
+scrun -s1 l32
+grrun l32 sg
+matcalc -t l32 psg sg sg1 -cr -cr1 pg dcr dcr1
+   (The -t option checks that the matrices of G satisfy the same relations
+    as the permutations.)
+readrels -a l32
+   (Substitute the relations in l32.tc for those in the file l32.sg.rel)
+nqrun l32
+   (Dimension 3)
+nqrun -a l32 sc1 dcr1mat
+   (Dimension 2)
+nqrun -a -c l32
+   (Final dimension 1)
+extprun l32 psg
+crrun l32 sg1 psg cr1
+extprun l32 sg1
+crrun l32 sg sg1 cr
+readrels l32
+   This produced the following final file l32.ext.tc for the presentation of
+the extension:
+   5   0  16
+abM[1]M[2]M[3]
+M[1]2
+M[2]2
+M[3]2
+M[1]-M[2]-M[1]M[2]
+M[1]-M[3]-M[1]M[3]
+M[2]-M[3]-M[2]M[3]
+a-M[1]aM[3]-
+a-M[2]a(M[1]M[2]M[3])-
+a-M[3]aM[1]-
+b-M[1]bM[2]-
+b-M[2]b(M[1]M[2])-
+b-M[3]bM[3]-
+a2(M[1]M[3])-
+b3
+(ab)7
+(a-b-ab)4(M[2]M[3])-
+
+The last four relators are the critical ones, giving the values of the
+relators of SL(3,2) in M. The preceding 6 were computed from l32.inmat,
+and the first 6 are obvious.

@@ -1,0 +1,16 @@
+Full documentation for this package is contained in the files in info.d.
+The sources of all 'C' programs and makefile are contained in progs.d.
+To compile everything go into progs.d and type
+make all
+The executable binaries are put into exec.d.  Some Bourne shell programs (in
+particular, cohomology) are also in exec.d.
+The user's path should therefore contain the directory  exec.d.
+Computations are usually carried out from within data.d, which
+contains all data files for groups.
+
+The cohomology programs would run into problems with
+primes >=100, although the testmf program (which does elementary matrix ops
+modulo an integer) should work with bigger moduli. 
+Please let me know of any error found as soon as possible.
+
+Derek Holt (dfh@maths.warwick.ac.uk)

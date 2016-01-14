@@ -1,0 +1,231 @@
+1. Generalities.
+
+      The programs in the directory  progs.d  are designed to compute
+the first and second cohomology groups and the Schur Multipliers of finite
+permutation groups acting on finite modules.
+      Modules will always be over a prime field, for a fixed prime
+p, and similarly, the p-part of the Schur multiplier will be computed for a
+fixed prime  p.
+      The cohomology groups or Multiplier are constructed originally as
+subgroups or quotient groups of the cohomology groups or multiplier of  P,
+where P is a Sylow p-subgroup of the group G. If extensions of the module by  G
+are required explicitly, then presentations of these extensions can be
+computed, by explicitly calculating the corestriction map from P to G.
+At present, no corestriction algorithm for first cohomology groups has been
+implemented, and so specific crossed homomorphisms cannot be constructed
+directly by the programs.
+
+      To compute a cohomology group or multiplier, the programs have to be
+run with the correct options, in the correct order. Since this is very
+difficult to remember, a shell program called "cohomology" has been written
+to take most of the burden of this off the user. This is described in the
+file info.4. The shell program resides in the directory ~/exec.d.
+
+      Two other shell programs are "clrgrp" (mentioned in info.4), used for
+clearing up after a computation, and "myman". For any program  "p" listed in
+info.2 and info.3, the call
+myman p
+will print the entry in info.3 for p, which gives full details of its usage.
+
+WARNING: If the programs are run in the correct order with sensible data,
+(and the "shell" program cohomology is designed to make this as easy as
+possible), then they should behave sensibly, and provide error diagnostics
+when they fail. If not, then havoc will ensue, usually resulting in a memory
+fault. They are not designed to be proof against nonsensical input, (such as
+typing "bananas" when asked to input a prime number).
+
+      Each object program has several C source programs. For example "gprun"
+has source programs  gpd.c gpp.c permfns.c, and so gprun is produced by the
+Unix command
+cc gpd.c gpp.c permfns.c
+followed by
+mv a.out gprun
+(or cc -o gprun gpd.c gpp.c permfns.c)
+      In general the source program ending 'd.c' contains only declarations of
+sizes of arrays, and generation of file names.
+If more space is required for any run, then only this source file need
+be altered.
+The individual programs attempt to give diagnostics on which constants need to
+be increased, when a program crashes through lack of space. Diagnostics such as
+these, together with some final results (such as final dimension of a
+cohomology group) are sent to the standard error output. Most other terminal
+output, which is only useful for observing the progress of a computation, is
+sent to the standard output, so it may be redirected and discarded if desired.
+
+      Each program has input and output disk files with names of form
+'gpname'.'name' (example m24.inperm). So when computing within a specific group
+(such as m24), all associated filenames will have this form.
+
+DIRE WARNING: ON NO ACCOUNT SHOULD 'gpname' HAVE MORE THAN 8 CHARACTERS, OR SOME
+              DISTINCT FILES WILL END UP WITH THE SAME NAME, AND TOTAL
+              HAVOC AND CONFUSION WILL ENSUE.
+
+A program call has the general form
+                prog [-opt] ... gpname [name] ...
+Examples:
+1. gprun m24
+2. conrun -c -d m24 sg norm pg
+Options may be written in any order, but they have to be listed separately
+(so the last example could be written "conrun -d -c ...", but not
+"conrun -cd ..."). Some but not all of the names have default
+values. Details are given in the description of each program, in info.3.
+For example, in example 1. above, default input file m24.inperm and output file
+m24.outperm are used. In example 2., m24.sg, m24.norm and m24.pg are input
+files, and default output files m24.cr and m24.dcr are used.
+
+      We will generally call the group  G  in this description, and modules for
+G, or the multiplier of  G, will be called  M.  P  will be a Sylow p-subgroup
+of  G  for the fixed prime  p. In general, it is the responsibility of the user
+to construct a chain of subgroups  P  ( < H(0) ) < H(1) < H(2) < ... < G, where
+H(0) will usually be the normalizer of  P  if this is bigger than  P. These
+subgroups will often be stabilizers of points, or normalizers of suitable
+subgroups of  P, and they can be constructed using the permutation group
+programs provided. They have to be constructed by the user, even when using the
+shell program "cohomology".Particularly when computing H^2, this chain should b
+as long as possible. The cohomology, or multiplier of P,H(0),H(1),...,G  will
+then be computed successively. This produces the cohomology of  G  as the
+subgroup of the cohomology of  P  consisting of its stable elements. In the case
+of H^2 and Multipliers, it is then possible to construct corresponding
+extensions of  M  by  G, by computing the corestriction of a stable element of
+H^2(P,M) successively from P to H(0), H(0) to H(1), etc. Extensions are
+defined by a particular kind of presentation using generators and relations,
+which has an associated normal form for group elements, which makes it suitable
+for computational purposes.
+      Of course, the user may wish to use his own presentation of G as a basis
+of a presentation of an extension of M by G (which means computing the values
+of the relators of G in the extension, as elements of M). This can also be
+achieved: the user's presentation is put in a file G.tc (which can also be
+used as input to a Todd-Coxeter coset enumeration program), and the resulting
+full presentation of the extension is output to another file (G.ext.tc) in a
+similar format.
+
+      As initial input (and input to the shell program "cohomology"), up to
+three files are required. G.inperm, containing generating permutations must
+always be present. For cohomology groups (rather than multipliers) a file
+containing the matrices corresponding to these generators is also required.
+Finally, as mentioned above, a file G.tc may be present, giving a presentation
+of G.  It is very inadvisable to have the identity present as a generator in
+G.inperm, since this can cause some errors later.
+      Formats of all files are described below (and in info.7), but the above
+mentioned files may be created as follows.
+      Matrices for G.inmat can be input interactively using the program testmf,
+which is self-explanatory. They can then be output to create the required file.
+Other possible means of construction use the programs permmat (starting from
+a permutation presentation) or sum,tens, or pkrun (using other existing
+matrix representations). See info.3 for details of these programs.
+      The format for the file G.tc is slightly awkward, since it corresponds to
+the standard input for tcrun. By running this program, the format can be
+deduced. It is as follows. Line one contains ng,nsg,nr = number of generators,
+number of subgroup generators, and number of relators. Line 2 contains a list
+of generator names (which should be upper or lower case letters). The following
+nsg+nr lines contain the subgroup generators and relators, one per line, in a
+fairly free format (run tcrun for a precise description). There follows a line
+containing the single character 'y' or 'n', meaning do or do not output the
+generators as permutations on the cosets. In case 'y', the output is to the
+file named on the following (final) line of the file, and it will usually have
+the form G.inperm.
+Example Group a5 on subgroup of index 5. Output permutations to file 'a5.inperm'
+
+2 2 3
+ab
+b
+aba(ab)-
+a2
+b3
+(ab)5
+y
+a5.inperm
+
+      The file G.inperm can be constructed in one of the following ways:
+(i) By program makegp, inputting permutations as cycles at the terminal.
+(ii) Using tcrun on a file G.tc  as described above.
+(iii) By program matperm, if a faithful matrix representation is stored.
+      (The file G.inmat can sometimes be used.)
+(iv) In special cases, (such as when the group is a wreath product or a
+     subdirect product of groups already present), using other programs
+     described in info.3.
+
+The remainder of this file contains information on other files used by the
+programs, and on their formats. It is not strictly necessary for the user to
+know about any of this.
+     The default names of the files relating to subgroups of G are as follows.
+G itself has generators in G.inperm, with strong generating set in G.outperm,
+and a possibly smaller and ordered strong generating set in G.sg. P is
+defined in G.sylp, N(P) in G.norm and the subgroup  H(i) in G.sgi,
+(where  i  is an integer 1<=i<=9), and smaller strong generating sets for P
+and N(P) may be contained in G.psg and G.nsg, respectively.  All of these files
+contain ordered strong generating sets. A central series for P is contained in
+G.spc, and G.pg contains a minimal generating set for  P. Generators of
+N(P)-P are contained in G.ng. Coset reps and double coset reps of H(i-1) in
+H(i) are contained in G.cri  and  G.dcri respectively, with (double) coset reps
+of  H(n)  in  G  in G.(d)cr. Information describing the Sylow intersections
+g(-1)Pg ^ P  for  g in G.dcri is contained in G.sci. The power
+commutator presentation (PCP) for  P  is contained in  G.pcp, and the PCPs
+of the groups describing the computed cohomology groups are in G.cov,
+G.ch1 or G.ch2.
+      If corestrictions are to be computed, then the following additional files
+are required. Relations defining a given strong presentation of H(i) with the
+strong generating set are listed in G.sgi.rel, and the corresponding relations
+in the extension of M by H(i) are listed in G.sgi.er.  Information required to
+construct the latter (and also the associated normal form for this extension)
+is contained in G.sgi.ep and G.sgi.cp. The user's own presentation of G may be
+in a file G.tc, and the resulting presentation of the extension will be output
+to G.ext.tc. (see description of program 'readrels' in info.3).
+
+      All files containing lists of permutations have four numbers npt,np,nb,
+format on their first line. npt=number of points, np=number of permutations,
+nb=number of base points,format is a number which specifies the format of the
+file.  The second line contains base points (if any), and the third line
+contains the orders of the indices in the stabilizer chain (if applicable).
+There follows a list of the permutations and (if applicable) the Schreier
+vectors.
+format=0 means generators alone are known (no orders or Schreier vectors).
+format>0 means generators form a strong generating set, and Schreier vectors
+are given.
+format=2 is the output of pcrun (see info.3).
+format=3 or 4 means that the generators are ordered such that those
+fixing the most base points appear first.
+format=4 is the output of sylrun (see info.3).
+format<0 means that the order of the group is known, but no strong generating
+set. If format is -n, then  n  must be at most  nb, and line 3 contains  n
+numbers  a(1),...,a(n), where  a(1)a(2)...a(n)  is the order of the group, and
+a(1),...,a(n-1) are the first n-1 indices in the stabilizer chain.
+Warning. gprun has unpredictable results if any of these given numbers are in
+fact too small.
+
+      A brief description of the format of files defining PCP presentations of
+p-groups is given in info.5. This is unfortunately rather unnecessarily
+confusing, and varies from case to case.
+
+      The format of the files G.sgi.rel and G.sgi.er is as follows. Let
+H1 > H2 > ... > Hnb be the subgroups of H(i) in its stabilizer chain (where nb
+is the number of base points). Line 1 contains nb and then in G.sgi.er the
+number of generators of  M (as abelian group), followed by the numbers of
+relations in H1,H2,.. Hnb, respectively (which is, of course a decreasing
+sequence of integers). If the file is for a central extension (-m true), then
+there follows a further line giving the orders of the central generators.
+The relations themselves follow, with those of Hj
+preceding those of Hi for j<i. In G.sgi.rel, each relation is on one line, and
+is given as a relator, preceded by its length. If the generators of H(i), in
+order, are a,b,c,..., then a,a^-1,b,b^-1,c,c^-1... are numbered 0,1,2,3,4,5,....
+Occasionally, at the end of the file, there may follow a further number n,
+followed by n more relators, which correspond to the relators in G.tc, and
+have been appended to the file by the program readrels.
+
+In G.sgi.er, each relator is followed by a further line giving the value of
+this relator in the extension, as an element of  M. This is written as a string
+in the generators of M containg generators followed by exponents, preceded by
+its length. For example, the relation ac^-1b = 1^2 3^4 would be written as
+3 0 5 2
+4 1 2 3 4
+
+      Matrices giving the action of the generators of H(i) on M are listed in
+G.sgimat. Matrices corresponding to the action of the generators in G.inperm
+must be provided initially by the user in the file G.inmat. Files G.crmat,
+G.pgmat, G.dcrmat, etc. may also be present. Some of these are with respect to
+a different basis (see description of program 'matcalc' for details).
+      The format of most matrix files is for line 1 to contain prime, dimension
+and number of matrices, and for the list of matrices to follow. The exception
+is gpname.pgmat (output from matcalc), in which lines 2,3 and 4 contain wt,
+d1 and d2 for the elements of the bases of the underlying vector space, with
+the PCP for the action of P on this space.

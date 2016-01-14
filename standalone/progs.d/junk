@@ -1,0 +1,76 @@
+grd.c:
+
+implicitly declared to return int
+    (38) strcpy         (38) strcat         (42) grprog         (42) exit
+
+
+function falls off bottom without returning value
+    (48) main       
+grp.c:
+(102) warning: constant in conditional context
+(244) warning: constant in conditional context
+(248) warning: variable may be used before set: i
+
+implicitly declared to return int
+    (34) readbaselo     (34) readpsv        (70) orbitsv        (84) addsv
+    (84) image          (85) addrel         (109) scanrel       (206) coinc
+
+
+assignment causes implicit narrowing conversion
+    (36)                (64)                (67)                (75) 
+    (136)               (147)           
+permfns.c:
+
+function falls off bottom without returning value
+    (155) seeknln   
+
+name defined but never used
+    readperm         	permfns.c(60)
+    printbaselo      	permfns.c(110)
+    printpsv         	permfns.c(126)
+    seeknln          	permfns.c(155)
+
+value type declared inconsistently
+    npt              	grp.c(11) int  :: permfns.c(2) short 
+
+function returns value which is always ignored
+    scanrel             coinc               addsv               invert
+    printvec            readvec             readbaselo          readpsv
+    fclose              fprintf             fscanf              printf
+    scanf               __flsbuf            __semputc           strcpy
+    strcat          
+
+declared global, could be static
+    one              	grp.c(11)
+    addrel           	grp.c(171)
+    scanrel          	grp.c(198)
+    coinc            	grp.c(233)
+    invert           	permfns.c(49)
+    printvec         	permfns.c(76)
+    readvec          	permfns.c(93)
+    nr               	grp.c(10)
+    endr             	grp.c(10)
+    maxcos           	grp.c(10)
+    fpt              	grp.c(10)
+    bpt              	grp.c(10)
+    def              	grp.c(10)
+    scanno           	grp.c(10)
+    nscan            	grp.c(10)
+    nelim            	grp.c(10)
+    bno              	grp.c(10)
+    lo               	grp.c(10)
+    ccos             	grp.c(11)
+    lastd            	grp.c(11)
+    cind             	grp.c(11)
+    nfree            	grp.c(11)
+    stcr             	grp.c(11)
+    endcr            	grp.c(11)
+    fcos             	grp.c(11)
+    bcos             	grp.c(11)
+    lcl              	grp.c(11)
+    np2              	grp.c(11)
+    rel              	grp.c(11)
+    rsp              	grp.c(12)
+    fullsc           	grp.c(13)
+    clsd             	grp.c(13)
+    lkah             	grp.c(13)

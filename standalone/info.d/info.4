@@ -1,0 +1,122 @@
+4.  The shell program "cohomology".
+
+Usage: cohomology [-m1crngxjsh] gpname
+
+(Options may be given in any order, and need not be separated.)
+This program also calls the short shell program "execcmd".
+
+Purpose: To run the programs listed in info.2 in the correct order, for the
+         computation of Schur multipliers of finite permutation groups G,
+         and of first and second cohomology groups of G on modules M defined
+         over a field of prime order p. Additionally, for the computation of
+         presentations of covering groups of G, or of extensions of  the module
+         M by G.
+
+The user has two pieces of work to do.
+
+1) (S)He must provide the necessary input data in the appropriate format.
+   All files related to computation within a group G with name "gpname" have
+   names of the form gpname.'name', where 'name' specifies the file.
+   PLEASE HEED THE WARNING IN 'info.0' ABOUT MAXIMAL LENGTH OF 'gpname' (8).
+   At the start of the computation the situation should be as follows:
+   a) gpname.inperm, which lists the generating permutations of G,
+      must be present.
+      None of these generators is allowed to be the identity;
+   b) gpname.inmat, which lists the matrices for these generators
+      giving their action on the module M, must be present unless -m is set
+      (multiplier computation);
+   c) gpname.tc, which contains a presentation for G on these generators may
+      be present. If so, then it will be used when constructing the presentation
+      of any extension of the multiplier or of the module M by G. The full
+      presentation will be printed both on the terminal and in a file called
+      gpname.ext.tc at the end of the computation.
+   d) no other files with names of this form should be present, since they could
+      be overwritten, or, worse, their existence could mislead the shell program
+      and cause errors or crashes.
+   There is a short shell program 'clrgrp' present which is called by
+
+   clrgrp gpname
+
+   and removes all files of form gpname.* except those of form gpname.in* and
+   gpname.tc*. This is sufficient to avoid the dangers described in d).
+   For advice about methods of creating the files in a) b) and c), and for
+   information on their formats, see info.0.
+
+2) If the index of the normalizer N(P) of a Sylow subgroup P of G has large
+   index in G, then the computations are speeded up considerably by the
+   introduction of a chain of subgroups between N(P) and G. These subgroups
+   H(1), H(2), ... should be stored in files with names gpname.sg1, gpname.sg2,
+   etc., and they should satisfy
+   N(P) < H(1) < H(2) < ... < G. (Strict inclusion is necessary here!)
+   After the shell program has computed G, P and N(P), it returns control
+   temporarily to the user (unless option -n is set) for him to create these
+   files. To do this effectively, some knowledge of the individual programs
+   described in info.3 is necessary. 
+   In particular, egrun with the -s flag, to create point stabilizers,
+   normrun, to compute normalizers and centralizers, and optrun to compute
+   other functions like intersections, commutator groups and cores are likely
+   to be useful.
+
+Meaning of Options.
+
+Usage: cohomology [-m1crnxjsh] gpname
+-m)  Compute the p-part of the Schur multiplier of G. The prime p is read from
+     the terminal by "cohomology", at the beginning.
+
+-1)  Compute the first cohomology group of G on the module M defined by the
+     given matrices.
+
+     -m) and -1) cannot both be set together, and if neither is set, then the
+     default action is to compute the second cohomology group of G on M.
+
+-c)  (Corestriction). After computing the multiplier or second cohomology group,
+     compute a presentation for the covering group of G (if -m set) or of an
+     extension of the module M by G. In the second case, if H^2(G,M) has 
+     dimension > 1, then this extension is not unique, and the user has to
+     select a particular generator. This is done by inputting the corresponding
+     vector in H~2(G,M) at the terminal.
+     At present, it is not possible to set -1 and -c together.
+
+-r)  (Resume). This only makes sense if H^2(G,M) has already been computed
+     in a previous run of "cohomology" with the -c option.
+     It may not be called with -1 or -m, and -c need not be explicitly set,
+     since it is assumed.
+     The user can immediately select another generator of H^2(G,M) for
+     the computation of the extension.
+
+-n)  Do not return control to the user for the computation of intermediate
+     subgroups. Use this if |G:N(P)| is known to be small.
+
+-g)  Stop after group and matrix theoretic calculations; i.e. before the
+     first call of nqrun or nqmrun.
+
+-x)  Omit various checks that are normally carried out by "cohomology". They
+     do not take much time, and they could help to avoid confusing faults, so
+     it is not advisable to call this option.
+     The checks are as follows:
+     a) Check whether the subgroups H(1), H(2) really satisfy the required
+        strict inclusion conditions;
+     b) Check that the given matrices really do define a representation of the
+        group G that is defined by the generating permutations. This is done
+        by checking that the matrices satisfy the relators in a presentation of
+        G.
+     Other possible input errors should result in comprehensible diagnostics,
+     although silly errors like 'p' not being prime may cause havoc.
+     See info.0 for comments on errors caused by lack of space.
+
+-j) Send standard output of all programs run to a file gpname.junk. Diagnostic
+    output (including final results of the computation) will still appear on the
+    terminal. Other output is only useful for observing the progress of the
+    computation.
+
+-h) Send a list of all programs run (excluding the checking programs) to a file
+    gpname.history. This, and the following option, are useful if it is required
+    to follow a computation more closely, repeat bits of it, or find out
+    exactly where an error occurred.
+
+-s) Operate in step-by-step mode. Before each command is executed, it is echoed
+    on the terminal. The user can answer either 'n' (do not execute and
+    proceed to next command), 'q' (quit the whole process), or 'y' (default -
+    execute).
+    The 'n' response should of course only be used if this command has already
+    been executed on a previous run.

@@ -1,0 +1,74 @@
+There are four programs here, makegp, gprun, grrun and conrun.
+They are all written in standard C.
+To make them all simply type make.
+
+1. makegp
+This is just an interactive way of inputting a permutation group.
+For example, type
+makegp s8
+ You get the prompt:
+   Input npt, nperms, init. nb.
+   (which means number of points, number of generating permutations,
+   number of initial base points - usually 0).
+ Type:
+8 2 0
+  You get the prompt:
+    Now input perms in cyclic not'n. End each perm with a '.'.
+  Type, for example
+(1,2)(3,4)(5,6). (2,3,5,7,8).
+
+
+This produces the file s8.inperm, which is used as input to the next
+program. You may decide to create this file directly, and not bother with
+makegp.
+ 
+2. gprun
+This computes a base and strong generating set.
+Type
+gprun s8
+  s8.inperm is input and s8.outperm is output.
+
+3. grrun
+This computes a presentation on the strong generators. The relations of
+the presentation are output to stdout. They are also output to
+s8.output.rel in a strange format.
+For example, type:
+grrun s8
+  You get the incomprehensible prompt:
+    Input a,b,l1,l2.
+    maxcos = a*lorb+b
+    Exit lookahead after scanning l1 or eliminating l2 cosets.
+  I recommend you input
+1.5 50 30 1
+  Then the relations are printed - for example - negative numebrs denote
+  inverses of generators. Often many of these relations are redundant.
+
+4. conrun
+If you really want a presentation using your original generators (and not
+with the additional strong generators) then use this program first to
+compute the regular permutation representation. It should work for groups
+up to order about 100000. For example:
+
+conrun -h s8 outperm triv inperm
+
+The regular generators are output to s8.inperm.nr
+I suggest you then do
+
+mv s8.inperm.nr s8reg.inperm
+
+Then
+
+gprun -b s8reg
+
+(The -b option means a base is already known - do not use it except in this
+situation.)
+
+Then finally:
+
+grrun s8reg
+
+This produces a presentation with 14 relators - again many of these are
+redundant - usually the earlier ones are redundant and the later ones
+crucial. This example took about 60 seconds on my computer. Magma is much
+quicker, and takes only a few seconds, mainly because the coset enumerator in
+Magma is so much better.

@@ -1,0 +1,453 @@
+newjob=true co=false mult=false check=true grponly=false
+tojunk=false step=false history=false nosubs=false one=false
+gpname=
+for i
+do case $i in
+  -*) 
+   flags="`echo ' '$i|awk '{for (j=2;j<=length($1);j++) print substr($1,j,1)}'`"
+    for j in $flags
+    do case $j in
+         r) newjob=false co=true;;
+         c) co=true;;
+         m) mult=true;;
+         x) check=false;;
+         j) tojunk=true;;
+         s) step=true;;
+         h) history=true;;
+         n) nosubs=true;;
+         g) grponly=true;;
+         1) one=true;;
+         *) echo Usage:  cohomology [-rcmxjshng1] gpname; exit 1;;
+       esac
+    done;;
+  *) if test $gpname
+     then echo Usage:  cohomology [-rcmxjshng1] gpname; exit 1
+     else gpname=$i
+     fi;;
+   esac
+done
+
+if test $newjob = false -a $mult = true
+then echo There is no point in recomputing the covering group.; exit 1
+fi
+case $one in
+true) case $co in 
+        true)
+          echo -n Sorry! Corestriction algorithm for first cohomology groups
+          echo ' 'is not implemented.; exit 1;;
+        esac
+      case $mult in
+        true) echo Options -1 and -m cannot be called together!; exit 1;;
+      esac;;
+esac
+export gpname step history cmd cmddest cmdsource
+
+if test ! "$gpname"
+then echo Usage:  cohomology [-rcmxjshng1] gpname; exit 1
+fi
+
+case $tojunk in
+  true) > ${gpname}.junk
+        cmddest=">> ${gpname}.junk";;
+  false) cmddest=;;
+esac
+
+case $history in
+  true) > ${gpname}.history;;
+esac
+
+if test -r ${gpname}.tc
+then tc=true
+else tc=false
+fi
+
+case $newjob in
+true)
+    if test ! -r ${gpname}.inperm
+    then echo file ${gpname}.inperm cannot be read;  exit 1
+    fi
+    
+    case $mult in
+    true)   flag=
+            echo Input prime number for multiplier computation.
+            read prime;;
+            
+    false)  if test ! -r ${gpname}.inmat
+            then echo file ${gpname}.inmat cannot be read;  exit 1
+            fi
+            flag=-w
+            prime=`awk 'NR==1 {print $1}' ${gpname}.inmat`;;
+    esac
+    echo $prime > ${gpname}.sylip
+    
+    cmdsource=
+    cmd="gprun -n $flag $gpname"; execcmd || exit 1
+    
+    if test $co = true -a $tc = true
+    then flag=-f
+    else flag=
+    fi
+    
+    cmd="egrun $flag $gpname"; execcmd || exit 1
+    cmdsource="< ${gpname}.sylip"
+    cmd="sylrun $gpname"; execcmd || exit 1
+    cmdsource=
+    cmd="egrun $gpname sylp psg"; execcmd || exit 1
+    neqg=`optrun -t $gpname sg psg || exit 1`
+
+    case $neqg in
+      true) norm=false
+          cp ${gpname}.sg ${gpname}.psg
+          echo  P = G  \(G is a ${prime}-group\).;;
+      false)
+        cmd="normrun -n $gpname sg psg"; execcmd || exit 1
+        if test -r ${gpname}.ng
+        then norm=true
+             cmd="egrun $gpname norm nsg" execcmd || exit 1
+             neqg=`optrun -t $gpname sg nsg || exit 1`
+             case $neqg in
+                  true) cp ${gpname}.sg ${gpname}.nsg
+                        echo P is normal in G.;;
+             esac
+        else norm=false
+        fi;;
+    esac
+    
+    case $mult in
+      true) flag1=-m;;
+      false) flag1=;;
+    esac
+    case $co in
+      true) flag2=-c;;
+      false) flag2=;;
+    esac
+    
+    cmd="pcrun $flag1 $flag2 $gpname"; execcmd || exit 1
+    cmd="selgen -w $gpname"; execcmd || exit 1
+    
+    if test $co = true -o '(' $check = true -a $mult = false ')'
+    then  echo "1.5 50 30 1" > ${gpname}.grip
+          cmdsource="< ${gpname}.grip"
+    fi
+    
+    case $co in
+      true) case $mult in
+            true) cflag1=-g; repfile=;;
+            false) cflag1="-g -c"; repfile=cr0;;
+            esac
+            cmd="grrun $gpname psg"; execcmd || exit 1;;
+      false) cflag1=; repfile=
+        if test $neqg = true -a $mult = false -a $norm = false -a $check = true
+        then
+        cmd="grrun $gpname psg"; execcmd || exit 1
+        fi;;
+    esac
+    cmdsource=
+    
+    case $mult in
+    true) scflag1=-m;;
+    false) scflag1=;;
+    esac
+    
+    list=
+    case $mult in
+    false) case $neqg in
+             true) mc3=pg;;
+             false) mc3="pg dcr";
+           esac
+           case $co in
+           true)  case $neqg in
+                  true) mc1=psg; mc2=;;
+                  false) mc1="psg sg"; mc2=-cr;;
+                  esac;;
+           false) mc1=;  mc2=;;
+           esac;;
+    esac
+    
+    case $norm in
+      true)
+        case $co in
+        true)
+          cmd="conrun $cflag1 $gpname nsg psg $repfile"; execcmd || exit 1
+          cmdsource="< ${gpname}.grip"
+          cmd="grrun $gpname nsg"; execcmd || exit 1;;
+        false)
+          if test $mult = false -a $neqg = true -a $check = true
+          then
+            cmdsource="< ${gpname}.grip"
+            cmd="grrun $gpname nsg"; execcmd || exit 1
+          fi;;
+        esac
+        cmdsource=
+        cmd="scrun $scflag1 $gpname sc0 ng"; execcmd || exit 1
+        suba=nsg; cflag2=-d0
+    
+        case $mult in
+        false) mc3=${mc3}" ng"
+               case $co in
+               true) mc1=${mc1}" nsg"; mc2=${mc2}" -cr0";;
+               esac;;
+        esac;;
+    
+      false)
+        suba=psg; cflag2=-d;;
+    esac
+    
+    case $neqg in
+    false)
+     case $nosubs in
+     false)
+       echo You should now create from 0 to 9 intermediate subgroups
+       echo H\(1\), H\(2\), .... They should be stored in files with names
+       echo ${gpname}.sg1,${gpname}.sg2,...  and satisfy
+       echo N\(P\) \< H\(1\) \< H\(2\) \< ... \< G.  \(strict inclusion!\)
+       echo
+       echo Return to this shell program with EOF \(\^D\)
+       echo 
+       csh -f;;
+     esac
+    
+        ocflag1=$cflag1
+        if test ! "$repfile"
+        then cflag1=${cflag1}" -c"
+        fi
+        
+        oldno=;  scflag2=
+        for no in 1 2 3 4 5 6 7 8 9
+        do
+         subb=sg$no
+         if test -r ${gpname}.$subb
+         then
+         case $check in
+         true) op=`optrun -t $gpname $suba $subb || exit 1`
+               case $op in
+               false) echo ${gpname}.$suba is not a subgroup of ${gpname}.$subb
+                      exit 1;;
+               esac
+               op=`optrun -t $gpname $subb $suba || exit 1`
+               case $op in
+               true) echo ${gpname}.$suba = ${gpname}.$subb
+                     exit 1;;
+               esac
+               egrun $gpname $subb $subb || exit 1;;
+         esac
+        
+         cmd="conrun $cflag1 $cflag2 $gpname $subb $suba pg dcr$no cr$no"
+         execcmd || exit 1
+         cmd="scrun $scflag1 $scflag2 $gpname sc$no dcr$no"; execcmd || exit 1
+         oldno=$no; suba=$subb; cflag2=-d$oldno; scflag2=-s$oldno
+        
+         list=${list}" "${no}
+         case $mult in
+         false) mc3=${mc3}" dcr"$no
+                case $co in
+                true) mc1=${mc1}" sg"$no; mc2=${mc2}" -cr"$no;;
+                esac;;
+         esac
+         case $co in
+         true) cmdsource="< ${gpname}.grip"
+           cmd="grrun $gpname $subb"; execcmd || exit 1
+           cmdsource=;;
+         esac
+        
+         else break
+         fi
+        done
+        
+        case $check in
+        true) op=`optrun -t $gpname $suba sg || exit 1`
+               case $op in
+               false) echo ${gpname}.$suba is not a subgroup of ${gpname}.sg
+                      exit 1;;
+               esac
+               op=`optrun -t $gpname sg $suba || exit 1`
+               case $op in
+               true) echo ${gpname}.$suba = ${gpname}.$sg
+                     exit 1;;
+               esac;;
+        esac
+
+        cflag1=$ocflag1
+        
+        cmd="conrun $cflag1 $cflag2 $gpname sg $suba"; execcmd || exit 1
+        cmd="scrun $scflag1 $scflag2 $gpname"; execcmd || exit 1
+        
+        if test $co = true -o '(' $check = true -a $mult = false ')'
+        then cmdsource="< ${gpname}.grip"
+          cmd="grrun $gpname sg"; execcmd || exit 1
+          cmdsource=
+        fi;;
+    esac
+    
+    case $mult in
+    false) case $check in
+           true) mflag=-t
+                 case $neqg in
+                 true) case $norm in
+                       true) cp ${gpname}.nsg.rel ${gpname}.sg.rel;;
+                       false)  cp ${gpname}.psg.rel ${gpname}.sg.rel;;
+                       esac;;
+                 esac;;
+           false) mflag=;;
+           esac
+           cmd="matcalc $mflag $gpname $mc1 $mc2 $mc3"; execcmd || exit 1
+           case $one in
+            true) nqcall="nqrun -1";;
+            false) nqcall=nqrun;;
+           esac;;
+    true)  nqcall=nqmrun;;
+    esac
+    
+    case $tc in
+    true) case $co in
+          true) case $neqg in
+                true) case $norm in
+                      true) rrarg=nsg;;
+                      false) rrarg=psg;;
+                      esac;;
+                false) rrarg=;;
+                esac
+                cmd="readrels -a $gpname $rrarg"; execcmd || exit 1;;
+          esac;;
+    esac
+
+    case $grponly in
+    true) exit 0;;
+    esac
+
+    cmd="$nqcall $gpname"; execcmd || exit 1
+    
+    case $norm in
+    true) case $mult in
+          true) nqarg=;;
+          false) nqarg=ngmat;;
+          esac
+          case $neqg in
+            true) case $co in
+                    true) nqflag=-c;;
+                    false) nqflag=;;
+                  esac;;
+            false) nqflag=;;
+          esac
+          cmd="$nqcall $nqflag -a $gpname sc0 $nqarg"; execcmd || exit 1;;
+    false) case $co in
+           true) case $neqg in
+                 true)  case $mult in
+                          true) cmd="$nqcall -c $gpname"; execcmd || exit 1;;
+                         false) cmd="$nqcall -a -c $gpname $$"
+                                execcmd || exit 1;;
+                        esac;;
+                 esac;;
+           esac;;
+    esac
+    
+    case $neqg in
+      false)
+        for no in $list
+        do case $mult in
+           true) nqarg=;;
+           false) nqarg=dcr${no}mat;;
+           esac
+           cmd="$nqcall -a $gpname sc$no $nqarg"; execcmd || exit 1
+        done
+
+        case $co in
+        true) nqflag=-c;;
+        false) nqflag=;;
+        esac
+        cmd="$nqcall -a $nqflag $gpname"; execcmd || exit 1;;
+      esac;;
+false)
+     co=true; mult=false; list=
+     if test -r ${gpname}.ng
+     then norm=true
+          if cmp ${gpname}.nsg ${gpname}.sg
+          then neqg=true
+          else neqg=false
+          fi
+     else norm=false
+          if cmp ${gpname}.psg ${gpname}.sg
+          then neqg=true
+          else neqg=false
+          fi
+     fi
+
+     case $neqg in
+     false)
+        for no in 1 2 3 4 5 6 7 8 9
+        do
+         subb=sg$no
+         if test -r ${gpname}.$subb
+         then list=${list}" "$no
+         else break
+         fi
+        done;;
+    esac
+    cmdsource=
+    cmd="nqrun -a -c $gpname $$"; execcmd || exit 1;;
+esac
+    
+case $co in
+true) case $mult in
+      true) flag=-m; crarg=;;
+      false) flag=;;
+      esac
+      echo "1.5 50 -10" > ${gpname}.erip
+
+      if test $neqg = false -o $norm = true
+      then
+        cmdsource="< ${gpname}.erip"
+        cmd="extprun $flag $gpname psg"; execcmd || exit 1
+        cmdsource=
+      fi
+
+      case $norm in
+      true) case $mult in
+            false) crarg=cr0;;
+            esac
+            cmd="crrun $flag $gpname nsg psg $crarg"; execcmd || exit 1
+            case $neqg in
+            false)
+              cmdsource="< ${gpname}.erip"
+              cmd="extprun $flag $gpname nsg"; execcmd || exit 1
+              cmdsource=
+              suba=nsg;;
+            esac;;
+      false) suba=psg;;
+      esac
+
+      case $neqg in
+        false)
+         for no in $list
+         do case $mult in
+            false) crarg=cr$no;;
+            esac
+            subb=sg$no
+            cmd="crrun $flag $gpname $subb $suba $crarg"; execcmd || exit 1
+            cmdsource="< ${gpname}.erip"
+            cmd="extprun $flag $gpname $subb"; execcmd || exit 1
+            cmdsource=
+            suba=$subb
+         done
+
+         case $mult in
+         false) crarg=cr;;
+         esac
+         cmd="crrun $flag $gpname sg $suba $crarg"; execcmd || exit 1;;
+      esac
+
+      case $tc in
+      true) case $mult in
+            true) rflag=-m;;
+            false) rflag=;;
+            esac
+            case $neqg in
+                true) case $norm in
+                      true) rrarg=nsg;;
+                      false) rrarg=psg;;
+                      esac;;
+                false) rrarg=;;
+            esac
+            cmd="readrels $rflag $gpname $rrarg"; execcmd || exit 1;;
+      esac;;
+esac

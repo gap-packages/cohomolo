@@ -1,0 +1,14 @@
+Contents.
+
+1. Generalities.
+2. List of main programs with general description.
+3. Instructions for use of individual programs.
+4. The shell program "cohomology".
+5. Examples:
+   a) Computation of 2-part of multiplier of m21=PSL(3,4).
+   b) Computation of H^2(SL(3,5),M), (M=natural module).
+   c) Computation of H^2(SL(5,2),M), (M=natural module).
+   d) computation of a presentation of the nonsplit extension of SL(3,2) on
+      its natural module, using a given presentation of SL(3,2).
+6. Other programs.
+7. Formats of PCP files.

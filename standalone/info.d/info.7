@@ -1,0 +1,119 @@
+5. Format of PCP files.
+
+Format of files containing PCPs of p-groups.
+
+Abbreviations:  dM= dual of module M, sd = semidirect product,
+                  tp-P= tensor product over P.
+
+Types of Files:
+
+  (i) Files gpname.pcp (output of pcrun).
+    Gives PCP of original p-group P.
+
+  (ii) Files gpname.sc (output of scrun).
+    Gives list of generators and PCP of Sylow intersections Q = P ^ gPg-.
+
+  (iii)  Files gpname.cov (output of nqmrun).
+    Gives PCP of a central extension E of an abelian group  M  by P.
+
+  (iv) Files gpname.ch1  (output of nqrun with -1 set).
+    Gives PCP of a central extension E of an elementary abelian p-group M1 by
+    P sd dM, with M1 <= [P,dM]. M1 is isomorphic to the dual of a subgroup of
+    H^1(P,M).
+
+  (v) Files gpname.ch2  (output of nqrun with -1  not set).
+    Gives PCP of a central extension E of an elementary abelian p-group M2 by
+    FE sd dM.  FE is itself an extension of an elementary abelian p-group FM
+    by P, with FM <= Frattini(FE), and M2 = FM tp-P dM. H^2(P,M) is the dual
+    of a subgroup M2a of M2, whose generators are given, and finally H^2(G,M)
+    is the dual of M2a/M2b, where generators of M2b are also listed.
+
+Some generalities:
+  Except in files gpname.sc, Line 1 contains 6 numbers:
+  prime,exp,facexp,no,class,mult;
+  exp=exponent of P (cases (i),(iii),(iv)) of Q (case (ii)) or of FE (case (v)).
+  facexp=exponent of P (case (i),(iv),(v)) or no. of gens of M (case (ii)).
+  mult=1 for computation of Schur multipliers, otherwise 0.
+  no is explained below.
+  Line 2 contains weights of generators 1,2,3,...
+  Lines 3 and 4 contain d1 and d2 for these generators, where the definition
+  of generator i is given by the commutator [d1(i),d2(i)] if d1(i) != d2(i),
+  and by the p-th power of d1(i) otherwise;
+  The following lines contain the values of the commutators and powers in the
+  order [2,1],[3,1],[3,2],[4,1],...,1^p,2^p,...
+  In general, generators with values higher than no (in line 1) are central of
+  order p, and so commutators [j,i] and powers j^p are given only for j<=no.
+  In case (v), generators of FE with values higher than facexp have order p,
+  and commute with each other, so the corresponding trivial powers and
+  commutators are not listed.
+  There is one line for each such commutator or power. The first number is zero
+  if this is not a definition, and k if it is the definition of generator k.
+  The second number is the length of the expression, and the expression itself
+  follows, as a generator-power string.
+  In future, we shall call such a sequence a dgps (definition-generator-power
+  string).
+  e.g.  5  4 3 2 5 1  means that the expression equals 3^2.5^1, and is the
+  definition of generator 5.
+
+Exceptions and specific cases:
+
+  Case (i).  This is simply the PCP for P. no=exp-1.
+
+  Case (ii).    This file is in blocks, each one corresponding to a Sylow
+    intersection Q = P ^ gPg-, for some  g. The PCP is for Q in each case.
+    The case g in N(P) (Q=P) is treated as a special case.
+    when a variable norm is set true.
+    The first line in each block contains the exponent of Q, and,if mult=0,
+    the class of Q. (PCP with full information for Q, with wt,d1,d2 is only
+    required if mult=0.) The file ends with a line containing -1 only.
+    If mult=0, line 2 contains values of wt, for generators of Q.
+    If not norm, then there follows a list of the generators of Q, given as
+    generator-power strings (preceded by length of string) in the generators
+    of P, each on a new line. (If norm, then the generators of Q are the
+    same as those of  P.)
+    In any case, this is followed by a list of the conjugates of these
+    generators under g, in the same format.
+    If norm is true, then there is no further output in this block.
+    Otherwise, if mult=0, d1 and d2 follow, and then, in any case, comes the
+    PCP for Q, with one dgps for each expression [2,1],...
+    Powers are only given when mult=0 (they are not needed otherwise).
+
+  Case (iii).  Let us call the generators of P  1,2,3,..., and those of  M
+    ng1,ng2,...
+    wt is given only for generators of P, but d1 and d2 are given for P and M,
+    in the order 1,2,3,...,ng1,ng2,... Of course, d1[ngi]=x and d2[ng2]=y
+    means that ngi has definition [x,y], where x and y are gens of P.
+    d2 is follwed by an extra line, giving the orders of the generators of
+    M. These will all be powers of prime.
+    The commutators and powers [2,1],..., 1^p,... follow as usual. Each such
+    line contains two dgps. The first gives the value in P, and the second
+    gives the element of M with which this must be multiplied to give the
+    value in E. The definition no in the second dgps is given as exp+i for ngi.
+
+    Cases (iv),(v). An important number dim (the dimension of the module  M)
+    is not given in the file (it comes from the matrix files), but its value
+    is implicitly required.
+    In both cases, the elements of the base of the underlying vector space
+    of dM are numbered exp+1,exp+2,... , and the PCP of the action of P on dM
+    is included.
+    wt,d1 and d2 are given for generators 1,2,..,exp,exp+1,...,exp+dim.
+    For ch1, the PCP of P follows, and, for ch2, the PCP of FE.
+    There follows a number nng, the number of generators of M1 or M2
+    in cases ch1 and ch2 respectively.
+    The definitions nd1 and nd2 of these new generators follow on the next two
+    lines. nd1[i]=x and nd2[i]=y means that generator i of M1 or M2 has
+    definition [x,y], where x is a gen in dM, and y is a gen in P (ch1)
+    or FM (ch2).
+    This is followed by the PCP of the action of P (ch1) or FE (ch2) on dM.
+    The order is [exp+1,1],[exp+1,2],...,[exp+2,1],[exp+2,2],...,[exp+dim,exp],
+    each on a new line.
+    In case ch1, each such line contains two dgps components, one in dM itself,
+    and one in the gens of M1. In case ch2, there is only one
+    component in each case, which is in dM for [exp+i,j] with j<=facexp, and
+    in the gens of M2 for j>facexp.
+    In case (v), the lists of generators of the subgroups M2a and M2b of M2
+    follow, preceded by their numbers chpdim and chsdim. Each such
+    generator occupies one line. The first number is a characteristic number
+    with which it can be recognized from the generator of M2 with this number.
+    This is followed by the element itself, as a generator-power string in the
+    generators of M2, preceded by its length.

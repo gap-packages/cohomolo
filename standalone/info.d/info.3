@@ -1,0 +1,574 @@
+3. Instructions for use of individual programs.
+
+(i) makegp
+Source files:  mg.c
+Usage: makegp gpname [outf]
+Default: outf=inperm.
+Group is output in format 0. Information required is requested and input on
+terminal. Permutations are input in cyclic notation.
+Warning: Error checks may be inadequate. Input errors will be detected by gprun.
+
+                             -----
+
+(ii) gprun
+Source files:  gpd.c gpp.c permfns.c
+Usage:  gprun [-w] [-n] [-b] gpname [inf] [outf]
+Default: inf=inperm  outf=outperm
+Base and strong generating set is constructed and output to outf in format 1.
+inf must be in format <=0.
+If -b is set, it is assumed that the given initial base is in fact a full base
+for G. This speeds up the algorithm considerably, but the result will be false
+if it is not a base.
+Option -w outputs new generators as words in the old
+generators to a file with the name "G.word". This output is used by the
+program matcalc only.
+Option -n exits with a diagnostic if one of the generators is the identity.
+Otherwise, this generator is simply removed. This option is always used by
+"cohomology". It should be used in situations where the original list of
+generators has to correspond to matrix generators, or generators in a
+Todd-Coxeter file, for otherwise errors would result.
+
+                             -----
+
+(iii) egrun
+Source files:  egd.c egp.c permfns.c
+Usage:  egrun [-s] [-f] gpname [inf] (if -f [inf2]) [outf].
+Default: inf=outperm   outf=sg   inf2=inperm
+inf must have format>0. Redundant strong generators are eliminated in the
+stabilizer of the first n base points (n>=0) of the group, and the result is
+output to outf in format 3. If -s is set,n is asked for and input on the
+terminal; otherwise n=0.
+If -f option is set, then, if ngens is the number of generators in the file
+gpname.inf2, the generators in gpname.inf with numbers less than or equal to
+ngens are not eliminated. The idea of this is to use it with inf2=inperm, and
+inf=outperm (the default), in which case the defining generators of the group
+will not be eliminated. This is necessary when computing the presentation of
+an extension in terms of the generators in the gpname.tc file, which will
+correspond to the defining generators.
+The last line of the output file contains a list of the original numbers of
+the generators. This is used by 'readrels' for purpose explained in the last
+paragraph.
+
+                             -----
+
+(iv) sylrun
+Source files:  syld.c sylp.c permfns.c morepermfns.c
+Usage:  sylrun gpname [inf] [outf]
+Default: inf=outperm  outf=sylp
+A sylow p-subgroup of the group is found and output to outf in format 4.
+inf must have format>0. The prime  p  is asked for and input on the terminal.
+The generating permutations generate a subnormal series for the Sylow group.
+Format 4 implies this, and the prime and the orders of the factors in this
+subnormal series are listed at the end of outf.
+Warning: Behaviour is unpredictable if a composite number is input.
+
+                             -----
+
+(v) normrun
+Source files:  normd.c normp1.c normp2.c permfns.c morepermfns.c chb.c
+Usage:  normrun [-c] [-n] [-s] [-o] gpname inf1 inf2 (inf3) [outf1] ([outf2])
+inf3 only needed if -s set.
+Defaults:  outf1=norm  (or cent if -c set)
+           outf2=ng (only output if -n set)
+inf1 and inf2 have no default, and must be named.
+The normalizer (or if -c the centralizer) of inf2 in inf1 is computed and
+output to outf1 in format 3.
+If H=G in the case of the normalizer, then this is not output, but a
+diagnostic is written.
+If -n is set, then the elements found in the normalizer are listed in outf2.
+If -s is set, inf3 should contain a set of generators of inf2, which may be
+smaller than the set in inf2 itself. This does not seem to save much time in
+practice, so it is probably not worth using.
+If -o is set, then the user can help to choose the base used for  G. This can
+speed things up in a few big examples. (e.g. computing the normalizer of the
+Higman-Sims group in Sym(100).)
+Note carefully.
+a) inf2 must be a subgroup of inf1
+b) inf1 and inf2 must have format>=3, so output from gprun cannot be used.
+   egrun or sylrun must first be used. However, inf1 and inf2 need not have
+   the same base. outf1 will have the same base as inf1.
+c) inf1=sym is allowed. Then the normalizer (centralizer) of inf2 in the
+   symmetric group is computed. The base of outf1 cannot be predicted in this
+   case.
+
+                             -----
+
+(iv-v) sylnorm
+Source files: snd.c sylp2.c normp1.c normp2.c permfns.c morepermfns.c chb.c
+Usage: sylnorm [-s] [-o] [-h] [-n] [-c] gpname inf1 inf2 (inf3) [outf1] [outf2]
+This is a combined version of sylrun and normrun.
+If -s is not called it is completely identical to (v).
+If -s is called, only -o is relevant among the other options, and the call is
+the same as in sylrun, but inf1 must have format >= 3, and it defaults to sg,
+not outperm. This program tends to run slower than sylrun for small examples,
+but for some large examples it is much quicker, since it uses the normrun
+programs when in difficulties. When -o is called, various parameters, which 
+have defaults given in snd.c can be changed.
+
+                             -----
+
+(vi) conrun
+Source files: conpdcd.c conpdc1.c conpdc2.c
+Usage:  conrun [-g] [-c] [-d(n)] [-h] [-eg] [-eh]
+        gpname inf1 inf2 (if -h [inf3]) ([outf2]) ([outf3]) ([ngn]) ([outf1])
+(n is an integer with 0<=n<=9.)
+inf3 only needed if -h, outf2 only if -d, outf3 only if -c,ngn only if -d0.
+-d implies -h, and so they need not both be typed.
+Default: inf3=pg outf2=dcr outf3=cr ngn=ng outf1=inf3.nr
+inf1 and inf2  must be named.
+inf2=triv (trivial group) is allowed. Otherwise, inf2 must be a subgroup of
+inf1, and they must have the same base with format>0.
+   First, left coset representatives of inf2 in inf1 are computed. If -c these
+are output to outf3.
+   If -eg (resp. -eh) then the required permutations in the group
+G=inf1 (resp. H=inf2) are stored as permutations rather than as Schreier
+vectors. This makes the program run faster for big groups, if there is enough
+space.
+   If -h, then generators from inf3 (format>=0) are computed in
+their action on these coset reps. These new permutations are output to a file
+outf1 in format 0. This can be useful if a different
+permutation representation of the group is required (in particular, the
+regular representation is obtained by setting inf2=triv).
+   If -g is set, then the same is done for the generators of inf1, but
+more information is output, to a file named G.inf1.cp.  The extra information
+gives the corresponding element of inf2 for each permuted point. This is
+required when constructing corestriction maps from inf2 to inf1.
+   If -d, then the orbits of this action are computed. The double coset reps
+inf3 /g\ inf2 in inf1 can then be computed, and are output to outf2.
+In applications, inf3 will usually be pg, and inf2 one of the H(i) (or P).
+This gives double coset reps P/g\H(i), which is often good enough. The smaller
+set H(i)/g\H(i) can also be used, and it is recommended that this be used for
+computations of second cohomology groups, where the action of each g on the
+cohomology group takes a long time to compute in comparison with the
+computation of the  g  themselves. If this smaller set is required, for H(i),
+then it can be computed by calling -di rather than just -d. By default, the
+generators of H(i)-P will be taken from the files G.ng, G.dcr1,...,G.dcri.
+So if G.ng only required, use -d0.
+If the user wishes to use a smaller set than this, in the single file
+G.ngn, then call -d0, and include ngn at the end of the program call.
+Whenever -d is called, then the files G.pg.nr, etc. are removed after use.
+
+                             -----
+
+(vii) pcrun
+Source files: pcd.c pcp.c permfns.c pcscfns.c
+Usage:  pcrun [-c] [-m] gpname [inf] [outf1] [outf2]
+Option -m means multiplier (rather than p-multiplicator) is required.
+Defaults:  inf=sylp outf1=spc outf2=pcp
+A central series for sylp (which must have format 4) is computed and output to
+outf1 in format 2 (which is format 1 with additional information). A power
+commutator presentation is then computed and output to outf2.
+Note. The generators of the PCP in spc are numbered with the central
+generators coming first, which is the reverse order from the numbering in
+pcp. In pcp (and all PCP files), central generators come last.
+If -c is set, then the generators from gpname.psg (which must be present as
+output from egrun on sylp) are converted to strings in the PCP generators, and
+output to gpname.psgwds. This is only needed if corestrictions are to be
+computed.
+
+                             -----
+
+(viii) scrun
+Source files: scd.c scp.c permfns.c pcscfns.c
+Usage: scrun [-s(n)] [-m] gpname ([inf3]  [inf4]) [outf] [inf2] [inf1]
+(n is an integer with 1<=n<=9.)
+Option -m as for pcrun.
+inf3  and inf4 only required if -s set.
+Defaults: inf1=spc outf=sc inf2=dcr
+          if -s alone set, inf3=sg1 inf4=cr1
+          if -si set for i>=1, inf3 and inf4 cannot be given, since they take
+          several different values in the same run. These values are assumed
+          to be sg1,..,sgi and cr1,..,cri.
+   This program will always be used with inf1=spc (the central series for
+P). It will be run separately with inf2 =ng (if H(0)=N(P)),dcr1,...,
+dcrn,dcr  in turn, to compute the Sylow intersections g(-1)Pg ^ P  for
+g  in the files inf2. The generators of the Sylow intersection, their
+conjugates under  g, and the PCP of the intersection are output to outf,
+unless g is in N(P), in which case only the images of the generators
+are output.
+   A technical problem is that, for i>1, g in dcri will have to be replaced
+by  gh, for some  h in H(i-1), in order to ensure that the Sylow intersection
+is as large as possible. This is carried out, and the file G.dcri is suitably
+updated. For i>1 the program should be called with option -s(i-1), and the
+files G.cr1,...,G.cr(i-1)  should all have been computed. h is computed as a
+product  h(i-1)...h(1), for h(j) in crj. This is done by computing
+g(-1)Pg ^ H(i-1) originally, and then replacing g by gh(i-1),gh(i-1)h(i-2),...
+in turn, such that the intersection lies in the subgroups H(i-2),H(i-3), and
+then finally in H(0), and hence in  P.
+
+                             -----
+
+(ix) selgen
+Source file: slg.c
+Usage:  selgen [-w] gpname [inf] [outf]
+Defaults: inf=spc outf=pg
+(Defaults are only likely to be useful when -w set.)
+   A subset of the generators in inf (format>=0) is selected, and output to
+outf in format 0. If -w is not set, then this subset is input at terminal. If
+-w is set, then it is assumed that inf is the output from pcrun,
+and those generators of weight one are selected. These form a minimal
+generating set for P.
+The order of output is always the same as the order of input. If a different
+order is wanted, program testpf should be used.
+
+                             -----
+
+(x) chbrun
+Source files:  testchb.c chb.c permfns.c
+Usage:  chbrun gpname [inf] [outf]
+Defaults:  inf=sg outf=newbas
+inf must have format>=3. The base of the group can be changed by inputting the
+new base on the terminal. outf has format 3. Input 0 0 to quit.
+
+                             -----
+
+(xi) optrun
+Source files: optd.c optp.c permfns.c
+Usage:    optrun [-t] [-e] [-w] gpname [inf2] [inf1]
+inf2 and inf1 are two groups H  and  G.  -e set means H=G. H and G must have
+the same base. inf1 must have format > 0 and inf2 may have any format.
+If -w is set, those elements of inf2 that lie in inf1 are output as words in
+the strong generators of inf1.
+Defaults: inf1=outperm (in which case inperm is also used).
+If no arguments are given inf2=outperm, and -e is true. Otherwise, -e is
+assumed false unless it is set. If -e is set, only one argument should be given.
+Warning: It is assumed that the given base for G is also a base for H.
+
+If -t (test) is set, the program merely tests whether H is a subgroup of G, and
+then outputs "true" or "false", and exits. (This is mainly for use with the
+shell procedure  "cohomology".)
+Otherwise:
+The program can construct a further group  C  as a function of  G  and  H, and
+this can be output to a file which is named on the terminal. Options for C are
+selected, and they include  [G,H], <G,H>, G^H and core-G(H). Permutations in H
+may be tested for membership of G, and expressed in the generators of G.
+
+                             -----
+
+(xii) matcalc
+Source files:  mcd.c mcp.c matfns.c
+Usage:    matcalc [-t] [-o] gpname [[-]inf4]  [[-]inf4]  ...
+Used to perform the necessary matrix calculations, before cohomology groups can
+be computed. Since all such calculations are carried out at once, the program
+call is slightly involved.
+      Input is always from G.inf1=G.inmat, which should contain a list of
+matrices giving the actions of the generators in G.inperm (in the right order)
+on the module  M.  Line 1 of this file contains prime, dimension and number of
+matrices, and the matrices themselves follow. gprun should have been called
+with -w set to produce G.words, which is used as inf2 in matcalc. This is used
+to compute the matrices corresponding to the generators in G.outperm. If -o is
+not set, then G.sg is assumed to be present, and only those matrices
+corresponding to the generators in G.sg are kept. If -o is set, G.sg
+is not used.
+      If -t (test) is set, then the file G.sg.rel must be present, and the
+program begins by checking whether the matrices for G.sg really satisfy these
+relations.  If not, then the program exits with an error message.
+      For each following filename, inf4, the permutations from the file
+G.inf4 (which should be a subgroup of G) are read in, and their corresponding
+matrices are computed and output to the file G.inf4mat. (e.g. a5.ngmat).
+There are some complications, however!
+1) If -inf4 is given as the argument, then the inverses of the matrices are
+   output.
+2) When the name inf4='pg' is encountered, firstly the matrices are all
+   inverted and transposed, since matrices of the dual space are used in
+   nqrun. Then two basis changes are made (which are are output both to the
+   terminal and to a file G.cbmats for later reversal) in order to
+   triangularize the action of P on the vector space, and to provide a PCP
+   with definitions for use in nqrun. Furthermore, the matrices for this
+   file pgmat only are output in reverse order, since the PCP generators are
+   in the opposite order from their corresponding permutations. For all
+   files inf4 following this, the dualization and basis changes are maintained.
+
+ A typical call for use in a cohomology computation would be:
+     matcalc G psg nsg sg1 sg -cr0 -cr1 -cr pg ng dcr1 dcr
+The files G.pgmat, G.ngmat, G.dcr1mat and G.dcrmat are used by nqrun, so these
+are dualized and triangularized. The remainder are used by extprun and crrun,
+and use the original basis, since this is presumably more convenient for the
+eventual presentation of the extension. Inverting the matrices in the coset-
+rep. files is done to save time in crrun, since they are re-read several
+times by this program, and are always used inverted.
+
+NOTE. All entries in matrices to be input should be in the range 0<=x<p.
+      Do not use negative entries!
+
+                             -----
+
+(xiii) matperm
+Source files:  matperm.c matfns.c
+Usage:  matperm gpname [inf] [outf]
+Defaults: inf=inmat outf=inperm
+This is useful for producing permutation representations of matrix groups.
+Generators of a subspace of the module are input on the terminal,
+and the permutation representations of the generators on the orbit
+of this subspace are computed. There is no guarantee
+or means of knowing in general whether this representation will be faithful.
+
+                             -----
+
+(xiv) nqmrun
+Source files:  nqmd.c nqmp.c nqmfns.c
+Usage: nqmrun [-c] [-a] [-i] gpname ([inf2]) [inf1] [outf]
+inf2 only if -a
+Defaults: inf1=pcp if not -a, cov if -a   outf=cov inf2=sc
+   inf1 may either be the output from pcrun, or from a previous run of nqmrun.
+In the first case(-a not set), the Schur multiplier and a covering group of P
+is computed, and output to outf.
+   In the second case (-a set), the quotient group of this multiplier
+is computed under the action of the elements g, which is given in inf2,
+the output from scrun. This quotient is again output to outf.
+   -i should only be set if -a is set and all of the elements g lie in N(P).
+In this case, the action is not factored out, but the action of g on the
+generators of M is printed out. This is useful for computing the action of
+automorphisms g of G on the multiplier. If g is itself a permutation on the
+set then there is no problem, but if not, then the inf2 file, giving the
+action of g on P, must be created manually.
+      The final orders of the cyclic factors of  M (or its factor group) are
+output on the terminal.
+   If -c is set, then files G.psgwds (output from pcrun with -c set), and
+G.psg.rel (output from grrun) must be present. The values of the relators
+in the latter file in the resulting extension of  M  by  P, are computed as
+elements of  M, and output to G.psg.er. Usually only needed if
+corestrictions are to be computed.
+
+                             -----
+
+(xv) nqrun
+Source files:  nqd.c nqp1.c nqp2.c nqp3.c nqfns.c matfns.c
+Usage:  nqrun [-c] [-a] [-k] [-1] [-f] gpname ([inf3] [inf4]) [inf1] [outf1]
+        ([inf2] [outf2])
+inf3 inf4 only if -a set. inf2 outf2 only if -a not set.
+only inf1 if -f set.
+Defaults:  inf1 = pcp if not -a, ch1 or ch2 if -a
+           inf2=pgmat  inf3=sc  inf4=dcrmat  outf1=ch1 or ch2 outf2=pmats.
+For computation of second cohomology groups, or, if -1 is set, first cohomology
+groups.  This should be run first with -a not set, to compute H^X(P,M),
+and then run separately with -a set, for each H(0),H(1),...,H(n),G in turn,
+to give H^X(H(i),M), and finally H^X(G,M), where X=1 or 2.
+For X=2, at the end of each run, two numbers  chpdim  and  chsdim appear on the
+terminal. The first of these is always the dimension of  H^2(P,M) (over the
+prime field), and the second is the dimension of the subgroup that is
+factored out to give H^2(G,M). So H^2(G,M)  has dimension chpdim-chsdim.
+In fact, the duals of these groups are computed, which is why we get a factor
+group rather than a subgroup.
+    When -a is not set, input is from inf1 (output of pcrun) and inf2 (output
+of matcalc). The Frattini extension  E  of the Frattini module  F  of  P  is
+calculated to the required depth. Then Hom - P (F,M)  is computed (as a dual)
+and finally the subgroup that corresponds to H^2(P,M).
+When -a is set, the same computation is carried out for each Sylow intersection
+ Q  in  P,  and the appropriate embeddings of the dual of H^2(Q,M) in H^2(P,M)
+are computed, to give a subspace of dimension chsdim. Input is from the output
+of scrun (inf3) and output of matcalc (inf4). Output is always to outf1.
+   Usage of -c option similar to nqmrun, but in this case a stable element of
+H^2(P,M) must be selected by the user, and input on the terminal. Before
+outputting to G.psg.er, the basis changes carried out by matcalc are read in
+from the file G.cbmats and reversed, so that this file, and all folllowing
+files up to G.sg.er will have values in M with respect to the original basis.
+   If -f is set, then no other option can be set. The full Frattini subgroup of
+the group in inf1 is computed. This is used only for testing, since the final
+order (which grows very rapidly with |P|) can be computed in advance..
+
+Bug: -c only works properly if -a is also called. To get round this, in the
+case where there is no further action to be computed, simply insert a
+nonexistent filename for inf3.
+
+                             -----
+
+(xvi) grrun
+Source files:  grd.c grp.c permfns.c
+Usage:    grrun -f gpname [inf]
+Default:   inf=sg.
+inf must have format>0. Output is to G.inf.rel. Relations defining a
+strong presentation of inf with respect to the given set of strong generators
+are computed, by using interruptable Todd-Coxeter coset enumerations.
+Various parameters associated with the enumeration are input on the terminal.
+(Suggested values: 1.5  50  30  1).
+When looking for a new relator, usually the shortest amonst those available
+is chosen. If -f is set, the first is chosen.
+
+                             -----
+
+(xvii) extprun
+Source files: extpd.c exa.c exb.c exc.c permfns.c matfns.c
+Usage:   extprun [-m] gpname [inf]
+-m is set if multiplier and central extension are being computed.
+Default:  inf=sg.
+inf must have format>=3. Output is to G.inf.ep. The file G.inf.er is
+used as input, so this must have been computed (either from nqrun,nqmrun with
+-c set, or from crrun). If -m is not set, then the matrices of the action in
+the file G.infmat must also be present. A modified Todd-Coxeter coset
+enumeration is carried out of the relations of the group, and the difference
+coefficients are output. This output is fairly bulky, and is used in crrun.
+As in grrun, parameters associated with the enumeration can be input at the
+terminal (suggested values:  1.5  50  +-10).
+By setting the third of these negative, it is possible to use this
+program to check the consistency of the given presentation. This considerably
+increases the process time, and should not be necessary if everything is
+working properly.
+
+                             -----
+
+(xviii) crrun
+Source files:   crd.c crp1.c crp2.c matfns.c
+Usage:    crrun [-m] gpname inf1 inf2 (if not -m inf3)
+-m as for extprun.  No defaults.
+The corestriction from G.inf2 to G.inf1 is computed and output to
+G.inf1.er.  The files G.inf1.cp (output from conrun with -g set),
+and G.inf2.ep (output from extprun on inf2) are used as input.
+Furthermore, if -m is not set, then the file G.inf3mat (output from
+matcalc with inf3 in third list) is used, where inf3 is the list of coset reps
+of inf2 in inf1.
+Warning: A temporary file "wrdlist" is generated, and then removed in the
+course of the program. If the index is at all large, this file can be enormous.
+
+                             -----
+
+(xix) readrels
+Source files: readrels.c
+Usage:   readrels [-a/-s/-m] gpname [inf1]
+Default: inf1 = sg
+This is really two or three separate programs in one (determined by the option),
+but it is convenient to lump them together. It is used when a Todd-Coxeter file
+G.tc is present, and we want to compute the values of these particular relators
+in M, in the extension being computed. To do this, the -f option should be used
+in the initial run of egrun, so that the original generators are present in
+G.sg.
+It is run first with -a (append) set. This uses files G.tc, G.sg (to find the
+numbers of the generators of G in the strong generatirng set). After
+substituting the correct numbers for the generators, it replaces the relators
+in the file G.sg.rel (which should already have been computed with grrun)
+with those in the file  G.tc. The idea of this is so that the user can get the
+final presentation of the extension in terms of the input presentation in G.tc,
+rather than in terms of the arbitrary and perhaps not very useful presentation
+computed by grrun, which uses the strong generators of G rather than the
+defining generators. Of course, if G.tc is nor present, then the computed
+presentation has to be used. (Of course, if this is done, then it will not be
+possible to run extprun on the resulting gpname.sg.er file, but there is no
+point in doing that anyway, except to check consistency.)
+At the end of the computation of the extension, when G.sg.er is present, it is
+run again (with -m set if computing multipliers). The values of the relators in
+G.tc, together with the other obvious relators of the extension (for which
+G.inmat is needed when -m is not set) are output both to the terminal and to
+a file G.ext.tc. The generators of M are written as M[1], M[2], etc., and so
+this file must be edited, and single letters substituted for M[i], before it
+can be used as input to tcrun.
+Finally, if -s is used, a presentation for the split extension is output. This
+is a convenience to avoid too much typing in of relators by hand. Only G.tc
+and G.inmat are needed as input in this case.
+(It makes no sense to call any two or more of these options at once.)
+
+                             -----
+
+(xx) testmf
+Source files:  testmf.c matfns.c
+Usage:   testmf
+For carrying out elementary matrix operations. Usage is self-explanatory.
+Matrices can be read from a named file, and later listed on a named file. All
+files listing matrices have prime, dimension, no. of matrices on line 1, and
+the list of matrices follows.
+These functions should work when 'prime' is any non-zero integer.
+Matrices read from the terminal (but not from a file) may have arbitrary
+entries, and the program will bring them into range 0<=x<p-1.
+
+                             -----
+
+(xxi) testpf
+Source files:  testpf.c permfns.c
+Usage:   testpf
+Similar to testmf, but for operations on permutations.
+Permutations and base points may be read from an initial file, or from the
+terminal. Further permutations may later be read from other files, but of
+course the number of points npt must remain fixed throughout the run. To test
+the order of subgroups when a base is known for the whole group, "gprun -b"
+may be run from within testpf.
+
+                             -----
+
+(xxii) subdir
+Source files:  subdir.c
+Usage:   subdir inf1 inf2 outf
+A subdirect product of the groups in files inf1 and inf2 (full names), which
+must both be in standard format, is constructed, and output in format 0 to file
+outf. The combinations of perms in the first group which go together with
+those in the second can be chosen, and any of these may be the identity.
+
+                             -----
+
+(xxiii) wreath
+Source files:  wreath.c
+Usage:   wreath inf1 inf2 outf
+The wreath product of the groups in files inf1 and inf2 (full names), which
+must both be in standard format, is constructed, and output in format 0 to file
+outf.
+(I think it only gives the right answer when the groups are transitive!)
+
+                             -----
+
+(xxiv) permmat
+Source files:  permmat.c
+Usage:  permmat [-u] [-l] [-h] gpname [inf] [outf]
+Defaults:  inf=inperm,  outf=inmat.
+The permutation matrices of the permutations in inf are computed, and output
+to outf. If -u is set, they are computed modulo  b(1)+...+b(n), if -l is set,
+they are computed for the submodule spanned by b(2)-b(1),...,b(n)-b(1), and
+if -h is set (only possible if prime divides degree), both are true (the 
+'heart' is computed). The prime is input at the terminal.
+
+                             -----
+
+(xxv) tcrun
+Source files: tcd.c tcp.c
+          or: tcdb.c tcpb.c
+Usage: tcrun [-r]
+   or: tcrunb
+A simple Todd-Coxeter coset enumeration program (LHT+lookahead). Usage is self-
+explanatory. Permutations may be output in the format of G.inperm. (format 0).
+If -r is set, then the space available in the coset table may be reduced by
+the user, to test lookahead performance.
+The version tcrunb has more space declared. The difference is that coset
+numbers are stored as  int rather than short.
+
+                             -----
+
+(xxvi) pkrun
+Source files: pkd.c pkp.c pkmatfns.c
+Usage: pkrun [-f] [-i] [-o] [-a] gpname [inf]
+Default: inf=inmat
+This program determines whether the module generated by the matrices in inf is
+irreducible. If not, then matrices generating a subspace and quotient space
+are output to infs and infq respectively. First a random element of the group
+algebra must be selected. One should be found with small but nontrivial
+nullity as a matrix. If -f is called, then output is not as above, but
+transformed matrices for the full space are output to infs. If -i is called,
+more information is printed on the terminal.
+if -a is set, the choice of whether to use the chosen element of the group
+algebra is made automatically depending on the nullity being smaller than a
+dimension given at the start.
+If -o is set, then the user has the choice of continuing and not outputting
+after a particular element of the null space generates a proper subspace. If
+both -i and -o are set, then any particular null space element may be 
+skipped over completely, without computing the subspace generated. These
+facilites are useful when investigating splitting or isomorphisms, rather
+than irreducibility.
+
+                             -----
+
+(xxvii) tens
+Source files: tens.c
+Usage: tens [-e] [-w] gpname inf1 (inf2) outf
+No defaults.
+The tensor product of the matrix representations of the group in inf1 and inf2
+is computed and output to outf. if -e is set, the representations are taken to
+be equal. If -w is set, the wedge product of inf1 is computed. If either
+option is set, inf2 is not named, but otherwise inf1 and inf2 must have the
+same characteristic, and the same number of generators.
+
+                             -----
+
+(xxviii) matsum
+Source files: matsum.c
+Usage: matsum gpname inf1 inf2 outf
+No defaults.
+The sum of the matrix representations of the group in inf1 and inf2 is
+computed and output to outf. They must have the same characteristics and
+numbers of generators.
+                             -----

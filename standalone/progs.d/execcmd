@@ -1,0 +1,16 @@
+case $step in
+  true) echo -n $cmd "   ?"
+        read ans
+        case $ans in
+          n*) exit 0;;
+          q*) exit 1;;
+        esac;;
+esac
+
+case $history in
+  true) echo $cmd >> ${gpname}.history;;
+esac
+
+eval $cmd $cmdsource $cmddest || exit 1
+
+exit 0

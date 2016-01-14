@@ -1,0 +1,80 @@
+This is pdfTeX, Version 3.14159-14h-released-20010417 (Web2C 7.3.3.1) (format=pdftex 2002.4.12)  3 AUG 2006 11:57
+**manual
+(./manual.tex{/usr/share/texmf/pdftex/config/pdftex.cfg}
+Babel <v3.7h> and hyphenation patterns for american, french, german, ngerman, i
+talian, nohyphenation, loaded.
+(../../../doc/gapmacro.tex (/usr/share/texmf/tex/plain/amsfonts/amssym.tex
+(/usr/share/texmf/tex/plain/amsfonts/amssym.def
+\msafam=\fam8
+\msbfam=\fam9
+\eufmfam=\fam10
+))
+Running PDFTeX
+\pagewidth=\dimen16
+\pageheight=\dimen17
+\colwidth=\dimen18
+\partialpage=\box16
+\origvsize=\dimen19
+\manindent=\dimen20
+\smallmanindent=\dimen21
+\msbfam=\fam11
+\labelout=\write0
+\indexout=\write1
+\secindout=\write2
+\tocout=\write3
+\citeout=\write4
+\ans=\write5
+\labelin=\read0
+\indexin=\read1
+\tocin=\read2
+\citein=\read3
+\secno=\count26
+\subsecno=\count27
+\exno=\count28
+\indentno=\count29
+\chapnum=\count30
+\ortoks=\toks12
+) (../../../doc/ext/manual.lab) (../../../doc/ref/manual.lab) [1{/usr/share/tex
+mf/dvips/config/pdftex.map}]
+\makelabel{cohomolo:Contents}{{\setbox 0=\hbox {1}\vrule width 0pt height\ht 0}
+}
+Chapter `Contents' .
+(./manual.toc) [2.1
+\chapcontents {\tocstrut }{Contents}{2}
+] (./manual.lab)
+\openout3 = `manual.toc'.
+
+\openout0 = `manual.lab'.
+
+\openout1 = `manual.idx'.
+
+\openout2 = `manual.six'.
+
+\openout4 = `manual.aux'.
+
+ (./cohomolo.tex
+Chapter `Cohomology' .
+[3.1] [4.1] [5.1] [6.1]) [7.1]
+Chapter `Index' .
+No file manual.ind.
+##
+## Citations for BibTeX written on manual.aux.
+## Index entries for makeindex written on manual.idx.
+## Section index entries written on manual.six.
+## Label definitions written on manual.lab.
+## Table of contents written on manual.toc.
+## Labels have changed, run again. (Or they were multiply defined.)
+##
+[8.2] )
+! pdfTeX warning (dest): name{Index} has been referenced but does not exist, re
+placed by a fixed one
+
+</usr/share/texmf/fonts/type1/bluesky/cm/cmmi10.pfb></usr/share/texmf/fonts/typ
+e1/bluesky/cm/cmr7.pfb></usr/share/texmf/fonts/type1/bluesky/symbols/msam7.pfb>
+</usr/share/texmf/fonts/type1/bluesky/cm/cmr8.pfb></usr/share/texmf/fonts/type1
+/bluesky/cm/cmss10.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmtt10.pfb></us
+r/share/texmf/fonts/type1/bluesky/cm/cmti10.pfb></usr/share/texmf/fonts/type1/b
+luesky/cm/cminch.pfb></usr/share/texmf/fonts/type1/bluesky/cm/cmr10.pfb></usr/s
+hare/texmf/fonts/type1/bluesky/cm/cmbx10.pfb></usr/share/texmf/fonts/type1/blue
+sky/cm/cmssdc10.pfb>
+Output written on manual.pdf (8 pages, 91556 bytes).

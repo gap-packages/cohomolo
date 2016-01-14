@@ -1,0 +1,5 @@
+for i do
+  gpname=$i
+  rm -f ${gpname}.[a-hj-ru-wyz]* ${gpname}.i[a-mo-z]* ${gpname}.t[abd-z]*
+  rm -f ${gpname}.s[abd-z]* ${gpname}.sc ${gpname}.sc[0-9]
+done
