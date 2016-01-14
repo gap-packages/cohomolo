@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS= -O
+CFLAGS= -O -fno-builtin
 BIN= ../exec.d
 gap:    ${BIN}/gprun ${BIN}/egrun ${BIN}/sylrun ${BIN}/normrun ${BIN}/conrun\
 	${BIN}/pcrun ${BIN}/scrun ${BIN}/selgen ${BIN}/matcalc ${BIN}/nqmrun\
