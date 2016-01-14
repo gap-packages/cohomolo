@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 # define  NPT   32767
 # define PSP    2000000
 # define SVSP   200000
@@ -18,7 +20,7 @@ short  perm[PSP],sv[SVSP],cp[5*NPT],actgen[MP],orb[NPT+1],
        mp=MP,mb=MB-1,mnpt=NPT;
 int    psp=PSP,svsp=SVSP;
 
-main(argc,argv)  int argc;  char *argv[];
+int main(int argc, char *argv[])
 { short arg;  char d,err;
   nt=wrd=isbase=0; err=0; arg=1;
   if (argc<=arg) {err=1; goto error;}
