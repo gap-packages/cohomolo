@@ -7,19 +7,24 @@ short ng,ngi,nsg,nr,endsg,endr,maxcos,str,len,ad,*fpt,*bpt,
 char fullsc,clsd,lkah;
 FILE *fopen(),*op;
 
-inperr(s,n) char *s; short n;
+int 
+inperr (char *s, int n)
 { fprintf(stderr,"Input error in %s no %d\n",s,n); }
 
-digit(j) char j;
+int 
+digit (int j)
 { if (j>='0' && j<='9') return(1); else return(0); }
 
-letter(j) char j;
+int 
+letter (int j)
 { if ((j>='a' && j<='z') || (j>='A' && j<='Z')) return(1); else return(0);}
 
-seeknln()
+int 
+seeknln (void)
 { while (getchar()!='\n'); }
 
-readrel(s,no) char s; short no;
+int 
+readrel (int s, int no)
 /* Reads relation (s=1) or subgroup generator (s=0) number "no" into array
   rel, after expanding powers, brackets etc.
    Each relation or subgen is preceded by its length.
@@ -80,7 +85,8 @@ readrel(s,no) char s; short no;
   return(0);
 }
 
-tcprog()
+int 
+tcprog (void)
 /* This is the main routine */
 { short i,j,k,ch,*p;  int quot; char redspace,fname[80];
   printf("Todd-Coxeter Coset Enumeration Algorithm. (HLT + Lookahead).\n\n");
@@ -302,7 +308,8 @@ compmaxcos:
   }
 }
 
-scanrel()
+int 
+scanrel (void)
 /* Scan ccos under relation or subgen starting at rel[endcr] */
 { short i,j,k,l,m; char comp;
 /* Put endcr to point to next relation */
@@ -342,7 +349,8 @@ scanrel()
   if (fcos!=bcos) coinc(fcos,bcos);
 }
 
-coinc(c1,c2)  short c1,c2;
+int 
+coinc (int c1, int c2)
 /* Process coincidence c1 = c2.
    fpt and bpt are used differently in this routine.
    For pairs d1,d2 of coincidences in the queue waiting to be processed,

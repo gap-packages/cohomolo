@@ -21,7 +21,8 @@ FILE *fopen(),*ip,*op;
    of the perms  cp[1]cp[2]..cp[*cp]. This product can be evaluated by the
    procedure image in permfns.c
 */
-short gpprog()
+short 
+gpprog (void)
 { short i,j,k,l,m,n,nperms,nb,jobt,np2,seek,cord,ocord,given,ordknown,trivrel,
         lsv,u,v,w,x,y,z,mxp,mnb,bpt,bno,id;
   int quot;

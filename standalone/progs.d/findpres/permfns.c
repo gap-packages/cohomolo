@@ -2,7 +2,8 @@
 extern int npt,cp[],orb[],*pptr[],pno[];
 extern FILE *fopen(),*ip,*op;
 
-orbitsv(pt,sv,lo) int pt,*sv,lo;
+int 
+orbitsv (int pt, int *sv, int lo)
 /* Computes orbit of pt under perms listed in pno, and writes 
    Schreier vector into sv
 */
@@ -21,7 +22,8 @@ orbitsv(pt,sv,lo) int pt,*sv,lo;
   return(lo);
 }
 
-addsv(pt,sv)  int pt,*sv;
+int 
+addsv (int pt, int *sv)
 /* The Schreier vector sv is applied to the point pt, and the resulting word
    added to the end of cp. It is assumed that pt is in the orbit. If not, the
    program will break down.
@@ -33,7 +35,8 @@ addsv(pt,sv)  int pt,*sv;
   return(0);
 }
 
-image(pt) int pt;
+int 
+image (int pt)
 /* The image of pt under cp is computed and returned.
    Externals: pptr,cp.
 */
@@ -42,7 +45,8 @@ image(pt) int pt;
   return(pt);
 }
 
-invert(ptr1,ptr2) int *ptr1,*ptr2;
+int 
+invert (int *ptr1, int *ptr2)
 /* permutation ptr1 is inverted and put in ptr2.
    Externals: npt.
 */
@@ -51,7 +55,8 @@ invert(ptr1,ptr2) int *ptr1,*ptr2;
   return(0);
 }
 
-readperm(ptr) int *ptr;
+int 
+readperm (int *ptr)
 /* The next npt numbers from input ip are read. These should form a
    permutation on 1,2,3,...,npt. If not  2  is returned. If the perm is the
    identity, 1 is returned, otherwise 0.
@@ -68,7 +73,8 @@ readperm(ptr) int *ptr;
   return(id);
 }
 
-printvec(ptr,e)  int *ptr,e;
+int 
+printvec (int *ptr, int e)
 /* Points ptr[1] to ptr[npt+e] are output to op, followed by new line. The
    first npt of these will be a permutation or a Schreier vector. e=0 or 1.
   Externals: npt,op.
@@ -86,13 +92,15 @@ printvec(ptr,e)  int *ptr,e;
   return(0);
 }
 
-readvec(ptr,e)  int *ptr,e;
+int 
+readvec (int *ptr, int e)
 /* The next npt+e points from ip are read into array ptr.
    Externals: npt,ip.
 */
 { int i;  for (i=1;i<=npt+e;i++) fscanf(ip,"%d",ptr+i); return(0);}
 
-readbaselo(nb,base,lorb) int nb,*base,*lorb;
+int 
+readbaselo (int nb, int *base, int *lorb)
 /* The nb base points are read into base, and the nb orbit lengths into lorb,
    from ip.
    Externals: ip.
@@ -103,7 +111,8 @@ readbaselo(nb,base,lorb) int nb,*base,*lorb;
   return(0);
 }
 
-printbaselo(nb,base,lorb) int nb,*base,*lorb;
+int 
+printbaselo (int nb, int *base, int *lorb)
 /* base and lorb are printed to op.
    Externals: op.
 */
@@ -118,7 +127,8 @@ printbaselo(nb,base,lorb) int nb,*base,*lorb;
   return(0);
 }
 
-printpsv(nb,gno,svptr) int nb,*gno,**svptr;
+int 
+printpsv (int nb, int *gno, int **svptr)
 /* Permutationsnos gno[1],...,gno[*gno] are output (up to npt+1), and then
    Schreier vectors svptr[1],...,svptr[nb] are output to op.
    Externals: npt,pptr,orb,op.
@@ -134,7 +144,8 @@ printpsv(nb,gno,svptr) int nb,*gno,**svptr;
   return(0);
 }
 
-readpsv(e,nb,nperms,svptr) int e,nb,nperms,**svptr;
+int 
+readpsv (int e, int nb, int nperms, int **svptr)
 /* nperms permutations (up to npt+1) are read into perm nos pptr[e],pptr[e+2],.
    and pptr[e+2x] is inverted into pptr[e+2x+1], for x=1,...,nperms. Then the
    Screier vectors svptr[1],...,svptr[nb] are read from ip.
@@ -150,6 +161,7 @@ readpsv(e,nb,nperms,svptr) int e,nb,nperms,**svptr;
   return(0);
 }
 
-seeknln()
+int 
+seeknln (void)
 /* The next new line in ip is found. */
 {while (getc(ip)!='\n'); }

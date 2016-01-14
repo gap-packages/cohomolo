@@ -9,7 +9,8 @@ short dim,maxnull;
 
 FILE *fopen(),*ip,*op;
 
-pkprog()
+int 
+pkprog (void)
 { char ngens,neg,fac,there,saved,gottm,gotsgn,err,digexp,nc,provn,
        trd,gotfac,heldc,len,**m0,**m1,*m01,irr;
   short nvecs,i,j,rno1,rno2,nlty,fnz,adno,sdim,qdim,tdim;
@@ -241,17 +242,21 @@ next:
   unlink(temp); unlink(temp2); return(0);
 }
 
-seeknln() { while (getc(ip)!='\n');}
+int 
+seeknln (void) { while (getc(ip)!='\n');}
 
-setpinv()
+int 
+setpinv (void)
 { int i,j;
   for (i=0;i<prime;i++) pinv[i]=0;
   for (i=1;i<prime;i++) if (pinv[i]==0) for (j=1;j<prime;j++)
   if (i*j % prime ==1) { pinv[i]=j; pinv[j]=i; break; }
 }
 
-findc()
+int 
+findc (void)
 { char c; while ((c=getchar())==' ' || c=='\n'); return(c); }
 
-digit(c) char c;
+int 
+digit (int c)
 { if (c>='1' && c<='9') return(1); else return(0);}

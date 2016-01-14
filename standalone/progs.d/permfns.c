@@ -150,6 +150,7 @@ short readpsv(short e,short nb,short nperms,short **svptr)
   return(0);
 }
 
-void seeknln()
+void 
+seeknln (void)
 /* The next new line in ip is found. */
 {while (getc(ip)!='\n'); }

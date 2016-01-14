@@ -27,7 +27,8 @@ short mm=MM,mv=MV,mp=MP,mpt=NPT,
       mspace[MSP],*vec[MV],**mat[MM],pinv[MPR],perm[PSP],sv[SVSP],cp[5*NPT],
       *pptr[MP],*svptr[MB],base[MB],lorb[MB];
 
-main(argc,argv)  int argc;  char *argv[];
+int 
+main (int argc, char *argv[])
 { short arg;  char c,err;
   check=0; err=0; arg=1; if (argc<=arg) {err=1; goto error;}
   slg=1;

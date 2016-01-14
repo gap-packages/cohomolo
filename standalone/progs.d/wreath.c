@@ -9,7 +9,8 @@ short perm[PSP],*pptr1[MP+1],*pptr2[MP+1],base[MB],mp=MP,mb=MB;
 int psp=PSP;
 FILE *fopen(),*ip,*op;
 
-main(argc,argv)  int argc;  char *argv[];
+int 
+main (int argc, char *argv[])
 { short npt1,npt2,i,j,k,l,m,n,np,np1,np2,*p,*q,mxp,*perm2,npto;  char err;
   int quot;
   if (argc!=4) {err=1; goto error;} else err=0;
@@ -72,5 +73,6 @@ main(argc,argv)  int argc;  char *argv[];
   exit(0);
 }
 
-snl()
+int 
+snl (void)
 { while (getc(ip)!='\n'); }

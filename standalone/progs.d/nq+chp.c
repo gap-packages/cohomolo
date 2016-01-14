@@ -3,7 +3,8 @@ extern char inf1[],outf[80];
 extern short **mat[],pinv[],**spm,*spv,prime,dim,cp[],exp,opmats;
 FILE *fopen(),*ip,*ips,*op;
 
-matact(inter) char inter;
+int 
+matact (int inter)
 { short substeps,subexp,subdp,*commno,*commvec,**commer,**commkeep,
   intexp,ncommer,ncomm,i,j,k,l,m,n,*ptr,*ptre,*ptr2,incr;
   char subfile[4],infc[80];
@@ -154,4 +155,5 @@ restart:
   }
 }
 
-seeknln() {while (getc(ip)!='\n');}
+int 
+seeknln (void) {while (getc(ip)!='\n');}

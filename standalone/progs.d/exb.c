@@ -10,7 +10,8 @@ extern short invg[],mwdl,endr,*fpt,*bpt,nelim,lo,**imcos,dim,
        ccos,lastd,cind,nfree,stcr,endcr,fcos,bcos,lcl,np2,*rel,
        ng;
 
-scanrel()
+int 
+scanrel (void)
 { short i,j,k,l,m,necr,*s,*t; short compfsc,*p,*q,*r,esc;
   fullsc=1; stcr=endcr+2; endcr+=(1+rel[stcr-1]); esc=0;
   *wd1=0; *wd2=0; p=wd1+mwdl; q=p+dim;
@@ -80,7 +81,8 @@ scanrel()
   return(0);
 }
 
-coinc(c1,c2)  short c1,c2;
+int 
+coinc (int c1, int c2)
 { short lc,hc,qh,qt,i,j,y,fhc,bhc,lim,him,ret; short *ocend,esc;
   esc=0; ocend=cend; lc=1;
   while (lc!=c1 && lc!=c2) lc=fpt[lc];

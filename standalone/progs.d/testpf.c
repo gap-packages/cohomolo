@@ -9,7 +9,8 @@ short mp=MP,mpt=NPT,mb=MB,npt,perm[PSP],cp[100],*pptr[MP],orb[NPT+1],
 int psp=PSP;
 FILE *fopen(),*ip,*op;
 
-main()
+int 
+main (void)
 { short i,j,m,n,y,np,nb,mxp,ord,im,len,*p,*q;
   int quot;
   int chct;
@@ -303,17 +304,20 @@ reenter:
   exit(0);
 }
 
-snl()
+int 
+snl (void)
 { while (getchar()!='\n'); }
 
-lcm(x,y) short x,y;
+int 
+lcm (int x, int y)
 { short a,b,c;
   a=x; b=y;
   while ((c=a%b)!=0) { a=b; b=c; }
   return(x*y/b);
 }
 
-rp(ptr) short *ptr;
+int 
+rp (short *ptr)
 { short i,j;
   for (i=1;i<=npt;i++) orb[i]=0;
   for (i=1;i<=npt;i++)
@@ -324,7 +328,8 @@ rp(ptr) short *ptr;
   return(0);
 }
 
-allorbs()
+int 
+allorbs (void)
 { short orct,lo,u,v,w,x,y,z;
   for (u=1;u<=npt;u++) orno[u]=0; orct=0;
   for (u=1;u<=npt;u++) if (orno[u]==0)
@@ -342,7 +347,8 @@ allorbs()
   return(0);
 }
 
-num_digits(n) int n;
+int 
+num_digits (int n)
 { if (n<10) return(1);
   if (n<100) return(2);
   if (n<1000) return(3);

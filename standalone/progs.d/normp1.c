@@ -25,7 +25,8 @@ char  bdone,gdone;
 */
 FILE *fopen(),*ip,*op;
 
-nprg1()
+int 
+nprg1 (void)
 { char heqg,inreg,con1,con2,fpt;
   short i,j,k,l,m,n,nnb,endorb,regb,regbno,regorep,rpno,*intno,*tsv,lo,
         *ptr,mxb,mxp,mxexp,nph,npg,maxl,ct,*spptr,*opno;
@@ -425,7 +426,8 @@ printf("\n"); */
   return(0);
 }
 
-permnos(no,uf,lf)  short no,uf,lf;
+int 
+permnos (int no, int uf, int lf)
 /* This finds the perms fixing between uf-1 and lf-1 base points, and lists
    their numbers in pno. As we are assuming format>=3, these will always be
    in order.
@@ -442,7 +444,8 @@ permnos(no,uf,lf)  short no,uf,lf;
   return(0);
 }
 
-newbasept(hfl)  char hfl;
+int 
+newbasept (int hfl)
 /* Changes gbase[nnth] to bpt, If hfl=1 same for hbase[nnth] */
 { if (hfl)  if (hbase[nnth] != bpt)
   { printf("H base no %d changed from %d to %d.\n",nnth,hbase[nnth],bpt);
@@ -463,7 +466,8 @@ newbasept(hfl)  char hfl;
   return(0);
 }
 
-skfaithorb()
+int 
+skfaithorb (void)
 /* We seek a possible orbit O1, as described in a comment above. */
 { short i,j,*k,l,m,n,ct;  char fnd;
   k=intorb[nint];  fnd=0;

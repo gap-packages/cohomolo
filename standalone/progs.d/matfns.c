@@ -2,7 +2,8 @@
 extern short prime,dim,*spv,**spm,**mat[],pinv[];
 extern FILE *fopen(),*ip,*op;
 
-trans(a,b) short **a,**b;
+int 
+trans (short **a, short **b)
 /* The transpose of matrix a is written into matrix b.
    Externals: dim.
 */
@@ -11,7 +12,8 @@ trans(a,b) short **a,**b;
   { b[i][i]=a[i][i]; for (j=1;j<i;j++) {b[i][j]=a[j][i]; b[j][i]=a[i][j]; }}
 }
 
-im(v,w,a) short *v,*w,**a;
+int 
+im (short *v, short *w, short **a)
 /* The image w of vector v under matrix a is computed.
    Externals: dim,prime.
 */
@@ -23,7 +25,8 @@ im(v,w,a) short *v,*w,**a;
   }
 }
 
-comm(v,w,a) short *v,*w,**a;
+int 
+comm (short *v, short *w, short **a)
 /* The image of v under a minus v is computed into w. The position of the
    first nonzero entry in w is returned, or 0 if w=0.
    Externals:  dim,prime.
@@ -38,7 +41,8 @@ comm(v,w,a) short *v,*w,**a;
   return(k);
 }
 
-prod(cm,a) short *cm,**a;
+int 
+prod (short *cm, short **a)
 /* The product of matrices mat[cm[1]],...mat[cm[*cm]] is computed into a.
    Externals:  mat,dim.
 */
@@ -57,7 +61,8 @@ prod(cm,a) short *cm,**a;
   }
 }
 
-inv(a,b) short **a,**b;
+int 
+inv (short **a, short **b)
 /* Matrix a is inverted into b. -1 is returned if a is singular, otherwise 0.
    Externals: spm,prime,dim.
 */
@@ -94,7 +99,8 @@ inv(a,b) short **a,**b;
   return(0);
 }
 
-readmat(a) short **a;
+int 
+readmat (short **a)
 /* Matrix a is read from input ip.
    Externals: dim,ip,prime.
 */
@@ -108,7 +114,8 @@ readmat(a) short **a;
   }
 }
 
-printmat(a) short **a;
+int 
+printmat (short **a)
 /* Matrix a is output to op.
    Externals: dim,op.
 */
@@ -123,7 +130,8 @@ printmat(a) short **a;
   fprintf(op,"\n");
 }
 
-cbdef(gb,ge,cbno,d1,d2,wt,acl)  short gb,ge,cbno,*d1,*d2,*wt,*acl;
+int 
+cbdef (int gb, int ge, int cbno, short *d1, short *d2, short *wt, short *acl)
 /* It is assumed that matrices mat[gb],...mat[ge] generate a p-group,
    and that the action of this group on the vector space has already been
    triangularized. (p=prime).

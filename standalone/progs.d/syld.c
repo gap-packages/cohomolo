@@ -20,7 +20,8 @@ short  mp=MP,mxexp=MEXP,mb=MB-1,mnpt=NPT,
        genorb[NPT+1],*pptr[MP],*svgptr[MB],*svpptr[MB],*expptr[MEXP];
 int    psp=PSP,expsp=EXPSP,svsp=SVSP;
 
-main(argc,argv)  int argc;  char *argv[];
+int 
+main (int argc, char *argv[])
 { short arg;  char err;
   err=0; arg=1; if (argc<=arg) {err=1; goto error;}
   strcpy(inf,argv[arg]); strcat(inf,"."); strcpy(outf,inf);

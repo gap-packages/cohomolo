@@ -4,7 +4,8 @@ char inf1[80],inf2[80],outf[80];
 /* No defaults */
 FILE *fopen(),*ip1,*ip2,*op;
 
-main(argc,argv) int argc; char *argv[];
+int 
+main (int argc, char *argv[])
 { short prime,dim1,dim2,nmats,i,j,k,n,err;
   if (argc<=4) {err=1; goto error;}
   err=0;

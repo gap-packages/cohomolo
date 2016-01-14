@@ -15,7 +15,8 @@ char fullsc,clsd,lkah;
 FILE *fopen(),*ip,*op;
 /* Many of the variables are as in program tcrun */
 
-grprog()
+int 
+grprog (void)
 { int i,j,k,l,m,n,b,l1,l2,nb,rn1,nperms,npt1,mxp,min,mini;
   int spn,quot; float a;
   ip=fopen(inf,"r");
@@ -167,7 +168,8 @@ grprog()
   return(0);
 }
 
-addrel()
+int 
+addrel (void)
 /* Adds a relator */
 { int i,j,k;
   nr++;
@@ -195,7 +197,8 @@ addrel()
   return(0);
 }
 
-scanrel()
+int 
+scanrel (void)
 { int i,j,k,l,m; char comp;
   fcos=ccos; bcos=ccos;
   comp=1;
@@ -230,7 +233,8 @@ scanrel()
   return(0);
 }
 
-coinc(c1,c2)  int c1,c2;
+int 
+coinc (int c1, int c2)
 { int lc,hc,qh,qt,i,j,y,fhc,bhc,lim,him,x; char sw;
   lc=1;
   while (lc!=c1 && lc!=c2) lc=fpt[lc];

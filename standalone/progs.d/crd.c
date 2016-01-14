@@ -23,7 +23,8 @@ short sp[SPACE],*psp[PTRSP],**imcos[MB],**mat[MM],**cpco[MB],lorb[MB],pinv[100],
       cdptrsp=CDPTRSP,mb=MB,mpr=MPR;
 int space=SPACE,cptrsp=CPTRSP,cspace=CSPACE;
 
-main(argc,argv)  int argc; char *argv[];
+int 
+main (int argc, char *argv[])
 { short arg;  short err;
   mult=0; err=0; arg=1; if (argc<=arg) {err=1; goto error; }
   if (argv[arg][0]=='-')

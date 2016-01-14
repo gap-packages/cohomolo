@@ -10,7 +10,8 @@ short mv=MV,mm=MM,mdim=MDIM,mpr=MPR,prime,dim,*spv,**spm,
       mspace[MSP],*vec[MV],**mat[MM],cp[500],pinv[MPR];
 FILE *fopen(),*ip,*op;
 
-main()
+int 
+main (void)
 { short i,j,l,m,n,*p,**dp,maxv,maxm,ord;
   int quot;
   char c,fault,flnm[80],f;
@@ -213,9 +214,11 @@ reenter:
   exit(0);
 }
 
-seeknln() { char c; while ((c=getchar())!='\n'); }
+int 
+seeknln (void) { char c; while ((c=getchar())!='\n'); }
 
-setpinv()
+int 
+setpinv (void)
 { int i,j; int sum;
   for (i=0;i<prime;i++) pinv[i]=0;
   for (i=1;i<prime;i++) if (pinv[i]==0) for (j=1;j<prime;j++)

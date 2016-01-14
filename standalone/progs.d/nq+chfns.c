@@ -22,7 +22,8 @@ extern int msp;
 FILE *fopen(),*ip,*op;
 
 
-calcmats()
+int 
+calcmats (void)
 { short i,j,k,ct,*p,*q,**swop;
   strcpy(inf3,inf1);strcat(inf3,"pcp"); strcpy(inf4,inf1);strcat(inf4,"pgmat");
   if (opmats) {strcpy(outf,inf1); strcat(outf,"mats");}
@@ -65,7 +66,8 @@ calcmats()
   return(0);
 }
 
-rdmats()
+int 
+rdmats (void)
 /* reads matrices of generators of P */
 { short i; int quot;
   ip=fopen(inf4,"r");
@@ -89,7 +91,8 @@ rdmats()
 }
 FILE *fopen(),*ip;
 
-ingp(inp) char inp;
+int 
+ingp (int inp)
 /* Read in output of respcrun -s */
 { short i,j,k,l,m,*orpf,**pcp;
   ip=fopen(inf3,"r");
@@ -135,7 +138,8 @@ ingp(inp) char inp;
   return(0);
 }
 
-setpinv()
+int 
+setpinv (void)
 { short i,j; int sum;
   for (i=0;i<prime;i++) pinv[i]=0;
   for (i=1;i<prime;i++) if (pinv[i]==0) for (j=1;j<prime;j++)

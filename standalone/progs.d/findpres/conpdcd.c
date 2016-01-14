@@ -26,7 +26,8 @@ int  mpt=NPT,mb=MB,nfuse,
        fpt[MB],bpt[MB],coh_index[MB+1],*cp[10*NPT],*trad[MB],*sv[SVSP],
        *tailad[MB],**cpad[MB],**svgptr[MB],**svhptr[MB];
 
-main(argc,argv)  int argc;  char *argv[];
+int 
+main (int argc, char *argv[])
 { int arg;  char c,err; int d;
   err=0; cong=0; arg=1; hg=0; cr=0; expg=0; exph=0; dcr=0;  nfuse= -1;
   if (argc<=arg) {err=1; goto error;}

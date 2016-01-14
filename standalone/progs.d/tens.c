@@ -8,7 +8,8 @@ char inf1[80],inf2[80],outf[80];
 FILE *fopen(),*ip1,*ip2,*op;
 int  msp=MSP;
 
-main(argc,argv) int argc; char *argv[];
+int 
+main (int argc, char *argv[])
 { char c,arg,err,eq,wedge;
   short i,j,k,l,n,prime,dim1,dim2,dimo,**m1,**m2,nmats,s;
   int x;

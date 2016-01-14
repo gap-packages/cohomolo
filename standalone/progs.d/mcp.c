@@ -7,7 +7,8 @@ extern short mm,mv,mp,mpt,mpr,mdim,mb,
 short prime,dim,*spv,**spm,npt,nb,maxv,maxm,maxp,nmat,nm2;
 FILE *fopen(),*ip,*op;
 
-mcprog()
+int 
+mcprog (void)
 { short i,j,k,l,m,n,nperms,np2,*p,**q;
   int quot;
   if ((ip=fopen(inf1,"r"))==0)
@@ -104,7 +105,8 @@ mcprog()
   return(0);
 }
 
-conprog(con)  char con;
+int 
+conprog (int con)
 { short i,j,k,n,y,fac,lm3,bn,lmat,nperms,class,*d1,*d2,*wt,
         *p,*q,*r,*cv,*cve,*cc,*sw,*bcf,*ibcf,**cbm,**icbm,**newmat;
   int   sum;
@@ -247,34 +249,40 @@ conprog(con)  char con;
 /* We repeat a few procedures from permfns.c, since that file is not loaded
    in matcalc.
 */
-addsv(pt,sv)  short pt,*sv;
+int 
+addsv (int pt, short *sv)
 { short pn;
   pn=sv[pt];
   while (pn!= -1)
   { (*cp)++; cp[*cp]=pn; pt=pptr[pn][pt]; pn=sv[pt]; }
 }
 
-invert(ptr1,ptr2) short *ptr1,*ptr2;
+int 
+invert (short *ptr1, short *ptr2)
 { short i;
   for (i=1;i<=npt;i++) ptr2[ptr1[i]]=i;
 }
 
-image(pt) short pt;
+int 
+image (int pt)
 { short i;
   for (i=1;i<= *cp;i++) pt=pptr[cp[i]][pt];
   return(pt);
 }
 
-readvec(ptr,e)  short *ptr,e;
+int 
+readvec (short *ptr, int e)
 { short i; for (i=1;i<=npt+e;i++) fscanf(ip,"%hd",ptr+i); }
 
-readbaselo(nb,base,lorb) short nb,*base,*lorb;
+int 
+readbaselo (int nb, short *base, short *lorb)
 { short i;
   for (i=1;i<=nb;i++) fscanf(ip,"%hd",base+i);
   for (i=1;i<=nb;i++) fscanf(ip,"%hd",lorb+i);
 }
 
-readpsv(e,nb,nperms,svptr) short e,nb,nperms,**svptr;
+int 
+readpsv (int e, int nb, int nperms, short **svptr)
 { short i,j,*k;
   for (i=1;i<=nperms;i++)
   { j=e+2*i-2; readvec(pptr[j],1); invert(pptr[j],pptr[j+1]); }
@@ -284,10 +292,12 @@ readpsv(e,nb,nperms,svptr) short e,nb,nperms,**svptr;
   }
 }
 
-seeknln()
+int 
+seeknln (void)
 {while (getc(ip)!='\n'); }
 
-setpinv()
+int 
+setpinv (void)
 { short i,j;
   for (i=0;i<prime;i++) pinv[i]=0;
   for (i=1;i<prime;i++) if (pinv[i]==0) for (j=1;j<prime;j++)

@@ -10,7 +10,8 @@ extern int ptrsp,rsp;
 short  fac;
 FILE *fopen(),*ip,*op;
 
-ingp()
+int 
+ingp (void)
 /* The PCP for P (output from pcrun) is read in, and all of the associated
    pointers are set. If -a is true, then the input comes from a preceding run
    of nqrun, and tails are also read in.
@@ -83,7 +84,8 @@ ingp()
   fclose(ip); return(0);
 }
 
-outgp()
+int 
+outgp (void)
 /* The PCP is output, together with tails */
 { short i,k,l,**pcp,*b,*e,*c;
   op=fopen(outf,"w");
@@ -116,10 +118,12 @@ outgp()
   fclose(op);
 }
 
-zero(p1,p2) short *p1,*p2;
+int 
+zero (short *p1, short *p2)
 { while ((++p1)<=p2) *p1=0; }
 
-setnr(p)  short *p;
+int 
+setnr (short *p)
 /* This is called only by collect, which follows */
 { short *p1,*p2,*c;
   p1=nexpnt; p2=p1+nng; c=cord+1;
@@ -127,7 +131,8 @@ setnr(p)  short *p;
   { p++;  *p1 += fac*(*p); *p1 %= *c; c++; }
 }
 
-collect(spc,spf,sgn)  short *spc,*spf,sgn;
+int 
+collect (short *spc, short *spf, int sgn)
 /* The basic collecting algorithm. The word to be collected is stored as a
    gen-pow string. spc points to the last gen, and spf to the first, in this
    string. The collected word is put into expnt, as a vector, and its tail
@@ -211,7 +216,8 @@ powdone:
   }
 }
 
-intgen(i,j) short i,j;
+int 
+intgen (int i, int j)
 /* A new generator is introduced into the tail of the relation [i,j], or
    i^p if i=j.
 */
@@ -234,7 +240,8 @@ intgen(i,j) short i,j;
   return(0);
 }
 
-subrel(i,j) short i,j;
+int 
+subrel (int i, int j)
 /* The element currently in nexpnt, is introduced as the tail of the relation
    [i,j]
 */
@@ -253,7 +260,8 @@ subrel(i,j) short i,j;
   return(0);
 }
 
-assoc(g1,g2,g3)  short g1,g2,g3;
+int 
+assoc (int g1, int g2, int g3)
 /* The difference between the tails of the elements (g1g2)g3 and g1(g2g3) is
    computed into nexpnt. Thisdifference will of course have to be made trivial
    later. If g1=g2, we use (g1^p)g2 and g1(g1^(p-1)g2), and similarly if
@@ -286,7 +294,8 @@ assoc(g1,g2,g3)  short g1,g2,g3;
   if (triv) return(0); else return(1);
 }
 
-prnrel(corrtl) char corrtl;
+int 
+prnrel (int corrtl)
 /* The element stored in nexpnt is made trivial. This involves eliminating or
    reducing the order of one or more new generators. corrtl is true when -a is
    set, and images of generators in the Sylow intersection have their own tails,

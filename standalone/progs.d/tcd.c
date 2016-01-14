@@ -13,7 +13,8 @@ int space=SPACE,mxc=MXC;
 short mpt=MPT,
       rel[SPACE],cosno[MPT+1],gno[105],inv[104],gch[128],*imcos[104];
 
-main(argc,argv) int argc; char *argv[];
+int 
+main (int argc, char *argv[])
 { char err,arg;
   rs=0; err=0; arg=1; if (argc>arg)
   { if (argv[arg][0]!='-' || argv[arg][1]!='r') { err=1; goto error; }

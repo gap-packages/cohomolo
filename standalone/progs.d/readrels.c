@@ -15,7 +15,8 @@ char gap,inf1[80],inf2[80],io[80],outf[80],genletter[MGENS];
 */
 FILE *fopen(),*ip,*ip2,*iop,*op;
 
-main(argc,argv) int argc; char *argv[];
+int 
+main (int argc, char *argv[])
 { short i,j,k,l,n,np,nb,ng,nsg,nr,ch,dim,ngext,nrext,rno,ct;
   char c,err,arg,mult,append,split;
   gap=err=append=mult=split=0; arg=1;
@@ -240,25 +241,32 @@ error:  if (err)
  exit(0);
 }
 
-inv(n) short n;
+int 
+inv (int n)
 { if (n%2==0) return(n+1); return(n-1);}
 
-inperr(n)  short n;
+int 
+inperr (int n)
 { fprintf(stderr,"Input error in relation no %d\n",n); }
 
-digit(j) char j;
+int 
+digit (int j)
 { if (j>='0' && j<='9') return(1); else return(0); }
 
-letter(j) char j;
+int 
+letter (int j)
 { if ((j>='a' && j<='z') || (j>='A' && j<='Z')) return(1); else return(0);}
 
-snl_ip()
+int 
+snl_ip (void)
 { while (getc(ip)!='\n'); }
 
-snl_iop()
+int 
+snl_iop (void)
 { while (getc(iop)!='\n'); }
 
-readrel(no)  short no;
+int 
+readrel (int no)
 /* Reads relation number "no" into array rel, after
    expanding powers, brackets etc.
    Each relation is preceded by its length.

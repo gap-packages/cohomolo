@@ -38,7 +38,8 @@ short  mp=MP,mexp=MEXP,mb=MB-1,mnpt=NPT,risp=RISP,
        orep[NPT+1],prime;
 int    psp=PSP,sp=SPACE,svsp=SVSP;
 
-main(argc,argv)  int argc;  char *argv[];
+int 
+main (int argc, char *argv[])
 { short arg,x;  char c,err;
   err=0; arg=1; hgst=0; opt=0; cent=0; nop=0; chpar=0; syl=0;
   if (argc<=arg) {err=1; goto error;}

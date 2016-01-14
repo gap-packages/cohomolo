@@ -1,7 +1,8 @@
 # include <stdio.h>
 extern short npt,pno[],expcp[],cp[],genorb[],*pptr[],*expptr[];
 
-expandp(nb,p,base,svptr)  short nb,*p,*base,**svptr;
+int 
+expandp (int nb, short *p, short *base, short **svptr)
 /* Generates the Schreier vector expression for perm p into cp.
    Externals: cp.
 */
@@ -14,7 +15,8 @@ expandp(nb,p,base,svptr)  short nb,*p,*base,**svptr;
   return(0);
 }
 
-resetsv(nb,base,lorb,gno,svptr) short nb,*base,*lorb,*gno,**svptr;
+int 
+resetsv (int nb, short *base, short *lorb, short *gno, short **svptr)
 /* Recomputes the orbits and Schreier vectors of perm nos gno[1],...,gno[*gno].
    Externals: pno,pptr,npt.
 */
@@ -28,7 +30,8 @@ resetsv(nb,base,lorb,gno,svptr) short nb,*base,*lorb,*gno,**svptr;
   return(0);
 }
 
-allorbs(lorb,orno)  short *lorb,*orno;
+int 
+allorbs (short *lorb, short *orno)
 /* Computes all orbits of perm nos pno[1],...,pno[*pno]. Point i lies in orbit
    no orno[i], which has length lorb[orno[i]]. lorb[0)=no of orbits. The
    extern array genorb is used to list points in current orbit.
@@ -51,7 +54,8 @@ allorbs(lorb,orno)  short *lorb,*orno;
   return(0);
 }
 
-backimage(pt)  short pt;
+int 
+backimage (int pt)
 /* This computes and returns the image of pt under the inverse of the perm cp.
    Externals: cp,pptr.
 */
@@ -60,7 +64,8 @@ backimage(pt)  short pt;
   return(pt);
 }
 
-exprep(pt,no,sv) short pt,no,*sv;
+int 
+exprep (int pt, int no, short *sv)
 /* The word for pt is computed using Schreier vector sv, and the corresponding
    perm (i.e. the inverse of cp) stored in expptr[no].
    Externals: npt,expptr,cp.
@@ -71,7 +76,8 @@ exprep(pt,no,sv) short pt,no,*sv;
   return(0);
 }
 
-expimage(pt)  short pt;
+int 
+expimage (int pt)
 /* The image of pt is computed and returned under the word stored in expcp.
    Externals: expcp,expptr.
 */

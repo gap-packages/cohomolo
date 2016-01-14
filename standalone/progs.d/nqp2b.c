@@ -13,7 +13,8 @@ int *wf,*wc,**inteno,intcpd,inng,*nsd1,*nsd2,intfe,**npcb2;
 extern FILE *fopen(),*ip,*ipm,*op;
 FILE *ipcopy,*opcopy;
 
-spact()
+int 
+spact (void)
 /* Computes cohomology group H^i(P,M) or H^i(Q,M) */
 { int i,j,k,l,m,n,ie,ct,cl,fg,wi,wj,*p,*q,*r,*nrpf,*v1,*v2,
   **swop,homcl,c;
@@ -163,7 +164,8 @@ ncl:;
   return(0);
 }
 
-nchg()
+int 
+nchg (void)
 /* We have a new generator for H^2. This is put into echelon form with the
    existing generators, and stored.
 */
@@ -198,7 +200,8 @@ nchg()
   }
 }
 
-intact()
+int 
+intact (void)
 /* In case act, appropriate quotient of H^i(P,M) is computed */
 { int a,b,c,d,i,j,k,l,len,m,n,x,f1,f2,*p,*p1,*q,*q1,*r,*r1,*ia,*ib,*v1,
         **bim,**cbim,**imcg,**cimcg,**dp,*null;
@@ -439,7 +442,8 @@ intact()
   return(0);
 }
 
-enter(g,pow)  int *g,pow;
+int 
+enter (int *g, int pow)
 /* Enters a power of the word pointed to by g into rel for collection. */
 { int *ps,*pf,*pc,i,sgn;
   if (pow<0) { sgn= -1; pow= -pow; pf=g+1; ps=g+ *g+1; }
@@ -450,7 +454,8 @@ enter(g,pow)  int *g,pow;
   }
 }
 
-entvec(h,g,pow) int *h,*g,pow;
+int 
+entvec (int *h, int *g, int pow)
 /* Similar, but g is a vector. Used only for H^1. */
 { int i,j,l,*p,*q;
   for (i=1;i<=dim;i++) if ((j=g[i])!=0)
@@ -464,14 +469,16 @@ entvec(h,g,pow) int *h,*g,pow;
   }
 }
 
-expand(p1,p2,len)  int *p1,*p2,len;
+int 
+expand (int *p1, int *p2, int len)
 /* Expand word p1 to vector p2 of length len. */
 { int l,*p,*q;
   l= *p1; p=p1; q=p+l; zero(p2,p2+len);
   while (++p<q) { p2[*p]= *(p+1); p++; }
 }
 
-compress(p1,p2,len)  int *p1,*p2,len;
+int 
+compress (int *p1, int *p2, int len)
 /* compress vector p2 of length len to word p1. */
 { int i,n,*p;
   p=p1;

@@ -9,7 +9,8 @@ int mv=MV,mm=MM,mdim=MDIM,dim,*spv,**spm,
       mspace[MSP],*vec[MV],**mat[MM],cp[500];
 FILE *fopen(),*ip,*op;
 
-main()
+int 
+main (void)
 { int i,j,l,m,n,*p,**dp,maxv,maxm,ord;
   int quot;
   char c,fault,flnm[80],f;
@@ -209,4 +210,5 @@ reenter:
   exit(0);
 }
 
-seeknln() { char c; while ((c=getchar())!='\n'); }
+int 
+seeknln (void) { char c; while ((c=getchar())!='\n'); }

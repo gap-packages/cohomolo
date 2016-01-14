@@ -3,7 +3,8 @@
 int npt,perm[NPT+1],had[NPT+1];
 FILE *fopen(),*op;
 
-main(argc,argv)  int argc;  char *argv[];
+int 
+main (int argc, char *argv[])
 { int arg,nb,nperms,i,j,k,l,n;  char cyc,outf[80],err; int c;
 /* Default outf=gpname.inperm  */
   err=0; arg=1; if (argc<=arg) {err=1; goto error;}

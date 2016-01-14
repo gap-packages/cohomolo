@@ -21,7 +21,8 @@ short *cst,*cend,***coeff,**cpst,***cdpst,fullsc,clsd,lkah,conch,**cco,*ocst,
       **def;
 FILE *fopen(),*ip,*op;
 
-extpprog()
+int 
+extpprog (void)
 { short i,j,k,l,m,n,b,l1,nperms,npt1,mxp,maxv,maxm,pos,*p,*q,*r;
   int quot;
   short **dp,**dq,**dr,*pc; float a;

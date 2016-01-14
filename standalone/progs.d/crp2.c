@@ -10,7 +10,8 @@ short *wd1,*wd2;
 short *gno,*cord,cl,dim,prime,**vec,**spm,*spv,wv,*val;
 FILE  *fopen(),*ipr,*op,*ipx,*ip;
 
-crprog2()
+int 
+crprog2 (void)
 /* In the second half, the values of the words in H in the module or
    multiplier are computed, using the coefficients computed in extprun.
 */
@@ -155,7 +156,8 @@ crprog2()
   return(0);
 }
 
-scan(bno,la) short bno,*la;
+int 
+scan (int bno, short *la)
 /* This is the computation of one word as described above */
 { short cos,nl,min,canct,**cim; short c,*v1,*conco,*p,*q,*r,***cco,*wp,*wr;
   v1=wd1+wv; cco=coeff[bno]; cim=imcos[bno];
@@ -194,7 +196,8 @@ scan(bno,la) short bno,*la;
   return(0);
 }
 
-action(a,b) short *a,*b;
+int 
+action (short *a, short *b)
 { short z,*be,c,*p,*ae; short *spve,*s,*v;
   z=1; p=a; ae=a+dim;
   while (++p<=ae) if (*p!=0) {z=0; break;}
@@ -214,7 +217,8 @@ action(a,b) short *a,*b;
   return(0);
 }
 
-setpinv()
+int 
+setpinv (void)
 { short i,j;
   for (i=0;i<prime;i++) pinv[i]=0;
   for (i=1;i<prime;i++) if (pinv[i]==0) for (j=1;j<prime;j++)

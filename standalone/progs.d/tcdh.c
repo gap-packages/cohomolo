@@ -7,5 +7,6 @@ int space=SPACE;
 int mpt=MPT,
       rel[SPACE],cosno[MPT+1],gno[105],inv[104],gch[128],*imcos[104];
 
-main()
+int 
+main (void)
 {  rs=0; if (tcprog()== -1) exit(1); exit(0);}

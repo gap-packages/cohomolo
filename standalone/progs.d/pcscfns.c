@@ -9,7 +9,8 @@ extern short npt,nb,npt1,exp,prime,pinv[],cp[],power[],wt[],base[],
    Then we have g(i)=h(i)^x * k, with k in P(i-1), and the exponent x is
    stored as power[i].
 */
-firstgen(p,hg,co) short *p,*hg,*co;
+int 
+firstgen (short *p, short *hg, short *co)
 /* Let the perm p be  g(i)^t * k with k in H(i-1). This procedure computes i
    and t, and returns them as *hg and *co.
 */
@@ -25,7 +26,8 @@ firstgen(p,hg,co) short *p,*hg,*co;
   (*co) %= prime;
 }
 
-express(p,relc,nwt) short *p,*relc,nwt;
+int 
+express (short *p, short *relc, int nwt)
 /* This computes the full PCP expression for the perm p, and puts as a gen-pow
    string in rel, preceded by its length. If weights are involved, then nwt is
    the weight of p at this point. Otherwise nwt=0.
@@ -49,7 +51,8 @@ express(p,relc,nwt) short *p,*relc,nwt;
   return(0);
 }
 
-setpinv()
+int 
+setpinv (void)
 { short i,j;
   for (i=0;i<prime;i++) pinv[i]=0;
   for (i=1;i<prime;i++) if (pinv[i]==0) for (j=1;j<prime;j++)

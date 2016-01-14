@@ -12,7 +12,8 @@ char  norm;
 short npt,npt1,nb,exp,prime,hgen,coeff,intexp,nwt,stig,*itp,ngads,mxp;
 FILE *fopen(),*ip,*ipcr,*ipkp,*op,*opy;
 
-scprog()
+int 
+scprog (void)
 { short i,j,k,l,m,n,stconj,np,pm1,ncr,crct,ndc,dcct,
         lo,intexsk,stpt,lpt,stint,olen,pt,ad,*p1,*ip1,*p2,*ip2,
         *pint,*ptr,*g,*ig,ino,olo,**vsvptr;
@@ -269,7 +270,8 @@ outconj:
   return(0);
 }
 
-rsgp()
+int 
+rsgp (void)
 /* Used to read in intermediate subgroups when subgp is true */
 { short i,np,k,l,n,*ptr;
   if ((ip=fopen(inf3,"r"))==0)
@@ -291,7 +293,8 @@ rsgp()
   return(0);
 }
 
-expint(i,j,nwt) short i,j,nwt;
+int 
+expint (int i, int j, int nwt)
 /* This plays the same role for Q as express in pcscfns.c plays for P */
 { short l,m,n,ino,pt,p,*g,*ig;  char diff;
   l=1;

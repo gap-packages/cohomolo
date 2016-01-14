@@ -18,7 +18,8 @@ FILE *fopen(),*ip,*op;
    corresponds to cp.
 */
 
-sylprog()
+int 
+sylprog (void)
 { char nontriv,bt,seek,b,incadno;
   short i,j,k,l,m,n,lnt,fnt,mxp,mnb,mexp,nperms,nb,ct,np2,bno,stp,
         lexp,*z,*itp,*ap,*sva;
@@ -219,14 +220,16 @@ sylprog()
   return(0);
 }
 
-ppower(x) short x;
+int 
+ppower (int x)
 /* This tests whether x is a power of p */
 { while (x!=1)
   { if (x%p==0) x /=p; else return(0); }
   return(1);
 }
 
-deforbperm()
+int 
+deforbperm (void)
 /* This tests whether the fact that tp sends cb (=base[adno]) to im
    contradicts permutation of the orbits. If so then ok is set false.
 */

@@ -18,7 +18,8 @@ char inf[80],outf[80],temp[80],temp2[80],mspace[SPACE],*vec[MV],**mat[MM],
 short svec[MDIM+1],mdim=MDIM,mv=MV,mm=MM,mpr=MPR,msl=MSL;
 int space=SPACE;
 
-main(argc,argv) int argc; char *argv[];
+int 
+main (int argc, char *argv[])
 { char arg,err,c;
   opt=0; intop=0; full=0; aut=0; err=0; arg=1;
   if (argc<=arg) {err=1; goto error;}

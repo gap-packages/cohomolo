@@ -23,7 +23,8 @@ short  perm[PSP],sv[SVSP],cp[2*NPT],fpt[MEXP],orb[NPT+1],intpow[MP],
        mp=MP,mpt=NPT,mb=MB,mexp=MEXP;
 int psp=PSP,svsp=SVSP;
 
-main(argc,argv)  int argc;  char *argv[];
+int 
+main (int argc, char *argv[])
 { short arg;  char c,err,ondef;
   err=0; arg=1; subgp=0; mult=0; if (argc<=arg) {err=1; goto error;}
   while (argv[arg][0]=='-')

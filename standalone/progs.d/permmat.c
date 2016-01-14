@@ -3,7 +3,8 @@ char inf[80],outf[80];
 /* Defaults inf=gpname.inperm, outf=gpname.inmat */
 FILE *fopen(),*ip,*op;
 
-main(argc,argv) int argc; char *argv[];
+int 
+main (int argc, char *argv[])
 { short npt,np,i,j,n,im,im1,im2,start,arg,prime,dim,const1,opn;
   char upper,lower,heart,err,c;
   arg=1; err=0; upper=0; lower=0; heart=0;
@@ -60,4 +61,5 @@ error:  if (err)
   exit(0);
 }
 
-seeknln() { while (getc(ip)!='\n'); }
+int 
+seeknln (void) { while (getc(ip)!='\n'); }

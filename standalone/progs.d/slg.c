@@ -2,7 +2,8 @@
 # define MP  100
 FILE *fopen(),*ip,*op;
 
-main(argc,argv) int argc; char *argv[];
+int 
+main (int argc, char *argv[])
 { short npt,nb,np,i,j,k,ppt,base,npop,pn,arg;
   char err,wt,inf[80],outf[80],pno[MP];
   err=0; wt=0; npop=0;  arg=1;
@@ -53,5 +54,6 @@ error:
   else exit(0);
 }
 
-seeknln()
+int 
+seeknln (void)
 { int c; while ((c=getc(ip))!='\n'); }

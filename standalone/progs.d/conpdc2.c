@@ -13,7 +13,8 @@ extern FILE *fopen(),*ip,*op;
    as permutations on the left cosets of H. This is used to compute double
    coset reps if required.
 */
-cnprg2()
+int 
+cnprg2 (void)
 { int i,j,k,l,m,n,ncp,pno,mexh,lorb,ndcr,nntb,*orb,rep,*q,**p,**conp,
         *len,*orbptr,*cperm,flct,inch;
   char ngth,fuse; int c;

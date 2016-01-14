@@ -19,7 +19,8 @@ FILE *fopen(),*ip,*op;
    corresponds to cp.
 */
 
-sylprog(x) short x;
+int 
+sylprog (int x)
 /* x!=0 means that a subgroup of the sylp-group has already been computed, and
    is stored in inf2. The search should now start at bno=abs(x). sylnorm always
    returns the current bno, if it exits in order to compute the normalizer. It
@@ -344,7 +345,8 @@ exit:
   return(bno);
 }
 
-deforbp()
+int 
+deforbp (void)
 /* This tests whether the fact that tp sends cb (=gbase[adno]) to im
    contradicts permutation of the orbits. If so then ok is set false.
 */
@@ -364,7 +366,8 @@ deforbp()
   if (ok) tp[cb]=im;
 }
 
-ranelt()
+int 
+ranelt (void)
 /* finds random element of group */
 { short i,k,l;
   printf("Calling ranelt.\n");
@@ -381,7 +384,8 @@ ranelt()
   for (i=1;i<=npt;i++) { tp[i]=expimage(i); itp[i]=0;}
 }
 
-findord(p,ip) short *p,*ip;
+int 
+findord (short *p, short *ip)
 /* Computes order of perm and places its inverse in ip */
 { short ord,i,j,k,l;
   ord=1;
@@ -394,14 +398,16 @@ findord(p,ip) short *p,*ip;
   return(ord);
 }
 
-lcm(x,y) short x,y;
+int 
+lcm (int x, int y)
 { short a,b,c;
   a=x; b=y;
   while ((c=a%b)!=0) {a=b; b=c;}
   return(x*y/b);
 }
 
-fndelt()
+int 
+fndelt (void)
 { short i,k,l;
   (*pno)++; pno[*pno]=np2+1; k=lorbdef[bno];
   l=orbitsv(gbase[bno],svhptr[bno],k);

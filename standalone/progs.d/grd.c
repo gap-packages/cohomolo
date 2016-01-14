@@ -24,7 +24,8 @@ short  perm[PSP],sv[SVSP],cp[5*NPT],orb[NPT+1],
        dnwds=DNWDS,mpt=NPT,mb=MB;
 int    psp=PSP,space=SPACE,svsp=SVSP;
 
-main(argc,argv)  int argc;  char *argv[];
+int 
+main (int argc, char *argv[])
 { short arg;  char c,err;
   err=0; firstnew=0; arg=1; gap=0;
   if (argc<=arg) {err=1; goto error;}

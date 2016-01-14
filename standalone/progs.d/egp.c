@@ -6,7 +6,8 @@ extern short perm[], sv2[],cp[],orb[],base[],
 short npt;
 FILE *fopen(),*ip,*op;
 
-egprog()
+int 
+egprog (void)
 { short nperms,ngens,nb,stab,olfb,nlfb,i,l,m,z,ct;
   if (full)
   { if ((ip=fopen(inf2,"r"))==0)

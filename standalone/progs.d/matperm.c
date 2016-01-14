@@ -14,7 +14,8 @@ short prime,dim,*spv,**spm,nmat,ordim,npt,*fptr,*nfptr,**sp,**imsp,*endsp,
 char   orvec;
 FILE *fopen(),*ip,*op;
 
-main(argc,argv)  int argc;  char *argv[];
+int 
+main (int argc, char *argv[])
 { short nm,nv,i,j,pt,perm,*p1,*p2,*q1,arg;
   char inf[80],outf[80],err; int x;
 /* Defaults: inf=gpname.inmat  outf=gpname.inperm  */
@@ -90,7 +91,8 @@ error:
   exit(0);
 }
 
-encode()
+int 
+encode (void)
 { short i,*p1,*p2,*q;  char c;
   nfptr=fptr;
   for (i=1;i<=ordim;i++)
@@ -102,7 +104,8 @@ encode()
   }
 }
 
-decode(n) short n;
+int 
+decode (int n)
 { short i,*p1,*p2,*ptr,*q;  char  c;
   ptr=spptr[n];
   for (i=1;i<=ordim;i++)
@@ -112,7 +115,8 @@ decode(n) short n;
   }
 }
 
-normalize()
+int 
+normalize (void)
 { short rst,i,j,k,fac,*p1,*p2,*q1;
   int n;
   rst=1;
@@ -130,7 +134,8 @@ normalize()
   }
 }
 
-setpinv()
+int 
+setpinv (void)
 { int i,j;
   for (i=0;i<prime;i++) pinv[i]=0;
   for (i=1;i<prime;i++) if (pinv[i]==0) for (j=1;j<prime;j++)

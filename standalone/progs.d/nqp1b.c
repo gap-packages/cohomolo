@@ -41,7 +41,8 @@ FILE *fopen(),*ip,*ipm,*op;
    M2a and M2b, as described in Info.5. These are also stored at the back of rel
 */
 
-nqprog()
+int 
+nqprog (void)
 { int i,c,**p,**q,*r,ct,oexp; char adn;
   if (cfm)
 /* Calculate Frattini module only  */
@@ -162,7 +163,8 @@ nqprog()
   return(0);
 }
 
-rdmats()
+int 
+rdmats (void)
 /* reads matrices of generators of P  and set up matrix pointers.*/
 { int i;
   int quot;
@@ -195,7 +197,8 @@ rdmats()
   return(0);
 }
 
-intmats()
+int 
+intmats (void)
 /* When act=1, reads in gens for the action, computes their matrices,
    and makes a base change for this action if necesary.
 */
@@ -265,7 +268,8 @@ retry:
   return(0);
 }
 
-calcfm(steps) int steps;
+int 
+calcfm (int steps)
 /* Computes the Frattini extension to depth steps. steps=0 computes complete
    Frattini extension, but this is only used for testing.
    At each stage, the NQA is applied to the group computed so far.

@@ -12,7 +12,8 @@ short perm[(MXP-1)*(NPT+1)], sv2[(MNB-1)*NPT],cp[1],orb[NPT+1],base[MNB],
       lorb[MNB],fixpt[MNB+1],fixb[MXP],pno[MXP],*pptr[MXP],*svptr[MNB],
       mnpt=NPT,mp=MXP-1,mb=MNB-1;
 
-main(argc,argv)  int argc;  char *argv[];
+int 
+main (int argc, char *argv[])
 { short arg;  char err,c;
   stabcall=err=0; arg=1; full=0; if (argc<=arg) {err=1; goto error;}
   while (argv[arg][0]=='-')

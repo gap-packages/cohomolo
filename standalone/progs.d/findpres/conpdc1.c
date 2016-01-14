@@ -21,39 +21,46 @@ FILE *fopen(),*ip,*op,*opx;
    In this half of the program, coset reps of H in G are computed.
 */
 
-image(pt) int pt;
+int 
+image (int pt)
 { int **p;
   p=lcp;
   while (p<=ucp) {pt=(*p)[pt]; p++;}
   return(pt);
 }
 
-addsvb(pt,sv) int pt,**sv;
+int 
+addsvb (int pt, int **sv)
 { int *p;
   while ((p=sv[pt])!=stop) {pt=p[pt]; lcp--; *lcp =p-npt; }
 }
 
-addsvf(pt,sv) int pt,**sv;
+int 
+addsvf (int pt, int **sv)
 { int *p;
   while ((p=sv[pt])!=stop) {pt=p[pt]; ucp++; *ucp=p; }
 }
 
-invert(a,b) int *a,*b;
+int 
+invert (int *a, int *b)
 {int i; for (i=1;i<=npt;i++) b[a[i]]=i; }
 
-rdperm(a,b) int *a,*b;
+int 
+rdperm (int *a, int *b)
 { int i,*r;
   for (i=1;i<=npt;i++) fscanf(ip,"%d",a+i);
   r=pst+1; fscanf(ip,"%d",r); invert(a,b);
 }
 
-rdsv(sv) int **sv;
+int 
+rdsv (int **sv)
 { int i,j;
   for (i=1;i<=npt;i++)
   { fscanf(ip,"%d",&j); sv[i]= (j==0) ? 0 : (j== -1) ? stop : cp[j];}
 }
 
-cnprg1()
+int 
+cnprg1 (void)
 { int i,j,k,ad,sad,nph,*svpt,*p1,*p2,**csvg,**csvh,nexp;
   char pthere,w,ok,allok;  long fac;
   stop = &dummy;
@@ -222,7 +229,8 @@ nextbno:
   return(0);
 }
 
-advance()
+int 
+advance (void)
 /* This advances the element h in the search through elements gh */
 { int ad,k,*p,*q;
   ad=lnt;

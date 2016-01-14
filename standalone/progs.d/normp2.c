@@ -20,9 +20,11 @@ char  fail,bt,biggersylp,type[14];
 
 extern FILE *fopen(),*ip,*op;
 
-err()  { fprintf(stderr,"Out of space. Increase PSP (or MP).\n");}
+int 
+err (void)  { fprintf(stderr,"Out of space. Increase PSP (or MP).\n");}
 
-clrop()
+int 
+clrop (void)
 /* Clears and updates orbit permutation info */
 { short i,j,k,l;
   for (i=1;i<=nhorbs;i++)
@@ -36,7 +38,8 @@ clrop()
   return(0);
 }
 
-bind(pno) short pno;
+int 
+bind (int pno)
 /* Adds a permutation in H or a newly found one in N (=N(H)) to those
    generating the orbit of gbase[gskno]. These orbit points need not be
    considered as images of new elements.
@@ -51,7 +54,8 @@ bind(pno) short pno;
   }
 }
 
-setskno()
+int 
+setskno (void)
 /* Preliminary processing done for a new value of gskno. */
 { short i,j,k,n,*p;
 /* if reg[adno]>0, we need not consider this as gskno */
@@ -101,7 +105,8 @@ setskno()
   return(0);
 }
 
-found()
+int 
+found (void)
 /* Processing required on finding a new generator of N. */
 { short i,j,k,*ptr,olo;
   *pno=0;
@@ -131,7 +136,8 @@ found()
   return(0);
 }
 
-deforbperm(bpt,imbpt)  short bpt,imbpt;
+int 
+deforbperm (int bpt, int imbpt)
 /* Update orbit permutation information using fact that tp[bpt]=imbpt. */
 { short i,x,y,z;
   for (i=1;fail==0 && i<=orhct;i++)
@@ -146,7 +152,8 @@ deforbperm(bpt,imbpt)  short bpt,imbpt;
   }
 }
 
-nprg2()
+int 
+nprg2 (void)
 { short nbn,i,j,k,l,m,n,bpt,imbpt,ct,endo,*ptr;
   char hornt,complete,advance,bt,orhad;
   int quot;

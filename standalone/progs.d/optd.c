@@ -18,7 +18,8 @@ short  perm[PSP],sv[SVSP],cp[10*NPT],actgen[MP],orb[NPT+1],
        mp=MP,mb=MB-1;
 int psp=PSP,svsp=SVSP;
 
-main(argc,argv)  int argc;  char *argv[];
+int 
+main (int argc, char *argv[])
 { short arg;  char c,d,err;
   check=err=words=heqg=0; arg=1; if (argc<=arg) {err=1; goto error;}
   while ((c=argv[arg][0])=='-')

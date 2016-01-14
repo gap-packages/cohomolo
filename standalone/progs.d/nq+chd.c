@@ -11,7 +11,8 @@ short mv=MV,mm=MM,mdim=MDIM,mpr=MPR,prime,dim,*spv,**spm,ngens,
 char  inf1[80],inf2[80];
 FILE *fopen(),*ip;
 
-main(argc,argv) int argc; char *argv[];
+int 
+main (int argc, char *argv[])
 { short arg; char err;
   err=0; arg=1; opmats=0;
   if (argc<=arg) {err=1; goto error;}

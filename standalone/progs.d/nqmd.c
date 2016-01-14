@@ -26,7 +26,8 @@ short  mng=MNG-1,mexp=MEXP-1,wksp=WKSP,
        spugen[MEXP],*intg[MEXP],*imintg[MEXP],*tlintg[MEXP];
 int    rsp=RSP,ptrsp=PTRSP;
 
-main(argc,argv)  int argc;  char *argv[];
+int 
+main (int argc, char *argv[])
 { short arg,i,j,k,*pb,*pc,*pe;  char err,c,d;
   ims=0; act=0; crel=0; gap=0; err=0; arg=1;
   if (argc<=arg) {err=1; goto error;}

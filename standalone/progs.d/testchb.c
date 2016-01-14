@@ -12,7 +12,8 @@ short  npt,nf,perm[PSP],sv[SVSP],cp[5*NPT],orb[NPT+1],base[MB],lorb[MB],
 int    psp=PSP,svsp=SVSP;
 FILE  *fopen(),*ip,*op;
 
-main(argc,argv)  int argc;  char *argv[];
+int 
+main (int argc, char *argv[])
 { short i,j,k,nperms,nb,st,pt,pos,mxp,mnb,arg;  char err,inf[80],outf[80];
   int quot;
 /* Defaults: inf  gpname.sg

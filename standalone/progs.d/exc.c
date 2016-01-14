@@ -8,7 +8,8 @@ extern short **simcos[],pinv[],gno[],base[],lorb[],*svptr[],cord[],cp[],bno,
        invg[],**mat[],mwl2,mwdl,mlwdl,maxcos,dim,prime,*spv,**spm,ng,rwl,nb;
 extern FILE *fopen(),*ip,*op;
 
-gc()
+int 
+gc (void)
 /* Garbage collection of coefficients by writing and rereading */
 { short i,j;  short l,*p,*q;
   op=fopen(outft,"w");
@@ -31,7 +32,8 @@ gc()
   return(0);
 }
 
-comp(a,dp) short **dp,*a;
+int 
+comp (short *a, short **dp)
 /* Compress string + vector in "a" into string in *dp
    Vectors always occupy the last dim entries of words.
 */
@@ -54,7 +56,8 @@ comp(a,dp) short **dp,*a;
   return(0);
 }
 
-compb(a,dp) short **dp,*a;
+int 
+compb (short *a, short **dp)
 /* Similar, but rewrites word at end of short space */
 { short *a1,nl,nl2,*p,*q,*r,*ae;
   a1=a+mwdl; ae=a1+dim; p=a1; nl2=0;
@@ -73,7 +76,8 @@ compb(a,dp) short **dp,*a;
   return(0);
 }
 
-expand(a,b) short *a,*b;
+int 
+expand (short *a, short *b)
 /* expand string b to string + vector a */
 { short *a1,*ae,*p,*q,*r;
   a1=a+mwdl; ae=a1+dim; p=a1;
@@ -86,7 +90,8 @@ expand(a,b) short *a,*b;
   return(0);
 }
 
-action(a,b) short *a,*b;
+int 
+action (short *a, short *b)
 /* Replace vector a by its image under action by matrices of gens in word b
 */
 { short z,*be,c,*p,*ae; short *spve,*s,*v;
@@ -108,7 +113,8 @@ action(a,b) short *a,*b;
   return(0);
 }
 
-concat(a,b) short *a,*b;
+int 
+concat (short *a, short *b)
 /* Concatenate strings+vectors "a" and "b" */
 { short *a1,*bb,*be,c,*p,*q,*r,canct,min;
   if (b==0) return(0);
@@ -129,7 +135,8 @@ concat(a,b) short *a,*b;
   return(0);
 }
 
-concatl(b) short *b;
+int 
+concatl (short *b)
 /* Similar, but concatenate b to the long word rwd */
 { short *a1,*bb,*be,c,*p,*q,*r,canct,min;
   if (b==0) return(0);
@@ -151,7 +158,8 @@ concatl(b) short *b;
   return(0);
 }
 
-invwd(a,b) short *a,*b;
+int 
+invwd (short *a, short *b)
 /* Invert the word+vector a into b */
 { short *a1,*b1,*be,*p,*q;
   a1=a+mwdl; p=a1; b1=b+mwdl; be=b1+dim; q=b1;
@@ -165,7 +173,8 @@ invwd(a,b) short *a,*b;
   return(0);
 }
 
-ainvb(a,b,c) short *a,*b,*c;
+int 
+ainvb (short *a, short *b, short *c)
 /* Concatenate word+vector "a" with inverse of word+vector "b" and write into c
 */
 { short min,canct,n,*p,*q,*r,*c1,*ce,*a1;
@@ -194,7 +203,8 @@ ainvb(a,b,c) short *a,*b,*c;
   return(0);
 }
 
-reduce(a) short *a;
+int 
+reduce (short *a)
 /* Attempt to reduce length of word+vector "a", using coefficients computed
    from higher values of bno
 */
@@ -238,7 +248,8 @@ reduce(a) short *a;
   return(0);
 }
 
-concheck()
+int 
+concheck (void)
 /* Consistency check */
 { short *p,*q,ok;
   if (ainvb(wd1,wd2,wd3)== -1) return(-1);
@@ -253,7 +264,8 @@ concheck()
   return(0);
 }
 
-setpinv()
+int 
+setpinv (void)
 { short i,j;
   for (i=0;i<prime;i++) pinv[i]=0;
   for (i=1;i<prime;i++) if (pinv[i]==0) for (j=1;j<prime;j++)

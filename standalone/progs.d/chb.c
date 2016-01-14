@@ -3,7 +3,8 @@ extern short  npt,nf,cp[],orb[], pno[],fp[],tsv1[],tsv2[],tsv3[],orep[],
        *pptr[],mb;
 short cpno;
 
-addperm()
+int 
+addperm (void)
 /* This computes the perm cp as perm no cpno, and adds it to the list pno.
    Externals: nf,cpno,fp,pno,pptr.
 */
@@ -15,8 +16,8 @@ addperm()
   return(0);
 }
 
-intbase(pt,pos,stad,nbad,b,lorb,svptr) short pt,pos,*stad,*nbad,
-        *b,*lorb,**svptr;
+int 
+intbase (int pt, int pos, short *stad, short *nbad, short *b, short *lorb, short **svptr)
 /* This changes base no pos to pt (unless it is already an earlier base point.
    b is the base, lorb, svptr as usual. nbad is tha address of nb (no of
    base points). It is assumed that the perm nos are linked by the extern

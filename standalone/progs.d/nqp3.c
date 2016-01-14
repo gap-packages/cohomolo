@@ -5,7 +5,8 @@ extern short facexp,prime,exp,*rpf,*rpb,*eexpnt,**pcb,
        *wf,*wc,**extno,**subno,chsdim,chpdim,gap;
 extern FILE *fopen(),*ip,*op;
 
-comprels()
+int 
+comprels (void)
 /* Used when crel is true to compute values of relators of P in the chosen
    stable extension of M by P.
 */

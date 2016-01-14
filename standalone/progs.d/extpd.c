@@ -28,7 +28,8 @@ short perm[PSP],sv[SVSP],orb[NPT+1],imsp[SPACE],*ptsp[PTRSP],**simcos[MB],
       mp=MP,cdptrsp=CDPTRSP,ptrsp=PTRSP,mm=MM,msp=MSP,mv=MV,
       mwdl=MWDL,mlwdl=MLWDL,mpr=MPR,mpt=NPT,mb=MB-1,mdim=MDIM-1,mwl2=MWL2;
 
-main (argc,argv) int argc; char *argv[];
+int 
+main (int argc, char *argv[])
 { short arg; char err;
   mult=0; err=0; arg=1; if (argc<=arg) {err=1; goto error;}
   if (argv[arg][0]=='-')

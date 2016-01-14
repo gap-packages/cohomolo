@@ -8,19 +8,24 @@ char fullsc,clsd,lkah;
 FILE *fopen(),*op;
 /* All comments as for tcp.c */
 
-inperr(s,n) char *s; int n;
+int 
+inperr (char *s, int n)
 { fprintf(stderr,"Input error in %s no %d\n",s,n); }
 
-digit(j) char j;
+int 
+digit (int j)
 { if (j>='0' && j<='9') return(1); else return(0); }
 
-letter(j) char j;
+int 
+letter (int j)
 { if ((j>='a' && j<='z') || (j>='A' && j<='Z')) return(1); else return(0);}
 
-seeknln()
+int 
+seeknln (void)
 { while (getchar()!='\n'); }
 
-readrel(s,no) char s; int no;
+int 
+readrel (int s, int no)
 { int stbr,endbr,exp,l,m,n; char ch;
   char gotg,br,clbr,emptybr,name[10];
   if (s) strcpy(name,"relation"); else strcpy(name,"subgen");
@@ -75,7 +80,8 @@ readrel(s,no) char s; int no;
   return(0);
 }
 
-tcprog()
+int 
+tcprog (void)
 { int i,j,k,ch,*p;   char fname[80];
   printf("Todd-Coxeter Coset Enumeration Algorithm. (HLT + Lookahead).\n\n");
   printf("    Total space for relations and coset table = %d.\n",space);
@@ -208,7 +214,8 @@ tcprog()
   return(0);
 }
 
-scanrel()
+int 
+scanrel (void)
 { int i,j,k,l,m; char comp;
   fullsc=1; stcr=endcr+2; endcr+=(1+rel[stcr-1]);
   fcos=ccos; bcos=ccos; comp=1;
@@ -242,7 +249,8 @@ scanrel()
   return(0);
 }
 
-coinc(c1,c2)  int c1,c2;
+int 
+coinc (int c1, int c2)
 { int lc,hc,qh,qt,i,j,x,fhc,bhc,lim,him;
   if (c1<c2) { lc=c1; hc=c2; }
   else { lc=c2; hc=c1; }

@@ -9,7 +9,8 @@ extern short facexp,prime,exp,depth,*rpf,*rpb,*eexpnt,*enexpnt,**pcb,
 extern int ptrsp,wsp;
 FILE *fopen(),*ip,*ips,*op;
 
-comprels()
+int 
+comprels (void)
 /* Used when crel is true to compute values of relators of P in the chosen
    stable extension of M by P.
 */
@@ -119,7 +120,8 @@ comprels()
   return(0);
 }
 
-subact()
+int 
+subact (void)
 { short substeps,subexp,*orpf,*commno,**commer,**comm,**subg,**pcp,subdp,
   subdp0,ncommer,ncomm,commst,commlim,i,j,k,l,m,n,*ptr,*ptrlim,*ptre,*ptr2;
   char subfile[3],infc[80],str[2];

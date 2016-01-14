@@ -11,7 +11,8 @@ extern int rsp,wsp,ptrsp,marg;
 short  fac;
 extern FILE *fopen(),*ip,*op;
 
-ingp(inp) char inp;
+int 
+ingp (int inp)
 /* Input a group with pcp. Normally inp=1, and file inf1 is opened inside
    procedure. inp=0 when file is already open - i.e. when act=1, and pcp is
    the output from scrun.
@@ -141,7 +142,8 @@ ingp(inp) char inp;
   return(0);
 }
 
-outgp()
+int 
+outgp (void)
 /* A group is output to outf1 */
 { int i,k,l,sum,nexp,jump; short **pcp,*b,*c,*e,*f,**pcpj;
   char jtl;
@@ -200,10 +202,12 @@ outgp()
   return(0);
 }
 
-zero(p1,p2) short *p1,*p2;
+int 
+zero (short *p1, short *p2)
 { while ((++p1)<=p2) *p1=0; }
 
-setnr(p)  short *p;
+int 
+setnr (short *p)
 /* Really a subprocedure of collect. Adjusts nexpnt by fac times string p. */
 { short *p1,*p2;
   p1=p+ *p;
@@ -211,7 +215,8 @@ setnr(p)  short *p;
   { p2=nexpnt+ *p; *p2+= (fac* *(++p)); *p2%=prime; }
 }
 
-collect(spc,spf,sgn)  short *spc,*spf,sgn;
+int 
+collect (short *spc, short *spf, int sgn)
 /* The basic collection routine. Taken basically from Canberra NQA.
    There are several complications.
    1) The basic word is collected into an exponent vector expnt[1-exp],
@@ -431,14 +436,16 @@ powdone:
   }
 }
 
-setpinv()
+int 
+setpinv (void)
 { short i,j;
   for (i=0;i<prime;i++) pinv[i]=0;
   for (i=1;i<prime;i++) if (pinv[i]==0) for (j=1;j<prime;j++)
   if (i*j % prime ==1) { pinv[i]=j; pinv[j]=i; break; }
 }
 
-intgen(i,j) short i,j;
+int 
+intgen (int i, int j)
 /* A new generator is introduced for commutator [i,j] or (if i=j) i^p */
 { short **dp,*p,*nrpb; int sum;
   dp= (stage) ? comptr[i]+j : (i==j) ? powptr[i] : comptr[i]+2*j;
@@ -470,7 +477,8 @@ intgen(i,j) short i,j;
   return(0);
 }
 
-subrel(i,j) short i,j;
+int 
+subrel (int i, int j)
 /* Value of [i,j] or i^p is computed using an associativity condition. */
 { short **dp,*p,*nrpb; int x,y,z;
   dp= (stage) ? comptr[i]+j : (i==j) ? powptr[i] : comptr[i]+2*j;
@@ -493,7 +501,8 @@ subrel(i,j) short i,j;
   return(0);
 }
 
-assoc(g1,g2,g3)  short g1,g2,g3;
+int 
+assoc (int g1, int g2, int g3)
 /* Associativity relation is collected. */
 { char eq12,eq23,prnt,triv; short *p; int i,l,e,sum;
   sum= stage ? exp+dim: exp;
@@ -525,7 +534,8 @@ assoc(g1,g2,g3)  short g1,g2,g3;
   else return(1);
 }
 
-prnrel()
+int 
+prnrel (void)
 /* The new relation in nexpnt is processed, and a new generator eliminated
    or made redundant if necessary.
 */
@@ -621,7 +631,8 @@ prnrel()
   return(1);
 }
 
-bgc()
+int 
+bgc (void)
 /* Garbage collection by outputting to a temporary file and reading in again 
    Occurs after wasted space accumulates from eleiemnating generators.
 */

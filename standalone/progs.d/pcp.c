@@ -9,7 +9,8 @@ extern int psp,svsp;
 short npt,np,npt1,nb,exp,prime;
 FILE *fopen(),*ip,*op;
 
-resetsv()
+int 
+resetsv (void)
 /* This recomputes the Schreier vectors, after a change of generators */
 { short i,j,lo,bno,b;
   for (bno=1;bno<=nb;bno++) if (lorb[bno]>1)
@@ -24,13 +25,15 @@ resetsv()
   return(0);
 }
 
-setfixb(p) short *p;
+int 
+setfixb (short *p)
 { short bno; bno=1;
   while (bno<=nb && p[base[bno]]==base[bno]) bno++;
   p[npt1]=bno;
 }
 
-pcprog()
+int 
+pcprog (void)
 { short i,j,k,l,m,n,mxp,ngads,pairs,class,hgen,coeff,nf,nf1,nf2,pt,*pk,
         *pnf,*pnf1,*pnf2,*ipnf,*ipnf1,*p1,*p2,*ip1,*ip2,nwt;
   int quot;

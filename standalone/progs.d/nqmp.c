@@ -29,7 +29,8 @@ FILE *fopen(),*ip,*op;
    the ends of these vectors.
    Details of file formats are in Info.5
 */
-nqmprog()
+int 
+nqmprog (void)
 { short i,j,k,l,m,d,*gi,*gj,*ti,*tj,cl,def,*ps,*pf,**dp,*nrpb,*p,*orpf,*orpb,
         nb,np,k1,*rno,*covrel,**pgen,tdef,sgn;
   char nt;
@@ -277,7 +278,8 @@ nextcl:;
   return(0);
 }
 
-enter(g,pow,t)  short *g,pow,*t;
+int 
+enter (short *g, int pow, short *t)
 /* This enters a power of the gen-pow string pointed to by g into the word
    which we are building up for collection.
 */

@@ -46,7 +46,8 @@ int    rsp=RSP,msp=MSP,ptrsp=PTRSP,wsp,marg=MARG;
     outfd = output of dimension of cohomolgy group for GAP
 */
 
-main(argc,argv)  int argc;  char *argv[];
+int 
+main (int argc, char *argv[])
 { int arg,n; char err;
   act=0; ch1=0; cfm=0; err=0; arg=1; crel=0; gap=0;
   if (argc<=arg) {err=1; goto error;}
