@@ -1,6 +1,6 @@
 name: cohomolo
-version: 1.6.1
-date: 14/01/2016
+version: 1.6.2
+date: 15/01/2016
 description: Cohomology groups of finite groups on finite modules
 
 authors:
@@ -8,8 +8,10 @@ authors:
       url: http://homepages.warwick.ac.uk/staff/D.F.Holt/
 
 maintainers:
-    - name: Derek Holt
-      url: http://homepages.warwick.ac.uk/staff/D.F.Holt/
+    - name: Max Horn
+      url: http://www.quendi.de/math
+    - name: Markus Pfeiffer
+      url: http://www.morphism.de/~markusp
 
 GAP: ">=4.7"
 
@@ -19,7 +21,7 @@ packageinfo: https://gap-packages.github.io/cohomolo/PackageInfo.g
 
 downloads:
     - name: .tar.gz
-      url: https://github.com/gap-packages/cohomolo/releases/download/v1.6.1/cohomolo-1.6.1.tar.gz
+      url: https://github.com/gap-packages/cohomolo/releases/download/v1.6.2/cohomolo-1.6.2.tar.gz
 
 abstract: The <span class="pkgname">cohomolo</span> package is a       <span class="pkgname">GAP</span> interface to some `C' programs   for computing Schur multipliers and covering groups of finite groups   and first and second cohomology groups of finite groups acting   on finite modules
 
