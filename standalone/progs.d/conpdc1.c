@@ -71,6 +71,14 @@ int cnprg1 (void)
   for (i=1;i<=nb;i++) fscanf(ip,"%d",base+i);
   for (i=1;i<=nb;i++) fscanf(ip,"%d",lorbg+i);
   pst=perm-1; pend=perm+psp-1;
+#ifdef __clang__
+    /* workaround for a bug in Apple LLVM version 7.0.2 (clang-700.1.81),
+      and possibly other versions. See also
+      https://github.com/gap-packages/cohomolo/issues/5
+    */
+    if (psp < 0) /* never should happen */
+        fprintf(stderr, "%d", psp);
+#endif
   if (pst+2*npg*npt>pend)
   { fprintf(stderr,"Out of space.Increase PSP.\n"); return(-1);}
   for (i=1;i<=npg;i++)
