@@ -201,11 +201,12 @@ int cnprg1 (void)
             }
             if (dcr) for (i=fnt;i!= -1;i=fpt[i]) fprintf(opx,"%5d",*trad[i]);
 /* if cr, then we output each coset rep */
-            if (cr)
-            if (npt>=1000)
-            { for (i=1;i<=npt;i++) fprintf(op,"%5d",image(i));fprintf(op,"\n");}
-            else
-            { for (i=1;i<=npt;i++) fprintf(op,"%4d",image(i));fprintf(op,"\n");}
+            if (cr) {
+              if (npt>=1000)
+              { for (i=1;i<=npt;i++) fprintf(op,"%5d",image(i));fprintf(op,"\n");}
+              else
+              { for (i=1;i<=npt;i++) fprintf(op,"%4d",image(i));fprintf(op,"\n");}
+            }
             if (cind==ind) goto nextbno;
           } /* if (ok) */
           coind++;
