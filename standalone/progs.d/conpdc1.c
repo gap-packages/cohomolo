@@ -12,6 +12,8 @@ int npt,**lcp,**ucp,*stop,dummy,*pst,*pend,nb,fnt,lnt,
       ind,coind,oind,cind,bno,pt,**expp,npg;
 FILE *ip,*op,*opx;
 
+void advance (void);
+
 /* The data structures of this program differ from other permutation group
    programs. Permutations are not numbered, but are located by their base
    adresses. Consequently, arrays sv and cp are arrays of pointers. The
@@ -22,46 +24,39 @@ FILE *ip,*op,*opx;
    In this half of the program, coset reps of H in G are computed.
 */
 
-int 
-image (int pt)
+int image (int pt)
 { int **p;
   p=lcp;
   while (p<=ucp) {pt=(*p)[pt]; p++;}
   return(pt);
 }
 
-int 
-addsvb (int pt, int **sv)
+void addsvb (int pt, int **sv)
 { int *p;
   while ((p=sv[pt])!=stop) {pt=p[pt]; lcp--; *lcp =p-npt; }
 }
 
-int 
-addsvf (int pt, int **sv)
+void addsvf (int pt, int **sv)
 { int *p;
   while ((p=sv[pt])!=stop) {pt=p[pt]; ucp++; *ucp=p; }
 }
 
-int 
-invert (int *a, int *b)
+void invert (int *a, int *b)
 {int i; for (i=1;i<=npt;i++) b[a[i]]=i; }
 
-int 
-rdperm (int *a, int *b)
+void rdperm (int *a, int *b)
 { int i,*r;
   for (i=1;i<=npt;i++) fscanf(ip,"%d",a+i);
   r=pst+1; fscanf(ip,"%d",r); invert(a,b);
 }
 
-int 
-rdsv (int **sv)
+void rdsv (int **sv)
 { int i,j;
   for (i=1;i<=npt;i++)
   { fscanf(ip,"%d",&j); sv[i]= (j==0) ? 0 : (j== -1) ? stop : cp[j];}
 }
 
-int 
-cnprg1 (void)
+int cnprg1 (void)
 { int i,j,k,ad,sad,nph,*svpt,*p1,*p2,**csvg,**csvh,nexp;
   char pthere,w,ok,allok;  long fac;
   stop = &dummy;
@@ -230,8 +225,7 @@ nextbno:
   return(0);
 }
 
-int 
-advance (void)
+void advance (void)
 /* This advances the element h in the search through elements gh */
 { int ad,k,*p,*q;
   ad=lnt;
