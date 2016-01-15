@@ -172,18 +172,19 @@ int main (int argc, char *argv[])
           { fscanf(ip2,"%hd",order+k); if (order[k]!=0) l++;}
           if (l>1) { fprintf(op,"("); fprintf(stderr,"(");}
           for (k=1;k<=dim;k++)
-          { if ((n=order[k])!=0)
-            if (n==1)
-            { if (l==1)
-              { fprintf(op,"M[%d]-\n",k); fprintf(stderr,"M[%d]-\n",k);}
+          { if ((n=order[k])!=0) {
+              if (n==1)
+              { if (l==1)
+                { fprintf(op,"M[%d]-\n",k); fprintf(stderr,"M[%d]-\n",k);}
+                else
+                { fprintf(op,"M[%d]",k); fprintf(stderr,"M[%d]",k);}
+              }
               else
-              { fprintf(op,"M[%d]",k); fprintf(stderr,"M[%d]",k);}
-            }
-            else
-            { if (l==1) 
-              { fprintf(op,"M[%d]%d\n",k,-n); fprintf(stderr,"M[%d]%d\n",k,-n);}
-              else
-              { fprintf(op,"M[%d]%d",k,n); fprintf(stderr,"M[%d]%d",k,n);}
+              { if (l==1) 
+                { fprintf(op,"M[%d]%d\n",k,-n); fprintf(stderr,"M[%d]%d\n",k,-n);}
+                else
+                { fprintf(op,"M[%d]%d",k,n); fprintf(stderr,"M[%d]%d",k,n);}
+              }
             }
           } /* k loop */
           if (l>1) { fprintf(op,")-\n"); fprintf(stderr,")-\n");}
