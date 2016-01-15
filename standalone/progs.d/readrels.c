@@ -16,17 +16,19 @@ char gap,inf1[80],inf2[80],io[80],outf[80],genletter[MGENS];
 */
 FILE *ip,*ip2,*iop,*op;
 
-int inv (int n) { if (n%2==0) return(n+1); return(n-1);}
+static int readrel (int no);
 
-void inperr (int n) { fprintf(stderr,"Input error in relation no %d\n",n); }
+static int inv (int n) { if (n%2==0) return(n+1); return(n-1);}
 
-int digit (int j) { if (j>='0' && j<='9') return(1); else return(0); }
+static void inperr (int n) { fprintf(stderr,"Input error in relation no %d\n",n); }
 
-int letter (int j) { if ((j>='a' && j<='z') || (j>='A' && j<='Z')) return(1); else return(0);}
+static int digit (int j) { if (j>='0' && j<='9') return(1); else return(0); }
 
-void snl_ip (void) { while (getc(ip)!='\n'); }
+static int letter (int j) { if ((j>='a' && j<='z') || (j>='A' && j<='Z')) return(1); else return(0);}
 
-void snl_iop (void) { while (getc(iop)!='\n'); }
+static void snl_ip (void) { while (getc(ip)!='\n'); }
+
+static void snl_iop (void) { while (getc(iop)!='\n'); }
 
 int main (int argc, char *argv[])
 { short i,j,k,l,n,np,nb,ng,nsg,nr,ch,dim,ngext,nrext,rno,ct;
@@ -41,7 +43,7 @@ int main (int argc, char *argv[])
     arg++;
   }
   if (argc<=arg) {err=1; goto error;}
-  strcpy(inf1,argv[arg]); arg+++ strcat(inf1,"."); strcpy(io,inf1);
+  strcpy(inf1,argv[arg]); arg++; strcat(inf1,"."); strcpy(io,inf1);
   if (append==0)
   { if (gap) { strcpy(outf,inf1); strcat(outf,"rvals");}
     else { strcpy(outf,inf1); strcat(outf,"ext.tc");}

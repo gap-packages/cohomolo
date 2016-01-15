@@ -1,4 +1,5 @@
 #include "defs.h"
+#include "permfns.h"
 
 extern short npt,cp[],orb[],*pptr[],pno[];
 extern FILE *ip,*op;

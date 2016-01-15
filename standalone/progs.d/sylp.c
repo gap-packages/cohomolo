@@ -1,4 +1,5 @@
 #include "defs.h"
+#include "permfns.h"
 
 extern char inf[],outf[];
 extern short  mp,mxexp,mb,mnpt,

@@ -1,4 +1,5 @@
 #include <stdio.h>
+
 extern int npt,cp[],orb[],*pptr[],pno[];
 extern FILE *ip,*op;
 

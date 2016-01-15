@@ -1,4 +1,5 @@
 #include "defs.h"
+#include "permfns.h"
 
 # define SCP 100
 extern char heqg,words,fullg,check,outf[],inf1[],inf2[],inf3[],outf0[];

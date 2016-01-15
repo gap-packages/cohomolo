@@ -1,4 +1,5 @@
 #include "defs.h"
+#include "permfns.h"
 
 #define RD(A,B) (done[(B)/32][(A)]&(one<<((B)%32)))
 #define WD(A,B) done[(B)/32][(A)]|=(one<<((B)%32))

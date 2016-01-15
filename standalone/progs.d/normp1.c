@@ -1,4 +1,5 @@
 #include "defs.h"
+#include "permfns.h"
 
 extern char cent,sym,opt,hgst,nop,nonb[],inf1[],inf2[],inf3[],outf1[],
      outf2[];

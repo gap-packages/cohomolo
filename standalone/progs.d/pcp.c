@@ -1,4 +1,5 @@
 #include "defs.h"
+#include "permfns.h"
 
 extern char mult,conv,gens,inf1[],inf2[],outf1[],outf2[],outf3[],outf4[];
 extern short  perm[],sv[],cp[],fpt[],orb[],igno[],

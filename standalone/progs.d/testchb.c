@@ -1,4 +1,5 @@
 #include "defs.h"
+#include "permfns.h"
 
 # define  NPT   4000
 # define  MB      80

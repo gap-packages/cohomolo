@@ -1,4 +1,5 @@
 #include "defs.h"
+#include "permfns.h"
 
 extern char mult,subgp,sgc,sgstr[],inf0[],inf1[],inf2[],inf3[],inf4[],outf[],
        outft[];

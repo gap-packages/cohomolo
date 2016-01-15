@@ -1,4 +1,5 @@
 #include "defs.h"
+#include "permfns.h"
 
 extern short npt,pno[],expcp[],cp[],genorb[],*pptr[],*expptr[];
 
