@@ -1,3 +1,5 @@
+#include "defs.h"
+
 # define SPACE    6000000
 # define  MDIM      2000
 # define    MV      20000

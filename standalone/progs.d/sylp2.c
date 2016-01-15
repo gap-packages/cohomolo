@@ -1,4 +1,5 @@
-# include <stdio.h>
+#include "defs.h"
+
 extern char inf1[],inf2[],outf1[],chpar;
 extern short  mp,mexp,mb,mnpt,par1,par2,par3,par4,prime,
        perm[],sv[],cp[],orb[],space[],expcp[],lorbg[],lorbh[],
@@ -11,7 +12,7 @@ short npt,im,cb,adno,*tp,*itp,nb,bno,lexp,np2,
       *adpt,*lorbdef,*ntfpt,*ntbpt,*invbase,*facord,*orno,*lporb,
       *deft,*orbp,**gorb,bnoorno,opno,opct;
 char ok,bt;
-FILE *fopen(),*ip,*op;
+FILE *ip,*op;
 /* This program and normrun involve backtrack searches. These can be speeded up
    by storing the perms for each coset rep in the stabilizer chain, which can
    be computed using Schreier vectors. As many such perms as space allows are

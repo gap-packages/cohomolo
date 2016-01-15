@@ -1,4 +1,4 @@
-#include <stdio.h>
+#include "defs.h"
 
 extern char mult,outft[];
 extern short rwd[],***scoeff[],*cst,*cend,*ocst,***coeff,
@@ -6,7 +6,7 @@ extern short rwd[],***scoeff[],*cst,*cend,*ocst,***coeff,
 extern int rsp;
 extern short **simcos[],pinv[],gno[],base[],lorb[],*svptr[],cord[],cp[],bno,
        invg[],**mat[],mwl2,mwdl,mlwdl,maxcos,dim,prime,*spv,**spm,ng,rwl,nb;
-extern FILE *fopen(),*ip,*op;
+extern FILE *ip,*op;
 
 int 
 gc (void)

@@ -1,14 +1,14 @@
-# include <stdio.h>
+#include "defs.h"
+
 extern char  inf[],inf2[],outf[],full,stabcall;
 extern short perm[], sv2[],cp[],orb[],base[],
       lorb[],fixpt[],fixb[],pno[],*pptr[],*svptr[],mnpt,mp,mb;
 
 short npt;
-FILE *fopen(),*ip,*op;
+FILE *ip,*op;
 
-int 
-egprog (void)
-{ short nperms,ngens,nb,stab,olfb,nlfb,i,l,m,z,ct;
+int egprog (void)
+{ short nperms,ngens,nb,stab,olfb,nlfb,i,l,m,z;
   if (full)
   { if ((ip=fopen(inf2,"r"))==0)
     { printf("Cannot open %s.\n",inf2); return(-1); }

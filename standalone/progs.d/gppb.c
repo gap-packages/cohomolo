@@ -1,11 +1,12 @@
-# include <stdio.h>
+#include "defs.h"
+
 extern char wrd,nt,isbase,inf[],outf1[],outf2[],fixed[];
 extern int  perm[],sv[],cp[],actgen[],orb[],
        base[],lorb[],order[],pno[], *pptr[],*svptr[],
        mp,mb,mnpt;
 extern int psp,svsp;
 int npt;
-FILE *fopen(),*ip,*op;
+FILE *ip,*op;
 
 /* The data structures in this program are similar to most permutation group
    programs. Permutations are numbered 0,1,2,3,... (where 2x+1 is usually the

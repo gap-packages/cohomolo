@@ -1,9 +1,9 @@
-# include <stdio.h>
-extern short prime,dim,*spv,**spm,**mat[],pinv[];
-extern FILE *fopen(),*ip,*op;
+#include "defs.h"
 
-int 
-trans (short **a, short **b)
+extern short prime,dim,*spv,**spm,**mat[],pinv[];
+extern FILE *ip,*op;
+
+void trans (short **a, short **b)
 /* The transpose of matrix a is written into matrix b.
    Externals: dim.
 */
@@ -12,8 +12,7 @@ trans (short **a, short **b)
   { b[i][i]=a[i][i]; for (j=1;j<i;j++) {b[i][j]=a[j][i]; b[j][i]=a[i][j]; }}
 }
 
-int 
-im (short *v, short *w, short **a)
+void im (short *v, short *w, short **a)
 /* The image w of vector v under matrix a is computed.
    Externals: dim,prime.
 */
@@ -25,8 +24,7 @@ im (short *v, short *w, short **a)
   }
 }
 
-int 
-comm (short *v, short *w, short **a)
+int comm (short *v, short *w, short **a)
 /* The image of v under a minus v is computed into w. The position of the
    first nonzero entry in w is returned, or 0 if w=0.
    Externals:  dim,prime.
@@ -41,8 +39,7 @@ comm (short *v, short *w, short **a)
   return(k);
 }
 
-int 
-prod (short *cm, short **a)
+void prod (short *cm, short **a)
 /* The product of matrices mat[cm[1]],...mat[cm[*cm]] is computed into a.
    Externals:  mat,dim.
 */
@@ -61,8 +58,7 @@ prod (short *cm, short **a)
   }
 }
 
-int 
-inv (short **a, short **b)
+int inv (short **a, short **b)
 /* Matrix a is inverted into b. -1 is returned if a is singular, otherwise 0.
    Externals: spm,prime,dim.
 */
@@ -99,8 +95,7 @@ inv (short **a, short **b)
   return(0);
 }
 
-int 
-readmat (short **a)
+void readmat (short **a)
 /* Matrix a is read from input ip.
    Externals: dim,ip,prime.
 */
@@ -114,8 +109,7 @@ readmat (short **a)
   }
 }
 
-int 
-printmat (short **a)
+void printmat (short **a)
 /* Matrix a is output to op.
    Externals: dim,op.
 */
@@ -130,8 +124,7 @@ printmat (short **a)
   fprintf(op,"\n");
 }
 
-int 
-cbdef (int gb, int ge, int cbno, short *d1, short *d2, short *wt, short *acl)
+int cbdef (int gb, int ge, int cbno, short *d1, short *d2, short *wt, short *acl)
 /* It is assumed that matrices mat[gb],...mat[ge] generate a p-group,
    and that the action of this group on the vector space has already been
    triangularized. (p=prime).

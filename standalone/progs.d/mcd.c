@@ -1,4 +1,5 @@
-# include <stdio.h>
+#include "defs.h"
+
 # define   MSP    2500000
 # define    MM      400
 # define    MV     25000

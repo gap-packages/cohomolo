@@ -1,9 +1,8 @@
-#include <stdio.h>
+#include "defs.h"
+
 #define tmalloc(D,T,N) {D = (T *) malloc(sizeof(T)*(N)); \
   if (D==0) { fprintf(stderr,"Out of space.\n"); return(-1);}}
 #define tfree(D) {if (D) free( (char *) D); D=0;}
-
-char *malloc();
 
 extern char mult,inf1[],inf2[],inf3[],outf[];
 extern short rwd[],
@@ -19,7 +18,7 @@ short endr,maxcos,*fpt,*bpt,nelim,bno,lo,**imcos,*spst,**pspst,dim,
       *spv,**spm,ng,rwl,nb;
 short *cst,*cend,***coeff,**cpst,***cdpst,fullsc,clsd,lkah,conch,**cco,*ocst,
       **def;
-FILE *fopen(),*ip,*op;
+FILE *ip,*op;
 
 int 
 extpprog (void)

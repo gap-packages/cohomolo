@@ -1,4 +1,5 @@
-#include <stdio.h>
+#include "defs.h"
+
 # define SPACE    2500000
 # define   MPT      10000
 # define   MXC      32383

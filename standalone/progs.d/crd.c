@@ -1,4 +1,5 @@
-# include <stdio.h>
+#include "defs.h"
+
 # define SPACE    2000000
 # define CSPACE   1000000
 # define    WDL    20000

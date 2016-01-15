@@ -1,4 +1,5 @@
-#include <stdio.h>
+#include "defs.h"
+
 #define RD(A,B) (done[(B)/32][(A)]&(one<<((B)%32)))
 #define WD(A,B) done[(B)/32][(A)]|=(one<<((B)%32))
 extern char inf[],outf[],outfg[],gap,firstnew;
@@ -12,7 +13,7 @@ int nr,endr,maxcos,*fpt,*bpt,*def,scanno,nscan,nelim,bno,lo,
 short npt;
 int   rsp;
 char fullsc,clsd,lkah;
-FILE *fopen(),*ip,*op;
+FILE *ip,*op;
 /* Many of the variables are as in program tcrun */
 
 int 

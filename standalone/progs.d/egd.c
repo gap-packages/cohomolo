@@ -1,4 +1,5 @@
-#include <stdio.h>
+#include "defs.h"
+
 # define  NPT    32767
 # define  MXP     501
 # define  MNB      80

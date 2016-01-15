@@ -1,7 +1,8 @@
-# include <stdio.h>
+#include "defs.h"
+
 extern char inf1[],outf[80];
 extern short **mat[],pinv[],**spm,*spv,prime,dim,cp[],exp,opmats;
-FILE *fopen(),*ip,*ips,*op;
+FILE *ip,*ips,*op;
 
 int 
 matact (int inter)
@@ -155,5 +156,4 @@ restart:
   }
 }
 
-int 
-seeknln (void) {while (getc(ip)!='\n');}
+void seeknln (void) {while (getc(ip)!='\n');}

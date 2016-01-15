@@ -1,4 +1,5 @@
-# include <stdio.h>
+#include "defs.h"
+
 extern char mult,subgp,sgc,sgstr[],inf0[],inf1[],inf2[],inf3[],inf4[],outf[],
        outft[];
 extern short  perm[],sv[],cp[],fpt[],orb[],intpow[],
@@ -10,7 +11,7 @@ extern short  perm[],sv[],cp[],fpt[],orb[],intpow[],
 extern int psp,svsp;
 char  norm;
 short npt,npt1,nb,exp,prime,hgen,coeff,intexp,nwt,stig,*itp,ngads,mxp;
-FILE *fopen(),*ip,*ipcr,*ipkp,*op,*opy;
+FILE *ip,*ipcr,*ipkp,*op,*opy;
 
 int 
 scprog (void)

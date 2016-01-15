@@ -1,4 +1,5 @@
-# include <stdio.h>
+#include "defs.h"
+
 # define MSP    60000
 # define  MM      100
 # define  MV      2000
@@ -9,7 +10,7 @@ int msp=MSP;
 short mv=MV,mm=MM,mdim=MDIM,mpr=MPR,prime,dim,*spv,**spm,ngens,
       mspace[MSP],*vec[MV],**mat[MM],cp[MWL],pinv[MPR],opmats;
 char  inf1[80],inf2[80];
-FILE *fopen(),*ip;
+FILE *ip;
 
 int 
 main (int argc, char *argv[])

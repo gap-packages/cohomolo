@@ -1,4 +1,5 @@
-# include <stdio.h>
+#include "defs.h"
+
 # define PSP   1000000
 # define SPACE 3200000
 # define SVSP   50000

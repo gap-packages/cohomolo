@@ -1,4 +1,5 @@
-# include <stdio.h>
+#include "defs.h"
+
 # define PSP    2000000
 # define SVSP   500000
 # define  NPT    32768

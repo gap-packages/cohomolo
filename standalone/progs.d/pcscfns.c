@@ -1,4 +1,5 @@
-#include <stdio.h>
+#include "defs.h"
+
 extern short npt,nb,npt1,exp,prime,pinv[],cp[],power[],wt[],base[],
              ngno[],igno[],*svptr[],*pptr[],d1[];
 

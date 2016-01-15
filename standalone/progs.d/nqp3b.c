@@ -1,9 +1,10 @@
-# include <stdio.h>
+#include "defs.h"
+
 extern char inf[],inf1[],outf1[];
 extern int facexp,prime,exp,*rpf,*rpb,*eexpnt,**pcb,
        dim,onng,expnt[],**comptr[],*vec[],**mat[],cp[],
        *wf,*wc,**extno,**subno,chsdim,chpdim,gap;
-extern FILE *fopen(),*ip,*op;
+extern FILE *ip,*op;
 
 int 
 comprels (void)

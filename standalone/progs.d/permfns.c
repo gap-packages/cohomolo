@@ -1,6 +1,7 @@
-#include <stdio.h>
+#include "defs.h"
+
 extern short npt,cp[],orb[],*pptr[],pno[];
-extern FILE *fopen(),*ip,*op;
+extern FILE *ip,*op;
 
 short orbitsv(short pt,short *sv,short lo)
 /* Computes orbit of pt under perms listed in pno, and writes 
@@ -150,7 +151,4 @@ short readpsv(short e,short nb,short nperms,short **svptr)
   return(0);
 }
 
-void 
-seeknln (void)
-/* The next new line in ip is found. */
-{while (getc(ip)!='\n'); }
+void seeknln (void) { while (getc(ip)!='\n'); }

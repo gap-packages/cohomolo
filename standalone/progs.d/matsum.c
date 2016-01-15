@@ -1,8 +1,9 @@
-#include <stdio.h>
+#include "defs.h"
+
 
 char inf1[80],inf2[80],outf[80];
 /* No defaults */
-FILE *fopen(),*ip1,*ip2,*op;
+FILE *ip1,*ip2,*op;
 
 int 
 main (int argc, char *argv[])

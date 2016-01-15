@@ -1,28 +1,24 @@
-# include <stdio.h>
+#include "defs.h"
+
 extern char ginrel[];
 extern int space;
 extern int mpt,rel[],cosno[],gno[],inv[],gch[],*imcos[];
 int ng,ngi,nsg,nr,endsg,endr,maxcos,str,len,ad,*fpt,*bpt,
       ccos,maxd,totd,lastd,cind,nfree,stcr,endcr,fcos,bcos,lcl;
 char fullsc,clsd,lkah;
-FILE *fopen(),*op;
+FILE *op;
 /* All comments as for tcp.c */
 
-int 
-inperr (char *s, int n)
+void inperr (char *s, int n)
 { fprintf(stderr,"Input error in %s no %d\n",s,n); }
 
-int 
-digit (int j)
+int digit (int j)
 { if (j>='0' && j<='9') return(1); else return(0); }
 
-int 
-letter (int j)
+int letter (int j)
 { if ((j>='a' && j<='z') || (j>='A' && j<='Z')) return(1); else return(0);}
 
-int 
-seeknln (void)
-{ while (getchar()!='\n'); }
+void seeknln (void) { while (getchar()!='\n'); }
 
 int 
 readrel (int s, int no)

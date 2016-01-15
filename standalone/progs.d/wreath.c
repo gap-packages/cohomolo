@@ -1,4 +1,5 @@
-# include <stdio.h>
+#include "defs.h"
+
 # define PSP  100000
 # define  MP    500
 # define  MB     80
@@ -7,7 +8,7 @@ char inf1[80],inf2[80],outf[80];
 /* No defaults for filenames */
 short perm[PSP],*pptr1[MP+1],*pptr2[MP+1],base[MB],mp=MP,mb=MB;
 int psp=PSP;
-FILE *fopen(),*ip,*op;
+FILE *ip,*op;
 
 int 
 main (int argc, char *argv[])

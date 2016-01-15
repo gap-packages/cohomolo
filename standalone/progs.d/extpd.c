@@ -1,4 +1,5 @@
-#include <stdio.h>
+#include "defs.h"
+
 #define PSP 500000
 #define SPACE 500000
 #define PTRSP 10000

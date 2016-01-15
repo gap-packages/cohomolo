@@ -1,13 +1,14 @@
+#include "defs.h"
+
 /* This version contains the routine subact() called at end of each main
    cycle in calcfm.
 */
-# include <stdio.h>
 extern char act,inf[],inf1[],inf3[],outf1[],safilech;
 extern short facexp,prime,exp,depth,*rpf,*rpb,*eexpnt,*enexpnt,**pcb,
        dim,nng,onng,expnt[],nexpnt[],*pcptr[],**comptr[],*vec[],**mat[],cp[],
        dpth[],pinv[],wt[],*wf,*wc,**extno,**subno,chsdim,chpdim,marg;
 extern int ptrsp,wsp;
-FILE *fopen(),*ip,*ips,*op;
+FILE *ip,*ips,*op;
 
 int 
 comprels (void)

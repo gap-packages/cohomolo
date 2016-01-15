@@ -1,4 +1,5 @@
-# include <stdio.h>
+#include "defs.h"
+
 extern char mult,inf0[],inf1[],inf2[],outf[],outft[],inf3[];
 extern short   *cst,**cpst,***cdpst,
               csp[],*cpsp[],**cdpsp[],***coeff[];
@@ -8,7 +9,7 @@ extern short sp[],**mat[],*psp[],**imcos[],**cpco[],lorb[],pinv[],
                *spst,**pspst,npt,nb,nph,nph2,rno,orno,coh_index,*invg;
 short *wd1,*wd2;
 short *gno,*cord,cl,dim,prime,**vec,**spm,*spv,wv,*val;
-FILE  *fopen(),*ipr,*op,*ipx,*ip;
+FILE  *ipr,*op,*ipx,*ip;
 
 int 
 crprog2 (void)

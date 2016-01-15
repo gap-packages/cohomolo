@@ -1,4 +1,5 @@
-# include <stdio.h>
+#include "defs.h"
+
 # define PSP 60000
 # define MP  200
 # define NPT 8000
@@ -7,7 +8,7 @@ char opt[40],sysstring[40];
 short mp=MP,mpt=NPT,mb=MB,npt,perm[PSP],cp[100],*pptr[MP],orb[NPT+1],
       orno[NPT+1],pno[MP],base[MB];
 int psp=PSP;
-FILE *fopen(),*ip,*op;
+FILE *ip,*op;
 
 int 
 main (void)

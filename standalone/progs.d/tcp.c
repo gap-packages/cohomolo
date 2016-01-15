@@ -1,30 +1,25 @@
-# include <stdio.h>
+#include "defs.h"
+
 extern char rs,ginrel[];
 extern int space,mxc;
 extern short mpt,rel[],cosno[],gno[],inv[],gch[],*imcos[];
 short ng,ngi,nsg,nr,endsg,endr,maxcos,str,len,ad,*fpt,*bpt,
       ccos,maxd,totd,lastd,cind,nfree,stcr,endcr,fcos,bcos,lcl;
 char fullsc,clsd,lkah;
-FILE *fopen(),*op;
+FILE *op;
 
-int 
-inperr (char *s, int n)
+void inperr (char *s, int n)
 { fprintf(stderr,"Input error in %s no %d\n",s,n); }
 
-int 
-digit (int j)
+int digit (int j)
 { if (j>='0' && j<='9') return(1); else return(0); }
 
-int 
-letter (int j)
+int letter (int j)
 { if ((j>='a' && j<='z') || (j>='A' && j<='Z')) return(1); else return(0);}
 
-int 
-seeknln (void)
-{ while (getchar()!='\n'); }
+void seeknln (void) { while (getchar()!='\n'); }
 
-int 
-readrel (int s, int no)
+int readrel (int s, int no)
 /* Reads relation (s=1) or subgroup generator (s=0) number "no" into array
   rel, after expanding powers, brackets etc.
    Each relation or subgen is preceded by its length.

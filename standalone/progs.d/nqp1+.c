@@ -1,5 +1,6 @@
+#include "defs.h"
+
 /* This version calls routine subact (in nqp32.c) at line -7. */
-# include <stdio.h>
 extern char inf0[],inf1[],inf2[],inf3[],inf4[],outf0[],outf1[],outf2[],
              inf[],act,ch1,crel,cfm;
 extern short  mv,mm,facexp,tails,stage,depth,no,mng,mcl,
@@ -12,7 +13,7 @@ short  **intg,**cintg,cbno,ngens,maxm,maxv,matcl,
 int    orsp,optrsp,rspk;
 long inf3offset,inf4offset;
 char   norm,safilech;
-FILE *fopen(),*ip,*ipm,*op;
+FILE *ip,*ipm,*op;
 
 /* General comments on programs nqrun (and nqmrun).
    See file Info.5 for format of ip/op files, and meaning of variables

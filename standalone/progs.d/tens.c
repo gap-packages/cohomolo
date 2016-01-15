@@ -1,11 +1,12 @@
-# include <stdio.h>
+#include "defs.h"
+
 # define MSP   50000
 # define  MV    500
 
 short mv=MV,mspace[MSP],*vec[MV];
 char inf1[80],inf2[80],outf[80];
 /* no defaults */
-FILE *fopen(),*ip1,*ip2,*op;
+FILE *ip1,*ip2,*op;
 int  msp=MSP;
 
 int 

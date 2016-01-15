@@ -1,4 +1,4 @@
-# include <stdio.h>
+#include "defs.h"
 
 extern char inf[],outf[],temp[],temp2[],mspace[],*vec[],**mat[],
      cvec[],pinv[],mstr[],full,intop,opt,aut;
@@ -7,7 +7,7 @@ extern int space;
 char prime;
 short dim,maxnull;
 
-FILE *fopen(),*ip,*op;
+FILE *ip,*op;
 
 int 
 pkprog (void)
@@ -242,21 +242,17 @@ next:
   unlink(temp); unlink(temp2); return(0);
 }
 
-int 
-seeknln (void) { while (getc(ip)!='\n');}
+void seeknln (void) { while (getc(ip)!='\n');}
 
-int 
-setpinv (void)
+void setpinv (void)
 { int i,j;
   for (i=0;i<prime;i++) pinv[i]=0;
   for (i=1;i<prime;i++) if (pinv[i]==0) for (j=1;j<prime;j++)
   if (i*j % prime ==1) { pinv[i]=j; pinv[j]=i; break; }
 }
 
-int 
-findc (void)
+int findc (void)
 { char c; while ((c=getchar())==' ' || c=='\n'); return(c); }
 
-int 
-digit (int c)
+int digit (int c)
 { if (c>='1' && c<='9') return(1); else return(0);}

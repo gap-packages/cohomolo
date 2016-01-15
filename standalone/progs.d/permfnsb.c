@@ -1,6 +1,7 @@
-#include <stdio.h>
+#include "defs.h"
+
 extern int npt,cp[],orb[],*pptr[],pno[];
-extern FILE *fopen(),*ip,*op;
+extern FILE *ip,*op;
 
 int 
 orbitsv (int pt, int *sv, int lo)
@@ -161,7 +162,4 @@ readpsv (int e, int nb, int nperms, int **svptr)
   return(0);
 }
 
-int 
-seeknln (void)
-/* The next new line in ip is found. */
-{while (getc(ip)!='\n'); }
+void seeknln (void) { while (getc(ip)!='\n'); }

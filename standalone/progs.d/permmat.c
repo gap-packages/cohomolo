@@ -1,7 +1,8 @@
-# include <stdio.h>
+#include "defs.h"
+
 char inf[80],outf[80];
 /* Defaults inf=gpname.inperm, outf=gpname.inmat */
-FILE *fopen(),*ip,*op;
+FILE *ip,*op;
 
 int 
 main (int argc, char *argv[])
@@ -61,5 +62,4 @@ error:  if (err)
   exit(0);
 }
 
-int 
-seeknln (void) { while (getc(ip)!='\n'); }
+void seeknln (void) { while (getc(ip)!='\n'); }

@@ -1,4 +1,5 @@
-#include <stdio.h>
+#include "defs.h"
+
 extern char  inf1[],outf[], outfm[], gap;
 extern short  intexp,mexp,mng,wksp,
        prime,exp,nng,class,*rpf,*rpb,*eexpnt,*enexpnt,**pcb,mnng,mord,
@@ -8,7 +9,7 @@ extern short  intexp,mexp,mng,wksp,
        spugen[],*tlintg[];
 extern int ptrsp,rsp;
 short  fac;
-FILE *fopen(),*ip,*op;
+FILE *ip,*op;
 
 int 
 ingp (void)

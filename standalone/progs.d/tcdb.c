@@ -1,3 +1,5 @@
+#include "defs.h"
+
 # define SPACE    3000000
 # define   MPT      4000
 /* All comments as for tcd.c  */

@@ -1,6 +1,7 @@
-# include <stdio.h>
+#include "defs.h"
+
 extern int prime,dim,*spv,**spm,**mat[],pinv[];
-extern FILE *fopen(),*ip,*op;
+extern FILE *ip,*op;
 
 int 
 trans (int **a, int **b)

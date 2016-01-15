@@ -1,4 +1,5 @@
-# include <stdio.h>
+#include "defs.h"
+
 extern char ims,act,gap,crel,inf0[],inf1[],inf2[],outf[],outfm[];
 extern short  intexp,mng,mexp,wksp,
        prime,exp,nng,class,*rpf,*rpb,*eexpnt,*enexpnt,**pcb,mnng,mord,
@@ -8,7 +9,7 @@ extern short  intexp,mng,mexp,wksp,
        spugen[],*intg[],*imintg[],*tlintg[];
 extern int ptrsp,rsp;
 short  *wf,*wc; char norm;
-FILE *fopen(),*ip,*op;
+FILE *ip,*op;
 
 /* The data structures for this program and for nqrun are similar.
    d1 and d2 contain definitions of generators. (Def. comes from commutator

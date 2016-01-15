@@ -1,4 +1,5 @@
-# include <stdio.h>
+#include "defs.h"
+
 extern short npt,pno[],expcp[],cp[],genorb[],*pptr[],*expptr[];
 
 int 

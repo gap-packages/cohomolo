@@ -1,4 +1,5 @@
-# include <stdio.h>
+#include "defs.h"
+
 extern char mult,conv,gens,inf1[],inf2[],outf1[],outf2[],outf3[],outf4[];
 extern short  perm[],sv[],cp[],fpt[],orb[],igno[],
        base[],lorb[],pno[],*pptr[],*svptr[],
@@ -7,7 +8,7 @@ extern short  perm[],sv[],cp[],fpt[],orb[],igno[],
        *relptr[],mp,mpt,mb,mexp;
 extern int psp,svsp;
 short npt,np,npt1,nb,exp,prime;
-FILE *fopen(),*ip,*op;
+FILE *ip,*op;
 
 int 
 resetsv (void)

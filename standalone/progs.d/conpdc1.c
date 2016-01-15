@@ -1,4 +1,5 @@
-#include <stdio.h>
+#include "defs.h"
+
 extern char inf1[],inf2[],inf3[],outf1[],outf2[],outf3[],temp1[],temp2[],
      expg,exph,cr,dcr,triv;
 extern int psp,trsp,svsp;
@@ -9,7 +10,7 @@ extern int  mpt,mb,
 int trptr;
 int npt,**lcp,**ucp,*stop,dummy,*pst,*pend,nb,fnt,lnt,
       ind,coind,oind,cind,bno,pt,**expp,npg;
-FILE *fopen(),*ip,*op,*opx;
+FILE *ip,*op,*opx;
 
 /* The data structures of this program differ from other permutation group
    programs. Permutations are not numbered, but are located by their base

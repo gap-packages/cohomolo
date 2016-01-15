@@ -1,4 +1,5 @@
-#include <stdio.h>
+#include "defs.h"
+
 #define tmalloc(D,T,N) {D = (T *) malloc(sizeof(T)*(N)); \
   if (D==0) { fprintf(stderr,"Out of space.\n"); return(-1);}}
 #define tfree(D) {if (D) free( (char *) D); D=0;}

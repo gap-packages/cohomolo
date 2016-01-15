@@ -1,7 +1,8 @@
-# include <stdio.h>
+#include "defs.h"
+
 extern char prime,**mat[],cvec[],pinv[],aut;
 extern short dim,svec[],maxnull;
-extern FILE *fopen(),*ip,*op;
+extern FILE *ip,*op;
 
 int 
 trans (char **a, char **b)

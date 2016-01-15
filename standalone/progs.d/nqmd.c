@@ -1,4 +1,5 @@
-# include <stdio.h>
+#include "defs.h"
+
 # define  MNG      1001
 # define  MEXP     41
 # define  RSP      100000
@@ -28,7 +29,7 @@ int    rsp=RSP,ptrsp=PTRSP;
 
 int 
 main (int argc, char *argv[])
-{ short arg,i,j,k,*pb,*pc,*pe;  char err,c,d;
+{ short arg;  char err;
   ims=0; act=0; crel=0; gap=0; err=0; arg=1;
   if (argc<=arg) {err=1; goto error;}
   while (argv[arg][0]=='-')

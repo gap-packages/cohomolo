@@ -1,14 +1,16 @@
-# include <stdio.h>
+#include "defs.h"
+
 extern char slg,con,check,inf1[],inf2[],inf3[],inf4[],inf5[],inf6[],outf1[];
 extern int msp,psp,svsp;
 extern short mm,mv,mp,mpt,mpr,mdim,mb,
       mspace[],*vec[],**mat[],pinv[],perm[],sv[],cp[],
       *pptr[],*svptr[],base[],lorb[];
 short prime,dim,*spv,**spm,npt,nb,maxv,maxm,maxp,nmat,nm2;
-FILE *fopen(),*ip,*op;
+FILE *ip,*op;
 
-int 
-mcprog (void)
+void seeknln (void) { while (getc(ip)!='\n'); }
+
+int mcprog (void)
 { short i,j,k,l,m,n,nperms,np2,*p,**q;
   int quot;
   if ((ip=fopen(inf1,"r"))==0)
@@ -292,12 +294,7 @@ readpsv (int e, int nb, int nperms, short **svptr)
   }
 }
 
-int 
-seeknln (void)
-{while (getc(ip)!='\n'); }
-
-int 
-setpinv (void)
+int setpinv (void)
 { short i,j;
   for (i=0;i<prime;i++) pinv[i]=0;
   for (i=1;i<prime;i++) if (pinv[i]==0) for (j=1;j<prime;j++)

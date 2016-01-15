@@ -1,5 +1,6 @@
+#include "defs.h"
+
 # define SCP 100
-# include <stdio.h>
 extern char heqg,words,fullg,check,outf[],inf1[],inf2[],inf3[],outf0[];
 extern short  perm[],sv[],cp[],actgen[],orb[],
        base[],lorbc[],lorbg[],lorbh[],order[],pno[],
@@ -8,7 +9,7 @@ extern short  perm[],sv[],cp[],actgen[],orb[],
 extern int psp,svsp;
 short npt,mxp,sth,stcom,np2,nb,npt1,cps,cpf;
 char hing,cthere,hsvth;
-FILE *fopen(),*ip,*op;
+FILE *ip,*op;
 
 int 
 optprog (void)

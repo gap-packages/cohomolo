@@ -1,6 +1,5 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
+#include "defs.h"
+
 # define  NPT   32767
 # define PSP    2000000
 # define SVSP   200000

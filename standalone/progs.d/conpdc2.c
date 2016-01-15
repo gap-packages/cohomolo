@@ -1,4 +1,5 @@
-#include <stdio.h>
+#include "defs.h"
+
 extern char inf0[],inf1[],inf2[],inf3[],outf1[],outf2[],outf3[],temp1[],temp2[],
      ofstr[],ngn[],expg,exph,cr,dcr,hg,triv,cong;
 extern int trsp,trptr;
@@ -7,7 +8,7 @@ extern int  nfuse,tree[],perm[],gorb[],lorbg[],lorbh[],base[],
        *tailad[],**cpad[],**svgptr[],**svhptr[],
        npt,**lcp,**ucp,*stop,*pst,*pend,nb,fnt,lnt,
        ind,coind,oind,cind,bno,pt,**expp,npg;
-extern FILE *fopen(),*ip,*op;
+extern FILE *ip,*op;
 
 /* The basic aim of this part of the program is to compute permutations of G
    as permutations on the left cosets of H. This is used to compute double

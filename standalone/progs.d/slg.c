@@ -1,9 +1,11 @@
-#include <stdio.h>
-# define MP  100
-FILE *fopen(),*ip,*op;
+#include "defs.h"
 
-int 
-main (int argc, char *argv[])
+# define MP  100
+FILE *ip,*op;
+
+void seeknln (void) { while (getc(ip)!='\n'); }
+
+int  main (int argc, char *argv[])
 { short npt,nb,np,i,j,k,ppt,base,npop,pn,arg;
   char err,wt,inf[80],outf[80],pno[MP];
   err=0; wt=0; npop=0;  arg=1;
@@ -53,7 +55,3 @@ error:
   }
   else exit(0);
 }
-
-int 
-seeknln (void)
-{ int c; while ((c=getc(ip))!='\n'); }

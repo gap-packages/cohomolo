@@ -1,4 +1,5 @@
-#include <stdio.h>
+#include "defs.h"
+
 extern char cent,sym,hgst,nop,nonb[],inf1[],inf2[],inf3[],outf1[],
      outf2[];
 extern short  mp,mexp,mb,mnpt,prime,
@@ -18,13 +19,11 @@ short adno,gskno,nskno,orhct,ntct,ontct,oorhct,onf,
       *sva,*ap,stn,*tp,*itp,nnps;
 char  fail,bt,biggersylp,type[14];
 
-extern FILE *fopen(),*ip,*op;
+extern FILE *ip,*op;
 
-int 
-err (void)  { fprintf(stderr,"Out of space. Increase PSP (or MP).\n");}
+void err (void)  { fprintf(stderr,"Out of space. Increase PSP (or MP).\n");}
 
-int 
-clrop (void)
+int  clrop (void)
 /* Clears and updates orbit permutation info */
 { short i,j,k,l;
   for (i=1;i<=nhorbs;i++)
@@ -38,8 +37,7 @@ clrop (void)
   return(0);
 }
 
-int 
-bind (int pno)
+void bind (int pno)
 /* Adds a permutation in H or a newly found one in N (=N(H)) to those
    generating the orbit of gbase[gskno]. These orbit points need not be
    considered as images of new elements.

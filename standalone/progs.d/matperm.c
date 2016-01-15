@@ -1,4 +1,5 @@
-# include <stdio.h>
+#include "defs.h"
+
 # define MSP  100000
 # define MM      101
 # define MV     1000
@@ -12,7 +13,7 @@ short prime,dim,*spv,**spm,nmat,ordim,npt,*fptr,*nfptr,**sp,**imsp,*endsp,
       mspace[MSP],*vec[MV],**mat[MM],pinv[MPR],*pptr[MM],*spptr[MPT+1],
       mm=MM,mv=MV,mpt=MPT,mpr=MPR,mdim=MDIM,marg=MARG;
 char   orvec;
-FILE *fopen(),*ip,*op;
+FILE *ip,*op;
 
 int 
 main (int argc, char *argv[])

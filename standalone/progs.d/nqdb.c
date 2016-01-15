@@ -1,4 +1,5 @@
-# include <stdio.h>
+#include "defs.h"
+
 # define  MNG      500001
 # define  MEXP     500001
 # define  RSP      100000000

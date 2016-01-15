@@ -1,4 +1,5 @@
-# include <stdio.h>
+#include "defs.h"
+
 # define MSP    100000
 # define  MM      200
 # define  MV      1000
@@ -7,7 +8,7 @@ char opt[5];
 int msp=MSP;
 int mv=MV,mm=MM,mdim=MDIM,dim,*spv,**spm,
       mspace[MSP],*vec[MV],**mat[MM],cp[500];
-FILE *fopen(),*ip,*op;
+FILE *ip,*op;
 
 int 
 main (void)
@@ -210,5 +211,4 @@ reenter:
   exit(0);
 }
 
-int 
-seeknln (void) { char c; while ((c=getchar())!='\n'); }
+void seeknln (void) { while (getchar()!='\n'); }

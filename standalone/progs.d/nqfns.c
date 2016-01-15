@@ -1,4 +1,5 @@
-#include <stdio.h>
+#include "defs.h"
+
 extern char  inf[],inf1[],outf1[];
 extern short  facexp,tails,stage,depth,no,mng,mexp,
        prime,exp,nng,class,dim,onng,*rpf,*rpb,*eexpnt,*enexpnt,**pcb,
@@ -9,7 +10,7 @@ extern short  facexp,tails,stage,depth,no,mng,mexp,
        spugen[],dpth[];
 extern int rsp,wsp,ptrsp,marg;
 short  fac;
-extern FILE *fopen(),*ip,*op;
+extern FILE *ip,*op;
 
 int 
 ingp (int inp)
@@ -638,7 +639,7 @@ bgc (void)
 */
 { short **pcp,*p,*q,**epcp; int l,k,d,ct;
   char gcfile[80];
-  FILE *fopen(),*wt;
+  FILE *wt;
   strcpy(gcfile,inf); strcat(gcfile,"wrd.t");
   printf("Back garbage collection. wsp=%d.\n",wsp);
   fflush(stdout); fflush(stderr);

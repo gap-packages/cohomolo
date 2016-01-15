@@ -1,4 +1,5 @@
-#include <stdio.h>
+#include "defs.h"
+
 # define  NPT    2000
 int npt,perm[NPT+1],had[NPT+1];
 FILE *fopen(),*op;

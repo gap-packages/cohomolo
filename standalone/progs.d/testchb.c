@@ -1,4 +1,5 @@
-# include <stdio.h>
+#include "defs.h"
+
 # define  NPT   4000
 # define  MB      80
 # define  MP     800
@@ -10,7 +11,7 @@ short  npt,nf,perm[PSP],sv[SVSP],cp[5*NPT],orb[NPT+1],base[MB],lorb[MB],
        pno[MP/2],fp[MP],tsv1[NPT+1],tsv2[NPT+1],tsv3[NPT+1],orep[NPT+1],
        *pptr[MP],*svptr[MB],mp=MP,mb=MB-1,mnpt=NPT;
 int    psp=PSP,svsp=SVSP;
-FILE  *fopen(),*ip,*op;
+FILE  *ip,*op;
 
 int 
 main (int argc, char *argv[])

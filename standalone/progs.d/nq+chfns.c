@@ -1,4 +1,5 @@
-# include <stdio.h>
+#include "defs.h"
+
 # define  MEXP     101
 # define  RSP      5000
 # define  MCL      21
@@ -19,7 +20,7 @@ short  mexp=MEXP,mcl=MCL,no,rel[RSP],wt[MEXP],exp,*rpf,*rpb,
 extern short  prime,dim,*spv,**spm,mspace[],*vec[],**mat[],cp[],pinv[],opmats,
         mm,mv;
 extern int msp;
-FILE *fopen(),*ip,*op;
+FILE *ip,*op;
 
 
 int 
@@ -89,7 +90,7 @@ rdmats (void)
   fclose(ip);
   return(0);
 }
-FILE *fopen(),*ip;
+FILE *ip;
 
 int 
 ingp (int inp)

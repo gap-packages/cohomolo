@@ -1,4 +1,5 @@
-#include <stdio.h>
+#include "defs.h"
+
 extern char cent,sym,opt,hgst,nop,nonb[],inf1[],inf2[],inf3[],outf1[],
      outf2[];
 extern short  mp,mexp,mb,mnpt,risp,
@@ -23,7 +24,7 @@ char  bdone,gdone;
    non-normalization as possible. The search itself is in the second half
    normp2.c
 */
-FILE *fopen(),*ip,*op;
+FILE *ip,*op;
 
 int 
 nprg1 (void)

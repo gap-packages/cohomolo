@@ -1,11 +1,12 @@
-# include <stdio.h>
+#include "defs.h"
+
 extern char wrd,nt,isbase,inf[],outf1[],outf2[],fixed[];
 extern short  perm[],sv[],cp[],actgen[],orb[],
        base[],lorb[],order[],pno[], *pptr[],*svptr[],
        mp,mb,mnpt;
 extern int psp,svsp;
 short npt;
-FILE *fopen(),*ip,*op;
+FILE *ip,*op;
 
 /* The data structures in this program are similar to most permutation group
    programs. Permutations are numbered 0,1,2,3,... (where 2x+1 is usually the
@@ -23,8 +24,8 @@ FILE *fopen(),*ip,*op;
 */
 short 
 gpprog (void)
-{ short i,j,k,l,m,n,nperms,nb,jobt,np2,seek,cord,ocord,given,ordknown,trivrel,
-        lsv,u,v,w,x,y,z,mxp,mnb,bpt,bno,id;
+{ short i,j,k,l,m,nperms,nb,jobt,np2,seek,cord,ocord,given,ordknown,trivrel,
+        lsv,u,v,w,x,y,z,mxp,mnb,bno,id;
   int quot;
   float grporder;
 
@@ -75,7 +76,7 @@ gpprog (void)
       if (x>nb)
       { if (isbase)
         { fprintf(stderr,"Given base is not a base!\n"); return(-1);}
-        nb++;  for (z=1;pptr[i][z]==z;z++); base[nb]=z;
+        nb++;  for (z=1;pptr[i][z]==z;z++) {} base[nb]=z;
         printf("New base element no %d is %d.\n",nb,z);
       }
       if (x==1) printf("Generator no %d moves first base point.\n",k);

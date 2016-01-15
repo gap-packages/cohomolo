@@ -1,4 +1,5 @@
-# include <stdio.h>
+#include "defs.h"
+
 # define MSP    100000
 # define  MM      200
 # define  MV      1000
@@ -8,7 +9,7 @@ char opt[5];
 int msp=MSP;
 short mv=MV,mm=MM,mdim=MDIM,mpr=MPR,prime,dim,*spv,**spm,
       mspace[MSP],*vec[MV],**mat[MM],cp[500],pinv[MPR];
-FILE *fopen(),*ip,*op;
+FILE *ip,*op;
 
 int 
 main (void)
@@ -214,11 +215,9 @@ reenter:
   exit(0);
 }
 
-int 
-seeknln (void) { char c; while ((c=getchar())!='\n'); }
+void seeknln (void) { while (getchar()!='\n'); }
 
-int 
-setpinv (void)
+void setpinv (void)
 { int i,j; int sum;
   for (i=0;i<prime;i++) pinv[i]=0;
   for (i=1;i<prime;i++) if (pinv[i]==0) for (j=1;j<prime;j++)

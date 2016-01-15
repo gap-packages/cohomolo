@@ -1,4 +1,5 @@
-# include <stdio.h>
+#include "defs.h"
+
 extern char inf0[],inf1[],inf4[],outf0[],outf1[],outf2[],outcopy[],
              act,ch1,norm;
 extern int  intexp,facexp,stage,mcl,
@@ -10,7 +11,7 @@ extern int  intexp,facexp,stage,mcl,
 extern int rsp,ptrsp,rspk,marg;
 extern long inf3offset,inf4offset;
 int *wf,*wc,**inteno,intcpd,inng,*nsd1,*nsd2,intfe,**npcb2;
-extern FILE *fopen(),*ip,*ipm,*op;
+extern FILE *ip,*ipm,*op;
 FILE *ipcopy,*opcopy;
 
 int 

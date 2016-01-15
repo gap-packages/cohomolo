@@ -1,4 +1,5 @@
-# include <stdio.h>
+#include "defs.h"
+
 extern char mult,inf0[],inf1[],inf2[],outf[],outft[],inf3[];
 extern short  csp[],*cpsp[],**cdpsp[],***coeff[];
 extern int space,cspace;
@@ -7,7 +8,9 @@ extern short sp[],**mat[],*psp[],**imcos[],**cpco[],lorb[],
 short *cst,**cpst,***cdpst,**svptr,*cp,*rel;
 short *spst,**pspst,**pptr,**cpptr,npt,nb,nph,nph2,npg,npg2,
       rno,orno,coh_index,*invg;
-FILE  *fopen(),*ip,*op;
+FILE  *ip,*op;
+
+void seeknln (void) { while (getc(ip)!='\n'); }
 
 /* This program differs from most other permutation programs in that perms are
    all stored in the single array sp. Schreier vectors are stored in the short
@@ -119,7 +122,3 @@ crprog1 (void)
   fclose(op); fclose(ip);
   return(0);
 }
-
-int 
-seeknln (void)
-{ while (getc(ip)!='\n'); }

@@ -1,4 +1,5 @@
-#include <stdio.h>
+#include "defs.h"
+
 extern char inf0[],inf1[],inf2[],inf3[],outf1[],outf2[],outf3[],temp1[],temp2[],
      ofstr[],ngn[],expg,exph,cr,dcr,hg,triv,cong;
 extern int trsp,trptr;
