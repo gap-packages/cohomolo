@@ -1,5 +1,10 @@
 This file describes changes in the cohomolo package.
 
+1.6.3 (2016-01-16)
+  - Update README
+  - Clarify that the package is licensed under the GPL v2 or later
+  - Workaround a miscompilation bug in Apple clang-700.1.81
+
 1.6.2 (2016-01-15)
   - Add Markus Pfeiffer and Max Horn as maintainers
   - Convert C functions from K&R to ANSI C
