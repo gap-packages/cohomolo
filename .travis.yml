@@ -1,0 +1,26 @@
+sudo: false
+os:
+  - linux
+language: c
+compiler:
+  - gcc
+  - clang
+env:
+  - PKG=cohomolo
+addons:
+  apt_packages:
+    - libgmp3-dev
+script:
+  - cd ..
+  - git clone --depth=1 https://github.com/gap-system/gap.git gap
+  - cd gap
+  - ./configure --with-gmp=system
+  - make
+  - make bootstrap-pkg-minimal
+  - cd pkg
+  - mv ../../$PKG .
+  - cd $PKG
+  - ./configure
+  - make
+  - cd ../..
+  - echo "Read(\"pkg/$PKG/tst/testall.g\"); quit;" | sh bin/gap.sh
