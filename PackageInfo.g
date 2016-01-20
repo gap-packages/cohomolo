@@ -2,8 +2,8 @@ SetPackageInfo( rec(
 
 PackageName := "cohomolo",
 Subtitle := "Cohomology groups of finite groups on finite modules",
-Version := "1.6.3",
-Date := "16/01/2016",
+Version := "1.6.4",
+Date := "20/01/2016",
 
 Persons := [
   rec(
@@ -122,6 +122,6 @@ Keywords := [
   "Covering group"
 ],
 
-#TestFile := "tst/testall.g",
+TestFile := "tst/testall.tst",
 
 ));
