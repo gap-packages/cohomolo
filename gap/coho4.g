@@ -47,26 +47,25 @@ COHOMOLO := rec(
 ##
 COHOMOLO.WritePermGroup := function ( G, deg, base, filename)
 
-   local  line, gens, ng, nb, perm, i, j;
+   local  line, gens, ng, nb, perm, i, j, str;
 
    gens := GeneratorsOfGroup(G);
    ng := Length(gens);
    nb := Length(base);
 
    #We output line by line, storing the data in each line in "line".
-   line := Concatenation(String(deg)," ",String(ng)," ",String(nb)," 0\n");
-   PrintTo(filename,line);
+   str:= Concatenation(String(deg)," ",String(ng)," ",String(nb)," 0\n");
    line := "";
    for i in [1..nb] do
      line := Concatenation(line," ",String(base[i]));
      if Length(line)>70 then
          line := Concatenation(line,"\n");
-         AppendTo(filename,line);
+         Append( str, line );
          line := "";
      fi;
    od;
    line := Concatenation(line,"\n");
-   AppendTo(filename,line);
+   Append( str, line );
    for i in [1..ng] do
      perm := gens[i];
      line := "";
@@ -74,13 +73,15 @@ COHOMOLO.WritePermGroup := function ( G, deg, base, filename)
          line := Concatenation(line," ",String(j^perm));
          if Length(line)>70 then
              line := Concatenation(line,"\n");
-             AppendTo(filename,line);
+             Append( str, line );
              line := "";
          fi;
      od;
      line := Concatenation(line,"\n");
-     AppendTo(filename,line);
+     Append( str, line );
    od;
+
+   FileString( filename, str );
 end;
 
 #############################################################################
@@ -93,7 +94,7 @@ end;
 ##
 COHOMOLO.WriteFPGroup := function ( G, filename)
    local  line, gens, genstring, igens, allgens, ng, rels, nr, LL, LG, ILG, ALG,
-          w, i, j, ct, gno, lgno;
+          w, i, j, ct, gno, lgno, str;
 
    gens := FreeGeneratorsOfFpGroup (G);
    ng := Length(gens);
@@ -107,12 +108,10 @@ COHOMOLO.WriteFPGroup := function ( G, filename)
    ALG := Concatenation(LG,ILG);
    #lower case letters will be used as the generator names in the printout.
 
-   line := Concatenation(String(ng)," 0 ",String(nr),"\n");
-   PrintTo(filename,line);
-   line := "";
+   str:= Concatenation(String(ng)," 0 ",String(nr),"\n");
    genstring := List( [ 1 .. ng ],  x -> LL[x] );
    line := Concatenation(genstring,"\n");
-   AppendTo(filename,line);
+   Append( str, line );
    for i in [1..nr] do
       line := "";
       w := rels[i];
@@ -130,9 +129,10 @@ COHOMOLO.WriteFPGroup := function ( G, filename)
       od;
       if ct>1 then line := Concatenation(line,String(ct)); fi;
       line := Concatenation(line,"\n");
-      AppendTo(filename,line);
+      Append( str, line );
    od;
-   AppendTo(filename,"n\n");
+   Append( str, "\n\n" );
+   FileString( filename, str );
 end;
 
 #############################################################################
@@ -145,7 +145,7 @@ end;
 ##  cohomology programs.
 ##
 COHOMOLO.WriteMatrices := function ( mats, filename)
-   local  line, f, w, p, nm, dim, mat, row, entry, table, n, i, j, k;
+   local  line, f, w, p, nm, dim, mat, row, entry, table, n, i, j, k, str;
 
    f := Field(Flat(mats));
    p := Size( f );
@@ -158,10 +158,9 @@ COHOMOLO.WriteMatrices := function ( mats, filename)
    od;
    nm := Length(mats);
    dim := Length(mats[1]);
-   line := Concatenation(String(p)," ",String(dim)," ",String(nm),"\n");
-   PrintTo(filename,line);
+   str:= Concatenation(String(p)," ",String(dim)," ",String(nm),"\n");
    for i in [1..nm] do
-     AppendTo(filename,"\n");
+     Add( str, '\n' );
      mat := mats[i];
      for j in [1..dim] do
         row := mat[j];
@@ -172,14 +171,16 @@ COHOMOLO.WriteMatrices := function ( mats, filename)
           line := Concatenation(line," ",String(n));
           if Length(line)>70 then
               line := Concatenation(line,"\n");
-              AppendTo(filename,line);
+              Append( str, line );
               line := "";
           fi;
         od;
         line := Concatenation(line,"\n");
-        AppendTo(filename,line);
+        Append( str, line );
      od;
    od;
+
+   FileString( filename, str );
 end;
 
 
