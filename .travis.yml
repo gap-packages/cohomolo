@@ -1,26 +1,38 @@
-sudo: false
-os:
-  - linux
+dist: trusty
 language: c
-compiler:
-  - gcc
-  - clang
 env:
-  - PKG=cohomolo
+  global:
+    - GAPROOT=gaproot
+    - COVDIR=coverage
+
 addons:
   apt_packages:
+    - libgmp-dev
     - libgmp3-dev
+    - libreadline-dev
+    - libgmp-dev:i386
+    - libreadline-dev:i386
+    - gcc-multilib
+    - g++-multilib
+
+matrix:
+  include:
+    - env: CFLAGS="-O2"
+      compiler: clang
+    - env: CFLAGS="-O2"
+      compiler: gcc
+    - env: CFLAGS=""  # test build w/o optimization
+    - env: ABI=32
+
+branches:
+  only:
+    - master
+
+before_script:
+  - scripts/build_gap.sh
 script:
-  - cd ..
-  - git clone --depth=1 https://github.com/gap-system/gap.git gap
-  - cd gap
-  - ./configure --with-gmp=system
-  - make
-  - make bootstrap-pkg-minimal
-  - cd pkg
-  - mv ../../$PKG .
-  - cd $PKG
-  - ./configure
-  - make
-  - cd ../..
-  - echo "Read(\"pkg/$PKG/tst/testall.g\"); quit;" | sh bin/gap.sh
+  - scripts/build_pkg.sh
+  - scripts/run_tests.sh
+after_script:
+  - bash scripts/gather-coverage.sh
+  - bash <(curl -s https://codecov.io/bash)
