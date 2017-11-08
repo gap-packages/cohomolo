@@ -47,26 +47,29 @@ COHOMOLO := rec(
 ##
 COHOMOLO.WritePermGroup := function ( G, deg, base, filename)
 
-   local  line, gens, ng, nb, perm, i, j;
+   local  line, gens, ng, nb, perm, i, j, stream;
 
    gens := GeneratorsOfGroup(G);
    ng := Length(gens);
    nb := Length(base);
 
+   stream := OutputTextFile(filename, false);
+   SetPrintFormattingStatus(stream, false);
+
    #We output line by line, storing the data in each line in "line".
    line := Concatenation(String(deg)," ",String(ng)," ",String(nb)," 0\n");
-   PrintTo(filename,line);
+   PrintTo(stream,line);
    line := "";
    for i in [1..nb] do
      line := Concatenation(line," ",String(base[i]));
      if Length(line)>70 then
          line := Concatenation(line,"\n");
-         AppendTo(filename,line);
+         AppendTo(stream,line);
          line := "";
      fi;
    od;
    line := Concatenation(line,"\n");
-   AppendTo(filename,line);
+   AppendTo(stream,line);
    for i in [1..ng] do
      perm := gens[i];
      line := "";
@@ -74,13 +77,14 @@ COHOMOLO.WritePermGroup := function ( G, deg, base, filename)
          line := Concatenation(line," ",String(j^perm));
          if Length(line)>70 then
              line := Concatenation(line,"\n");
-             AppendTo(filename,line);
+             AppendTo(stream,line);
              line := "";
          fi;
      od;
      line := Concatenation(line,"\n");
-     AppendTo(filename,line);
+     AppendTo(stream,line);
    od;
+   CloseStream(stream);
 end;
 
 #############################################################################
@@ -93,7 +97,7 @@ end;
 ##
 COHOMOLO.WriteFPGroup := function ( G, filename)
    local  line, gens, genstring, igens, allgens, ng, rels, nr, LL, LG, ILG, ALG,
-          w, i, j, ct, gno, lgno;
+          w, i, j, ct, gno, lgno, stream;
 
    gens := FreeGeneratorsOfFpGroup (G);
    ng := Length(gens);
@@ -107,12 +111,15 @@ COHOMOLO.WriteFPGroup := function ( G, filename)
    ALG := Concatenation(LG,ILG);
    #lower case letters will be used as the generator names in the printout.
 
+   stream := OutputTextFile(filename, false);
+   SetPrintFormattingStatus(stream, false);
+
    line := Concatenation(String(ng)," 0 ",String(nr),"\n");
-   PrintTo(filename,line);
+   PrintTo(stream,line);
    line := "";
    genstring := List( [ 1 .. ng ],  x -> LL[x] );
    line := Concatenation(genstring,"\n");
-   AppendTo(filename,line);
+   AppendTo(stream,line);
    for i in [1..nr] do
       line := "";
       w := rels[i];
@@ -130,9 +137,10 @@ COHOMOLO.WriteFPGroup := function ( G, filename)
       od;
       if ct>1 then line := Concatenation(line,String(ct)); fi;
       line := Concatenation(line,"\n");
-      AppendTo(filename,line);
+      AppendTo(stream,line);
    od;
-   AppendTo(filename,"n\n");
+   AppendTo(stream,"n\n");
+   CloseStream(stream);
 end;
 
 #############################################################################
@@ -145,7 +153,7 @@ end;
 ##  cohomology programs.
 ##
 COHOMOLO.WriteMatrices := function ( mats, filename)
-   local  line, f, w, p, nm, dim, mat, row, entry, table, n, i, j, k;
+   local  line, f, w, p, nm, dim, mat, row, entry, table, n, i, j, k, stream;
 
    f := Field(Flat(mats));
    p := Size( f );
@@ -158,10 +166,14 @@ COHOMOLO.WriteMatrices := function ( mats, filename)
    od;
    nm := Length(mats);
    dim := Length(mats[1]);
+
+   stream := OutputTextFile(filename, false);
+   SetPrintFormattingStatus(stream, false);
+
    line := Concatenation(String(p)," ",String(dim)," ",String(nm),"\n");
-   PrintTo(filename,line);
+   PrintTo(stream,line);
    for i in [1..nm] do
-     AppendTo(filename,"\n");
+     AppendTo(stream,"\n");
      mat := mats[i];
      for j in [1..dim] do
         row := mat[j];
@@ -172,14 +184,15 @@ COHOMOLO.WriteMatrices := function ( mats, filename)
           line := Concatenation(line," ",String(n));
           if Length(line)>70 then
               line := Concatenation(line,"\n");
-              AppendTo(filename,line);
+              AppendTo(stream,line);
               line := "";
           fi;
         od;
         line := Concatenation(line,"\n");
-        AppendTo(filename,line);
+        AppendTo(stream,line);
      od;
    od;
+   CloseStream(stream);
 end;
 
 
