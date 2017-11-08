@@ -1,5 +1,13 @@
 This file describes changes in the cohomolo package.
 
+1.6.5 (2017-11-08)
+  - Fixed a bug were using GAP in a narrow terminal could lead
+    to a communication problem between the GAP package and the
+    standalone C code.
+
+1.6.4 (2016-01-20)
+  - No user visible changes (some test files were added)
+
 1.6.3 (2016-01-16)
   - Update README
   - Clarify that the package is licensed under the GPL v2 or later
