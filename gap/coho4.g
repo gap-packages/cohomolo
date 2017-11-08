@@ -47,7 +47,7 @@ COHOMOLO := rec(
 ##
 COHOMOLO.WritePermGroup := function ( G, deg, base, filename)
 
-   local  line, gens, ng, nb, perm, i, j, stream;
+   local  gens, ng, nb, perm, i, j, stream;
 
    gens := GeneratorsOfGroup(G);
    ng := Length(gens);
@@ -56,33 +56,17 @@ COHOMOLO.WritePermGroup := function ( G, deg, base, filename)
    stream := OutputTextFile(filename, false);
    SetPrintFormattingStatus(stream, false);
 
-   #We output line by line, storing the data in each line in "line".
-   line := Concatenation(String(deg)," ",String(ng)," ",String(nb)," 0\n");
-   PrintTo(stream,line);
-   line := "";
+   PrintTo(stream,deg," ",ng," ",nb," 0\n");
    for i in [1..nb] do
-     line := Concatenation(line," ",String(base[i]));
-     if Length(line)>70 then
-         line := Concatenation(line,"\n");
-         AppendTo(stream,line);
-         line := "";
-     fi;
+     PrintTo(stream," ",base[i]);
    od;
-   line := Concatenation(line,"\n");
-   AppendTo(stream,line);
+   PrintTo(stream,"\n");
    for i in [1..ng] do
      perm := gens[i];
-     line := "";
      for j in [1..deg] do
-         line := Concatenation(line," ",String(j^perm));
-         if Length(line)>70 then
-             line := Concatenation(line,"\n");
-             AppendTo(stream,line);
-             line := "";
-         fi;
+         PrintTo(stream," ",j^perm);
      od;
-     line := Concatenation(line,"\n");
-     AppendTo(stream,line);
+     PrintTo(stream,"\n");
    od;
    CloseStream(stream);
 end;
@@ -96,7 +80,7 @@ end;
 ##  cohomology programs.
 ##
 COHOMOLO.WriteFPGroup := function ( G, filename)
-   local  line, gens, genstring, igens, allgens, ng, rels, nr, LL, LG, ILG, ALG,
+   local  gens, genstring, igens, allgens, ng, rels, nr, LL, LG, ILG, ALG,
           w, i, j, ct, gno, lgno, stream;
 
    gens := FreeGeneratorsOfFpGroup (G);
@@ -114,14 +98,10 @@ COHOMOLO.WriteFPGroup := function ( G, filename)
    stream := OutputTextFile(filename, false);
    SetPrintFormattingStatus(stream, false);
 
-   line := Concatenation(String(ng)," 0 ",String(nr),"\n");
-   PrintTo(stream,line);
-   line := "";
+   PrintTo(stream,ng," 0 ",nr,"\n");
    genstring := List( [ 1 .. ng ],  x -> LL[x] );
-   line := Concatenation(genstring,"\n");
-   AppendTo(stream,line);
+   PrintTo(stream,genstring,"\n");
    for i in [1..nr] do
-      line := "";
       w := rels[i];
       lgno := 0; ct := 0;
       for j in [1..Length(w)] do
@@ -129,17 +109,16 @@ COHOMOLO.WriteFPGroup := function ( G, filename)
         if gno = lgno then
            ct := ct+1; #current power of this generator
         else
-           if ct>1 then line := Concatenation(line,String(ct)); fi;
+           if ct>1 then PrintTo(stream,ct); fi;
            ct := 1;
-           line := Concatenation(line,ALG[gno]);
+           PrintTo(stream,ALG[gno]);
            lgno := gno;
         fi;
       od;
-      if ct>1 then line := Concatenation(line,String(ct)); fi;
-      line := Concatenation(line,"\n");
-      AppendTo(stream,line);
+      if ct>1 then PrintTo(stream,ct); fi;
+      PrintTo(stream,"\n");
    od;
-   AppendTo(stream,"n\n");
+   PrintTo(stream,"n\n");
    CloseStream(stream);
 end;
 
@@ -153,7 +132,7 @@ end;
 ##  cohomology programs.
 ##
 COHOMOLO.WriteMatrices := function ( mats, filename)
-   local  line, f, w, p, nm, dim, mat, row, entry, table, n, i, j, k, stream;
+   local  f, w, p, nm, dim, mat, row, entry, table, n, i, j, k, stream;
 
    f := Field(Flat(mats));
    p := Size( f );
@@ -170,26 +149,18 @@ COHOMOLO.WriteMatrices := function ( mats, filename)
    stream := OutputTextFile(filename, false);
    SetPrintFormattingStatus(stream, false);
 
-   line := Concatenation(String(p)," ",String(dim)," ",String(nm),"\n");
-   PrintTo(stream,line);
+   PrintTo(stream,p," ",dim," ",nm,"\n");
    for i in [1..nm] do
-     AppendTo(stream,"\n");
+     PrintTo(stream,"\n");
      mat := mats[i];
      for j in [1..dim] do
         row := mat[j];
-        line := "";
         for k in [1..dim] do
           entry := row[k];
           if entry = 0*w then n := 0; else n := table[LogFFE(entry,w)+1]; fi;
-          line := Concatenation(line," ",String(n));
-          if Length(line)>70 then
-              line := Concatenation(line,"\n");
-              AppendTo(stream,line);
-              line := "";
-          fi;
+          PrintTo(stream," ",n);
         od;
-        line := Concatenation(line,"\n");
-        AppendTo(stream,line);
+        PrintTo(stream,"\n");
      od;
    od;
    CloseStream(stream);
