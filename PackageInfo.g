@@ -122,6 +122,6 @@ Keywords := [
   "Covering group"
 ],
 
-TestFile := "tst/testall.tst",
+TestFile := "tst/testall.g",
 
 ));
