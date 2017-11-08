@@ -38,9 +38,9 @@ The following properties of <var>G</var> can be computed:
 <p>
 <p>
 <dl compact>
-<code>(i)</code> The <var>p</var>-part <var>Mul<sub>p</sub></var> of the Schur multiplier <var>Mul</var> of <var>G</var>,
+<code>(i)</code> The <var>p</var>-part <i>Mul</i><sub><i>p</i></sub> of the Schur multiplier <var>Mul</var> of <var>G</var>,
 and a presentation
-of a covering extension of <var>Mul<sub>p</sub></var> by <var>G</var>, for a specified prime <var>p</var>;
+of a covering extension of <i>Mul</i><sub><i>p</i></sub> by <var>G</var>, for a specified prime <var>p</var>;
 <p>
 <code>(ii)</code> The dimensions of the first and second cohomology groups of <var>G</var>
 acting on a finite dimensional <var>KG</var> module <var>M</var>, where <var>K</var> is a field of prime
@@ -110,10 +110,10 @@ generators, and define a <var>GF(p)G</var>-module, which we shall denote by <var
 <p>
 <var>chr</var> must be a cohomology-record that was created by a call of
 <code>CHR(</code><var>G</var><code>,</code><var>p</var><code>,[</code><var>F</var><code>,</code><var>mats</var><code>])</code>. <code>SchurMultiplier</code> calculates
-the <var>p</var>-part <var>Mul<sub>p</sub></var> of the Schur multiplier <var>Mul</var> of <var>G</var>.
+the <var>p</var>-part <i>Mul</i><sub><i>p</i></sub> of the Schur multiplier <var>Mul</var> of <var>G</var>.
 The result is returned as a list of integers, which are the
-abelian invariants of <var>Mul<sub>p</sub></var>. If the list is empty, then
-<var>Mul<sub>p</sub></var> is trivial.
+abelian invariants of <i>Mul</i><sub><i>p</i></sub>. If the list is empty, then
+<i>Mul</i><sub><i>p</i></sub> is trivial.
 <p>
 <p>
 <h2><a name="SECT003">1.3 CoveringGroup</a></h2>
@@ -125,21 +125,21 @@ abelian invariants of <var>Mul<sub>p</sub></var>. If the list is empty, then
 <p>
 <var>chr</var> must be a cohomology-record, created by a call of
 <code>CHR(</code><var>G</var><code>,</code><var>p</var><code>,</code><var>F</var><code>[,</code><var>mats</var><code>])</code>, where <var>F</var> is a finitely presented group.
-<code>CoveringGroup</code> calculates a presentation of a covering extension of <var>Mul<sub>p</sub></var>
-by <var>G</var>, where <var>Mul<sub>p</sub></var> is the <var>p</var>-part of the Schur multiplier <var>Mul</var> of <var>G</var>.
+<code>CoveringGroup</code> calculates a presentation of a covering extension of <i>Mul</i><sub><i>p</i></sub>
+by <var>G</var>, where <i>Mul</i><sub><i>p</i></sub> is the <var>p</var>-part of the Schur multiplier <var>Mul</var> of <var>G</var>.
 The set of generators of the finitely presented group that is returned
 is a union of two sets, which are in one-one correspondence with the
-generators of <var>F</var> and of <var>Mul<sub>p</sub></var>, respectively. 
+generators of <var>F</var> and of <i>Mul</i><sub><i>p</i></sub>, respectively. 
 <p>
 The relators fall into three classes:
 <p>
 <dl compact>
-<code>(a)</code> Those that specify the orders of the generators of <var>Mul<sub>p</sub></var>;
+<code>(a)</code> Those that specify the orders of the generators of <i>Mul</i><sub><i>p</i></sub>;
 <p>
-<code>(b)</code> Those that say that the generators of <var>Mul<sub>p</sub></var> are central; and
+<code>(b)</code> Those that say that the generators of <i>Mul</i><sub><i>p</i></sub> are central; and
 <p>
 <code>(c)</code>
-    Those that give the values of the relators of <var>F</var> as elements of <var>Mul<sub>p</sub></var>.
+    Those that give the values of the relators of <var>F</var> as elements of <i>Mul</i><sub><i>p</i></sub>.
 </dl>
 <p>
 <p>
@@ -154,7 +154,7 @@ The relators fall into three classes:
 <code>CHR(</code><var>G</var><code>,</code><var>p</var><code>,</code><var>F</var><code>,</code><var>mats</var><code>)</code>. (If there is no finitely presented group <var>F</var>
 involved, then the third parameter of <code>CHR</code> should be given as 0.)
 <code>FirstCohomologyDimension</code> calculates and returns the dimension
-over <var>K</var> = <var>GF(p)</var> of the first cohomology group <var>H<sup>1</sup>(G,M)</var> of the group
+over <var>K</var> = <var>GF(p)</var> of the first cohomology group <i>H</i><sup>1</sup>(<i>G</i>,<i>M</i>) of the group
 <var>G</var> in its action on the module <var>M</var> defined by the matrices <var>mats</var>.
 <p>
 <p>
@@ -170,7 +170,7 @@ over <var>K</var> = <var>GF(p)</var> of the first cohomology group <var>H<sup>1<
 (If there is no finitely presented group <var>F</var> involved,
 then the third parameter of <code>CHR</code> should be given as 0.)
 <code>SecondCohomologyDimension</code> calculates and returns the dimension
-over <var>K</var> = <var>GF(p)</var> of the second cohomology group <var>H<sup>2</sup>(G,M)</var> of the group
+over <var>K</var> = <var>GF(p)</var> of the second cohomology group <i>H</i><sup>2</sup>(<i>G</i>,<i>M</i>) of the group
 <var>G</var> in its action on the module <var>M</var> defined by the matrices <var>mats</var>.
 <p>
 <p>
@@ -199,13 +199,13 @@ external cohomology programs. It is provided here for convenience.
 <var>chr</var> must be a cohomology-record, created by a call of
 <code>CHR(</code><var>G</var><code>,</code><var>p</var><code>,</code><var>F</var><code>,</code><var>mats</var><code>)</code>, where <var>F</var> is a finitely presented group.
 If present, <var>vec</var> must be a list of integers of length equal to the
-dimension over <var>K</var> = <var>GF(p)</var> of the second cohomology group <var>H<sup>2</sup>(G,M)</var> of the
+dimension over <var>K</var> = <var>GF(p)</var> of the second cohomology group <i>H</i><sup>2</sup>(<i>G</i>,<i>M</i>) of the
 group <var>G</var> in its action on the module <var>M</var> defined by the matrices <var>mats</var>.
 <code>NonsplitExtension</code> calculates and returns a presentation of a nonsplit
 extension of <var>M</var> by <var>G</var>. Since there may be many such extensions, and
 the equivalence classes of these extensions are in one-one correspondence
-with the nonzero elements of <var>H<sup>2</sup>(G,M)</var>, the optional second parameter
-can be used to specify an element of <var>H<sup>2</sup>(G,M)</var> as a vector.
+with the nonzero elements of <i>H</i><sup>2</sup>(<i>G</i>,<i>M</i>), the optional second parameter
+can be used to specify an element of <i>H</i><sup>2</sup>(<i>G</i>,<i>M</i>) as a vector.
 The default value of this vector is <code>[1,0,...,0]</code>.
 The set of generators of the finitely presented group that is returned
 is a union of two sets, which are in one-one correspondence with the
@@ -219,11 +219,11 @@ The relators fall into three classes:
 <code>(b)</code> Those that define the action of the generators of <var>F</var> on
 those of <var>M</var>; and
 <p>
-<code>(c)</code> Those that give the values of the relators of <var>F</var> as elements of <var>M</var>.
+<code>(c)</code> Those that give the values of the relators of <var>F</var> as elements of <i>M</i>.
 </dl>
 <p>
 (<var>Note</var>: It is not particularly efficient to call <code>SecondCohomologyDimension</code>
-first to calculate the dimension of <var>H<sup>2</sup>(G,M)</var>, which must of course be known
+first to calculate the dimension of <i>H</i><sup>2</sup>(<i>G</i>,<i>M</i>), which must of course be known
 if the second parameter is to be given; it is preferable to call
 <code>NonsplitExtension</code> immediately without the second parameter (which will
 return one nonsplit extension), and then to call 'SecondCohomologyDimension',
@@ -331,5 +331,5 @@ gap&gt; quit;
 <p>
 [<a href = "chapters.htm">Up</a>] [<a href = "theindex.htm">Index</a>]
 <P>
-<address>cohomolo manual<br>January 2016
+<address>cohomolo manual<br>November 2017
 </address></body></html>

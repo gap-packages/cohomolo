@@ -1,6 +1,6 @@
 name: cohomolo
-version: 1.6.4
-date: 20/01/2016
+version: 1.6.5
+date: 08/11/2017
 description: |
     Cohomology groups of finite groups on finite modules
 
@@ -17,12 +17,12 @@ maintainers:
 GAP: ">=4.7"
 
 www: https://gap-packages.github.io/cohomolo
-readme: README
+readme: README.md
 packageinfo: https://gap-packages.github.io/cohomolo/PackageInfo.g
 
 downloads:
     - name: .tar.gz
-      url: https://github.com/gap-packages/cohomolo/releases/download/v1.6.4/cohomolo-1.6.4.tar.gz
+      url: https://github.com/gap-packages/cohomolo/releases/download/v1.6.5/cohomolo-1.6.5.tar.gz
 
 abstract: |
     The <span class="pkgname">cohomolo</span> package is a       <span class="pkgname">GAP</span> interface to some `C' programs   for computing Schur multipliers and covering groups of finite groups   and first and second cohomology groups of finite groups acting   on finite modules
