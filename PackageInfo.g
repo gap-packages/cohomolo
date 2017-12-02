@@ -2,8 +2,8 @@ SetPackageInfo( rec(
 
 PackageName := "cohomolo",
 Subtitle := "Cohomology groups of finite groups on finite modules",
-Version := "1.6.5",
-Date := "08/11/2017",
+Version := "1.6.6",
+Date := "02/12/2017",
 
 Persons := [
   rec(
