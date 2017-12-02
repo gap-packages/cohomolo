@@ -48,4 +48,4 @@ gap> Size(Ex);
 
 #
 gap> SetInfoLevel(InfoCohomolo,CHMLINFO);
-gap> STOP_TEST( "d8.tst" );
+gap> STOP_TEST( "d8.tst", 10000 );
