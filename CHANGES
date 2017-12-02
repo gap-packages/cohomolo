@@ -1,5 +1,8 @@
 This file describes changes in the cohomolo package.
 
+1.6.6 (2017-12-02)
+  - Internal changes (make test suite compatible again with GAP 4.8)
+
 1.6.5 (2017-11-08)
   - Fixed a bug were using GAP in a narrow terminal could lead
     to a communication problem between the GAP package and the
