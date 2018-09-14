@@ -1,5 +1,9 @@
 This file describes changes in the cohomolo package.
 
+1.6.7 (2018-09-14)
+  - Set the GAP team as new package maintainer
+
+
 1.6.6 (2017-12-02)
   - Internal changes (make test suite compatible again with GAP 4.8)
 
