@@ -23,7 +23,7 @@ CFLAGS += -Wno-unused-result
 all:
 	mkdir -p bin/@GAPARCH@;
 	cd standalone/progs.d;\
-	$(MAKE) CC="$(CC)" BIN="..//..//$(BIN)" COPTS="$(COPTS)"
+	$(MAKE) CC="$(CC)" BIN="..//..//$(BIN)" CFLAGS="$(CFLAGS)"
 
 clean:
 	cd standalone/progs.d; $(MAKE) clean
