@@ -7,7 +7,7 @@ CFLAGS = -O
 
 # many cohomolo symbols (e.g. 'exp') clash with C builtins,
 # so we disable them to avoid spurious warnings and errors
-CFLAGS += -fno-builtin
+EXTRA_CFLAGS += -fno-builtin
 
 # evil HACK: disable some warnings, to prevent an overflowing build
 # log on Travis.
@@ -15,15 +15,15 @@ CFLAGS += -fno-builtin
 # very hard and unrewarding word on this old code base. It's more
 # tempting to reimplement this all in scratch in a modern C or C++,
 # or a radically different language (Ruse, Go, Julia, ...)
-CFLAGS += -Wno-implicit-function-declaration
-CFLAGS += -Wno-return-type
-CFLAGS += -Wno-dangling-else
-CFLAGS += -Wno-unused-result
+EXTRA_CFLAGS += -Wno-implicit-function-declaration
+EXTRA_CFLAGS += -Wno-return-type
+EXTRA_CFLAGS += -Wno-dangling-else
+EXTRA_CFLAGS += -Wno-unused-result
 
 all:
 	mkdir -p bin/@GAPARCH@;
 	cd standalone/progs.d;\
-	$(MAKE) CC="$(CC)" BIN="..//..//$(BIN)" CFLAGS="$(CFLAGS)"
+	$(MAKE) CC="$(CC)" BIN="..//..//$(BIN)" CFLAGS="$(CFLAGS) $(EXTRA_CFLAGS)"
 
 clean:
 	cd standalone/progs.d; $(MAKE) clean
