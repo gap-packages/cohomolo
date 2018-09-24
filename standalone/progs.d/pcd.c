@@ -19,7 +19,7 @@ char mult,conv,gens,inf1[80],inf2[80],outf1[80],outf2[80],outf3[80],outf4[80];
 short  perm[PSP],sv[SVSP],cp[5*NPT],fpt[MP],orb[NPT+1],igno[MP],
        base[MB],lorb[MB],pno[MP],*pptr[MP],*svptr[MB],
        gno[MEXP],ngno[MEXP],power[MEXP],wt[MEXP],d1[MEXP],d2[MEXP],
-       conj[NPT],conjinv[NPT],facord[MEXP],pinv[NPT/2],rel[2*MEXP],
+       facord[MEXP],pinv[NPT/2],rel[2*MEXP],
        mp=MP,mpt=NPT,mb=MB,mexp=MEXP;
 int svsp=SVSP,psp=PSP;
 

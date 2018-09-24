@@ -5,7 +5,7 @@ extern char mult,conv,gens,inf1[],inf2[],outf1[],outf2[],outf3[],outf4[];
 extern short  perm[],sv[],cp[],fpt[],orb[],igno[],
        base[],lorb[],pno[],*pptr[],*svptr[],
        gno[],ngno[],power[],wt[],d1[],d2[],
-       conj[],conjinv[],facord[],pinv[],rel[],
+       facord[],pinv[],rel[],
        *relptr[],mp,mpt,mb,mexp;
 extern int psp,svsp;
 short npt,np,npt1,nb,exp,prime;
