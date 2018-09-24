@@ -140,7 +140,7 @@ nextcl:;
           p= *dp;
           if (p==0) { def=0; ps=rpf; pf=ps-2; }
           else
-          { if (def= *(p-1)) continue;
+          { if ((def= *(p-1))) continue;
             ps=p+1; pf=p+ *p-1;
           }
           covrel= *(dp+1);
@@ -270,7 +270,7 @@ nextcl:;
       while (++p<=enexpnt) if (*p !=0)
       { l+=2; if (*p<0) *p+=cord[p-nexpnt]; }
       fprintf(op,"%4d  ",l); p=nexpnt;
-      while (++p<=enexpnt) if (*p!=0) fprintf(op,"%4d%4d",p-nexpnt,*p);
+      while (++p<=enexpnt) if (*p!=0) fprintf(op,"%4d%4d",(int)(p-nexpnt),*p);
       fprintf(op,"\n");
       if ((i==rno[1]) && (fscanf(ip,"%hd",&j)>0))
       { fprintf(op,"%4d\n",j); rno[1]+=j;}

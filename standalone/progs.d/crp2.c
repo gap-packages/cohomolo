@@ -149,7 +149,7 @@ crprog2 (void)
     while (++ps<=qs) if (*ps!=0) l+=2;
     fprintf(op,"%4d  ",l);
     ps=val;
-    while (++ps<=qs) if (*ps!=0) fprintf(op,"%4d%4d",ps-val,*ps);
+    while (++ps<=qs) if (*ps!=0) fprintf(op,"%4d%4d",(int)(ps-val),*ps);
     fprintf(op,"\n");
     if (mult==0) fclose(ip);
   }

@@ -472,7 +472,7 @@ intgen (int i, int j)
   }
   if (rpb+1-rpf<marg)
 {  printf("Running out of space in intgen. Remains,marg,wsp=%d,%d,%d.\n",
-                    rpb+1-rpf,marg,wsp);
+                    (int)(rpb+1-rpf),marg,wsp);
     if (wsp>marg) bgc(); else return(-1);
   }
   return(0);
@@ -496,7 +496,7 @@ subrel (int i, int j)
   if (stage) {*dp=rpb; rpb-=2; *(rpb+1)=0; } else { *dp=rpb;rpb--;}
   if (rpb+1-rpf<marg)
 { printf("Running out of space in subrel. Remains,marg,wsp=%d,%d,%d.\n",
-                    rpb+1-rpf,marg,wsp);
+                    (int)(rpb+1-rpf),marg,wsp);
     if (wsp>marg) bgc(); else return(-1);
   }
   return(0);
@@ -604,7 +604,7 @@ prnrel (void)
         { if (nl>l)
           { if (rpb+1-rpf<marg)
      { printf("Running out of space in prnrel. Remains,marg,wsp=%d,%d,%d.\n",
-                    rpb+1-rpf,marg,wsp);
+                    (int)(rpb+1-rpf),marg,wsp);
               if (wsp>marg) bgc();
               else return(-1);
             }

@@ -116,7 +116,7 @@ comprels (void)
     l=0; p=v2;
     while (++p<=v2+dim) if (*p !=0) l+=2;
     fprintf(op,"%4d  ",l); p=v2;
-    while (++p<=v2+dim) if (*p!=0) fprintf(op,"%4d%4d",p-v2,*p);
+    while (++p<=v2+dim) if (*p!=0) fprintf(op,"%4d%4d",(int)(p-v2),*p);
     fprintf(op,"\n");
     if ((i==rno[1]) && (fscanf(ip,"%hd",&j)>0))
     { fprintf(op,"%4d\n",j); rno[1]+=j;}

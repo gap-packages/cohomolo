@@ -142,7 +142,8 @@ cnprg2 (void)
     for (i=1;i<=ind;i++) {orb[i]=i; len[i]=1; orbptr[i]=0;}
     printf("Computing orbits of con perms from %s.\n",outf1);
     ip=fopen(temp1,"r");fscanf(ip,"%d%d",&i,&ncp);
-    while ((c=getc(ip))!='\n'); flct= -1; fuse=0;
+    while ((c=getc(ip))!='\n') {}
+    flct= -1; fuse=0;
     while (1)
     { for (i=1;i<=ncp;i++)
       { q=cperm;

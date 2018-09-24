@@ -140,7 +140,7 @@ nqprog (void)
 */
     rsp=orsp; ptrsp=optrsp;
     ip=fopen(outf2,"r");
-    if (ip==0) { fprintf(stderr,"Cannot open %s.\n"); return(-1); }
+    if (ip==0) { fprintf(stderr,"Cannot open %s.\n",outf2); return(-1); }
     fscanf(ip,"%hd%hd%hd",&prime,&dim,&ngens);
     for (i=1;i<=ngens;i++) readmat(mat[i]);
     fclose(ip);
@@ -340,7 +340,7 @@ nextcl:;
     }
     st++;
   }
-  printf("Space used, used ptrspace=%d,%d.\n",rsp-(rpb-rpf),pcb-pcptr);
+  printf("Space used, used ptrspace=%d,%d.\n",(int)(rsp-(rpb-rpf)),(int)(pcb-pcptr));
   fflush(stdout);
   return(0);
 }

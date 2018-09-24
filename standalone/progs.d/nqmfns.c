@@ -112,7 +112,7 @@ outgp (void)
       while (++b<=e)
       { while (*b<0) (*b)+= *c; if (*b!=0) l+=2; c++; }
       fprintf(op,"%3d",l); b= *pcp;
-      while (++b<=e) if (*b!=0) fprintf(op,"%4d%4d",b-(*pcp),*b);
+      while (++b<=e) if (*b!=0) fprintf(op,"%4d%4d",(int)(b-(*pcp)),*b);
     }
     fprintf(op,"\n"); pcp++;
   }
