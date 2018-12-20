@@ -2,8 +2,7 @@
 # all executables are put into the bin directory.
 BIN = bin/@GAPARCH@
 
-CC=gcc
-CFLAGS = -O
+CFLAGS += -O
 
 # many cohomolo symbols (e.g. 'exp') clash with C builtins,
 # so we disable them to avoid spurious warnings and errors

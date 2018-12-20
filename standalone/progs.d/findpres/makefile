@@ -1,5 +1,4 @@
-CC = gcc
-CFLAGS= -O2
+CFLAGS += -O2
 all:  makegp gprun conrun grrun
 .c.o:
 	${CC} -c $(CFLAGS) $*.c 

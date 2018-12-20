@@ -20,7 +20,7 @@ matrix:
     - env: CC=clang CXX=clang++
       compiler: clang
     - env:
-      compiler: gcc
+      compiler: clang 
     - env: ABI=32
 
 branches:
