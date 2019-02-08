@@ -3,7 +3,7 @@
 BIN = bin/@GAPARCH@
 
 CC=gcc
-CFLAGS = -O
+CFLAGS = -O2 -g
 
 # many cohomolo symbols (e.g. 'exp') clash with C builtins,
 # so we disable them to avoid spurious warnings and errors
