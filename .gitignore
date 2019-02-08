@@ -2,6 +2,9 @@ Makefile
 /standalone/progs.d/*.o
 /bin
 
+*.gcno
+*.gcov
+
 /gh-pages/
 /tmp/
 
