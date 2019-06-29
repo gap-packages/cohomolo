@@ -23,7 +23,7 @@ EXTRA_CFLAGS += -Wno-unused-result
 all:
 	mkdir -p bin/@GAPARCH@;
 	cd standalone/progs.d;\
-	$(MAKE) CC="$(CC)" BIN="..//..//$(BIN)" CFLAGS="$(CFLAGS) $(EXTRA_CFLAGS)" LDFLAS="$(LDFLAGS)"
+	$(MAKE) CC="$(CC)" BIN="..//..//$(BIN)" CFLAGS="$(CFLAGS) $(EXTRA_CFLAGS)" LDFLAGS="$(LDFLAGS)"
 
 clean:
 	cd standalone/progs.d; $(MAKE) clean
