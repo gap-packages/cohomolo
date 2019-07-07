@@ -1,8 +1,13 @@
 This file describes changes in the cohomolo package.
 
+1.6.8 (2019-07-07)
+  - Allow CC and CFLAGS to be overridden
+  - Fix a bunch of compiler warning
+  - Simplify parts of the build system
+  - PackageInfo.g: specify license in machine readable form
+
 1.6.7 (2018-09-14)
   - Set the GAP team as new package maintainer
-
 
 1.6.6 (2017-12-02)
   - Internal changes (make test suite compatible again with GAP 4.8)
