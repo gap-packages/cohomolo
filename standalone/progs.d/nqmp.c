@@ -32,8 +32,8 @@ FILE *ip,*op;
 */
 int 
 nqmprog (void)
-{ short i,j,k,l,m,d,*gi,*gj,*ti,*tj,cl,def,*ps,*pf,**dp,*nrpb,*p,*orpf,*orpb,
-        nb,np,k1,*rno,*covrel,**pgen,tdef,sgn;
+{ short i,j,k,l,m,*gi,*gj,*ti,*tj,cl,def,*ps,*pf,**dp,*nrpb,*p,*orpf,*orpb,
+        nb,np,k1,*rno,*covrel,**pgen,sgn;
   char nt;
   if (ingp() == -1) {fprintf(stderr,"Input error.\n"); return(-1); }
   covrel=NULL; eexpnt=expnt+exp; enexpnt=nexpnt+nng;

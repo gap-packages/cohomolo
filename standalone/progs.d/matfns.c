@@ -137,7 +137,7 @@ int cbdef (int gb, int ge, int cbno, short *d1, short *d2, short *wt, short *acl
    1 is returned if mat[cbno] is the identity, otherwise 0.
   Externals: mat,spv,prime,dim.
 */
-{ short i,j,k,l,fac,w,*ar,*are,*p,**cbm; int sum;
+{ short i,j,k,l,fac,*ar,*are,*p,**cbm; int sum;
   char id;
   cbm=mat[cbno];
   for (i=1;i<=dim;i++)
@@ -150,7 +150,7 @@ restart:
   for (i=1;i<=dim;i++) for (j=gb;j<=ge;j++)
   { k=comm(cbm[i],spv,mat[j]);
     while (k>0) if (wt[k]<=wt[i] || (d1[k]==0 && wt[k]==wt[i]+1))
-    { w=wt[k]; wt[k]=wt[i]+1;
+    { wt[k]=wt[i]+1;
       if (wt[k]> *acl) *acl=wt[k];
       if (id && spv[k]!=1) id=0;
       if (id) for (l=k+1;l<=dim;l++) if (spv[l]>0) id=0;

@@ -16,9 +16,9 @@ FILE *ip,*ipcr,*ipkp,*op,*opy;
 
 int 
 scprog (void)
-{ short i,j,k,l,m,n,stconj,np,pm1,ncr,crct,ndc,dcct,
+{ short i,j,k,l,m,n,stconj,pm1,ncr,crct,ndc,dcct,
         lo,intexsk,stpt,lpt,stint,olen,pt,ad,*p1,*ip1,*p2,*ip2,
-        *pint,*ptr,*g,*ig,ino,olo,**vsvptr;
+        *pint,*ptr,olo,**vsvptr;
   int quot;
   char  ingp,igth;
 

@@ -96,7 +96,7 @@ nchg (void)
 int 
 spact (void)
 /* Computes cohomology group H^i(P,M) or H^i(Q,M) */
-{ short i,j,k,l,m,n,ie,ct,cl,fg,wi,wj,*p,*q,*r,*nrpf,*v1,*v2,
+{ short i,j,k,l,m,ie,ct,cl,fg,wi,wj,*p,*q,*nrpf,*v1,*v2,
   **swop,homcl,c;
   char inp;
   inp= (ch1 && act) ? 0 : 1;
@@ -250,7 +250,7 @@ int
 intact (void)
 /* In case act, appropriate quotient of H^i(P,M) is computed */
 { short a,b,c,d,i,j,k,l,len,m,n,x,f1,f2,*p,*p1,*q,*q1,*r,*r1,*ia,*ib,*v1,
-        **bim,**cbim,**imcg,**cimcg,**dp,*null;
+        **bim,**cbim,**imcg,**cimcg,*null;
   char pow,nz;
   strcpy(inf1,inf0);
   if (norm)

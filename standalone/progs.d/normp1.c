@@ -30,7 +30,7 @@ FILE *ip,*op;
 int 
 nprg1 (void)
 { char heqg,inreg,con1,con2,fpt;
-  short i,j,k,l,m,n,nnb,endorb,regb,regbno,regorep,rpno,*intno,*tsv,lo,
+  short i,j,k,l,m,regb,regbno,regorep,rpno,*intno,*tsv,lo,
         *ptr,mxb,mxp,mxexp,nph,npg,maxl,ct,*spptr,*opno;
   int rsp,spn,quot;
 /* If we are storing a minimal gen set for H, we read it in */
@@ -471,7 +471,7 @@ newbasept (int hfl)
 int 
 skfaithorb (void)
 /* We seek a possible orbit O1, as described in a comment above. */
-{ short i,j,*k,l,m,n,ct;  char fnd;
+{ short i,j,*k,l,n,ct;  char fnd;
   k=intorb[nint];  fnd=0;
   for (j=1;j<=*k;j++)
   { lrego=glorb2[gorno2[*(k+j)]];
