@@ -36,7 +36,7 @@ setfixb (short *p)
 
 int 
 pcprog (void)
-{ short i,j,k,l,m,n,mxp,ngads,pairs,class,hgen,coeff,nf,nf1,nf2,pt,*pk,
+{ short i,j,k,l,m,n,mxp,ngads,class,hgen,coeff,nf,nf1,nf2,pt,*pk,
         *pnf,*pnf1,*pnf2,*ipnf,*ipnf1,*p1,*p2,*ip1,*ip2,nwt;
   int quot;
   char diff;

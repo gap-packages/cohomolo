@@ -13,7 +13,7 @@ extern short invg[],mwdl,endr,*fpt,*bpt,nelim,lo,**imcos,dim,
 
 int 
 scanrel (void)
-{ short i,j,k,l,m,necr,*s,*t; short compfsc,*p,*q,*r,esc;
+{ short i,j,k,l,m,necr,*s,*t; short compfsc,*p,*q,esc;
   fullsc=1; stcr=endcr+2; endcr+=(1+rel[stcr-1]); esc=0;
   *wd1=0; *wd2=0; p=wd1+mwdl; q=p+dim;
   while (++p<=q) *p=0;

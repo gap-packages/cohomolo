@@ -64,7 +64,7 @@ void setpinv (void)
 }
 
 int mcprog (void)
-{ short i,j,k,l,m,n,nperms,np2,*p,**q;
+{ short i,j,k,l,n,nperms,np2,*p,**q;
   int quot;
   if ((ip=fopen(inf1,"r"))==0)
   { fprintf(stderr,"Cannot open %s.\n",inf1); return(-1);}

@@ -44,7 +44,7 @@ FILE *ip,*ipm,*op;
 
 int 
 nqprog (void)
-{ short i,c,**p,**q,*r,ct,oexp; char adn;
+{ short i,c,**p,**q,ct,oexp; char adn;
   if (cfm)
 /* Calculate Frattini module only  */
   { tails=1; stage=0; strcpy(outf1,outf0);
@@ -275,7 +275,7 @@ calcfm (int steps)
    Frattini extension, but this is only used for testing.
    At each stage, the NQA is applied to the group computed so far.
 */
-{ short i,j,k,l,d,cl,st,dp,bd,ed; char inp;
+{ short i,j,k,l,cl,st,dp,bd,ed; char inp;
   printf("Computing Frattini module to depth %d.\n",steps);
   st=1; depth= -1; inp= act ? 0 : 1;
 /* if inp=0, initial input is from inf3 (which is already open as ip);

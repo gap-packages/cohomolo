@@ -247,7 +247,7 @@ subrel (int i, int j)
 /* The element currently in nexpnt, is introduced as the tail of the relation
    [i,j]
 */
-{ short **dp,*p,*nrpb,sum;
+{ short **dp,*p,*nrpb;
   if (i==j) dp=powptr[i];  else dp=comptr[i]+2*j;
   if (*dp != 0 && *(*dp-1) != 0)
   { printf("Reln [%d,%d] is already a defn.\n",i,j); return(0);}
@@ -269,7 +269,7 @@ assoc (int g1, int g2, int g3)
    later. If g1=g2, we use (g1^p)g2 and g1(g1^(p-1)g2), and similarly if
    g2=g3.
 */
-{ char eq12,eq23,prnt,triv; short i,l,e,*p;
+{ char eq12,eq23,prnt,triv; short i,e,*p;
   if (g3<0) {prnt=1; g3= -g3;} else prnt=0;
   eq12= g1==g2; eq23= g2==g3 && g1!=g2;
   zero(nexpnt,enexpnt); zero(expnt,eexpnt);

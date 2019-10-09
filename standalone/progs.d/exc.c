@@ -177,7 +177,7 @@ int
 ainvb (short *a, short *b, short *c)
 /* Concatenate word+vector "a" with inverse of word+vector "b" and write into c
 */
-{ short min,canct,n,*p,*q,*r,*c1,*ce,*a1;
+{ short min,canct,*p,*q,*r,*c1,*ce,*a1;
   min= (*a<= *b) ? *a : *b;
   p=a+1; q=b+1; canct=0;
   while (canct<min && *p== *q) {canct++; p++; q++; }

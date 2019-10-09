@@ -23,7 +23,7 @@ FILE *ip,*op;
 int 
 sylprog (void)
 { char nontriv,bt,seek,b,incadno;
-  short i,j,k,l,m,n,lnt,fnt,mxp,mnb,mexp,nperms,nb,ct,np2,bno,stp,
+  short i,j,k,l,lnt,fnt,mxp,mexp,nperms,nb,ct,np2,bno,stp,
         lexp,*z,*itp,*ap,*sva;
   int quot;
   if ((ip=fopen(inf,"r"))==0)

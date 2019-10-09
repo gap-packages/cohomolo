@@ -18,7 +18,7 @@ ingp (int inp)
    procedure. inp=0 when file is already open - i.e. when act=1, and pcp is
    the output from scrun.
 */
-{ int i,j,k,l,sum,jump; short *orpf,*orpb,**pcp,**pcpj,m;
+{ int i,j,k,l,sum,jump; short *orpf,**pcp,**pcpj,m;
   if (inp)
   { ip=fopen(inf1,"r");
     if (ip==0) { fprintf(stderr,"Cannot open %s\n",inf1); return(-1); }
@@ -496,7 +496,7 @@ bgc (void)
 int 
 intgen (int i, int j)
 /* A new generator is introduced for commutator [i,j] or (if i=j) i^p */
-{ short **dp,*p,*nrpb; int sum;
+{ short **dp; int sum;
   dp= (stage) ? comptr[i]+j : (i==j) ? powptr[i] : comptr[i]+2*j;
   if (*dp != 0 && *(*dp-1) != 0)
   { /*printf("Reln [%d,%d] is already a defn.\n",i,j);*/ return(1);}
@@ -529,7 +529,7 @@ intgen (int i, int j)
 int 
 subrel (int i, int j)
 /* Value of [i,j] or i^p is computed using an associativity condition. */
-{ short **dp,*p,*nrpb; int x,y,z;
+{ short **dp; int x,y,z;
   dp= (stage) ? comptr[i]+j : (i==j) ? powptr[i] : comptr[i]+2*j;
   if (*dp != 0 && *(*dp-1) != 0)
   { /*printf("Reln [%d,%d] is already a defn.\n",i,j);*/ return(0);}
@@ -553,7 +553,7 @@ subrel (int i, int j)
 int 
 assoc (int g1, int g2, int g3)
 /* Associativity relation is collected. */
-{ char eq12,eq23,prnt,triv; short *p; int i,l,e,sum;
+{ char eq12,eq23,prnt,triv; short *p; int i,e,sum;
   sum= stage ? exp+dim: exp;
   if (g3<0) {prnt=1; g3= -g3;} else prnt=0;
   eq12= g1==g2; eq23= g2==g3 && g1!=g2;
@@ -589,7 +589,7 @@ prnrel (void)
    or made redundant if necessary.
 */
 { int i,j,k,l,nl,w,x,y,ct,elno,fac,pow,len,gno; short *p,*q,*eprvec,**dp,**edp;
-  char sub,triv,gth,u;
+  char sub,gth,u;
   u= (stage) ? 1 : 0; pow=0; len=0; gno=0;
   for (i=nng;i>=1;i--) if ((x=nexpnt[i])!=0)
   { len++;
