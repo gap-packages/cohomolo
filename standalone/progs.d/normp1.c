@@ -176,7 +176,7 @@ nprg1 (void)
   printf("Initial analysis and choice of base.\n");
 
   fpt=0; nint=0; gdone=0; cb=1; nnth=1; heqg=1; nrego=0; nhorbs=0; reginfolen=0;
-  lnth=0; intorb[0][0]=npt;
+  regorep=0; lnth=0; intorb[0][0]=npt;
   for (i=1;i<=npt;i++) cted[i]=0;
   for (i=1;i<=nbg;i++) {intorb[0][i]=gbase[i]; cted[gbase[i]]=1; }
   j=nbg; for (i=1;i<=npt;i++) if (cted[i]==0) {j++; intorb[0][j]=i;}
@@ -194,7 +194,7 @@ nprg1 (void)
     allorbs(glorb2,gorno2);
     skfaithorb(); ct=0; inreg=1; regbno=0; goto L3;
   }
-  inreg=0;
+  ct=0; inreg=0; regbno=0;
 
 L1:
   permnos(sth,npt,nnth); allorbs(glorb1,gorno1);

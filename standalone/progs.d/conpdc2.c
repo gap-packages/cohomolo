@@ -81,6 +81,7 @@ cnprg2 (void)
   for (i=1;i<=k;i++) while ((c=getc(ip))!='\n');
   op=fopen(temp1,"w"); fprintf(op,"%4d%4d%4d%4d\n",ind,ncp,0,0);
 
+  ngth=0;
   while (1)
   { for (pno=1;pno<=ncp;pno++)
     { printf("Converting perm no %d.\n",pno);

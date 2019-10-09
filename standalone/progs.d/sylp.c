@@ -89,7 +89,7 @@ sylprog (void)
     if (l>1) for (j=1;j<=npt;j++) if (svgptr[i][j]>0)
     { k++; expptr[k]=z; z+=npt; exprep(j,k,svgptr[i]); }
   }
-  nontriv=0; *pno=0; deftime[0]=0; stp=np2+1;
+  bt=0; nontriv=0; *pno=0; deftime[0]=0; stp=np2+1;
   for (i=1;i<=nb;i++)
   { for (j=1;j<=npt;j++) {svpptr[i][j]=0; svpptr[i][base[i]]= -1; }
     lorbdef[i]=1;

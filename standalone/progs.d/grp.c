@@ -54,7 +54,7 @@ grprog (void)
   for (i=0;i<dnwds;i++) done[i]=def+maxcos*(i+1);
 
   if (gap) {op=fopen(outfg,"w"); fprintf(op,"COHOMOLO.PermRels := [\n");}
-  nr=0; endr= -1;
+  mini=0; nr=0; endr= -1;
   for (bno=nb;bno>=1;bno--)
   { printf("bno=%d.\n",bno);
 /* We are going to do a coset enumeration of the group G[bno] (in the stabilizer

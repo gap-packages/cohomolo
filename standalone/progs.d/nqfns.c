@@ -87,8 +87,9 @@ ingp (int inp)
     { fscanf(ip,"%hd",&nng);
       for (i=1;i<=nng;i++) fscanf(ip,"%hd",nd1+i);
       for (i=1;i<=nng;i++) fscanf(ip,"%hd",nd2+i);
-      if (stage==4) {jump=exp*dim; pcpj=pcp+jump;}
+      if (stage==4) {jump=exp*dim; pcpj=pcp+jump;} else {jump=0; pcpj=NULL;}
     }
+    else {jump=0; pcpj=NULL;}
     for (i=exp+1;i<=exp+dim;i++)
     { comptr[i]=pcp-1;
       if (stage==4) powptr[i]=pcpj-1;
@@ -160,7 +161,7 @@ outgp (void)
   { for (i=1;i<=sum;i++) fprintf(op," %3d",dpth[i]); fprintf(op,"\n");}
   for (i=1;i<=sum;i++) fprintf(op," %3d",d1[i]); fprintf(op,"\n");
   for (i=1;i<=sum;i++) fprintf(op," %3d",d2[i]); fprintf(op,"\n");
-  jtl=0; pcp=pcptr;
+  jtl=0; pcp=pcptr; e=NULL;
   while (pcp<=pcb)
   { b= *pcp; c= tails ? *(pcp+1) : 0;
     if (b!=0) { k= *(*pcp-1); l= **pcp; e=b+l; }
@@ -457,10 +458,10 @@ bgc (void)
   printf("Back garbage collection. wsp=%d.\n",wsp);
   fflush(stdout); fflush(stderr);
   wt=fopen(gcfile,"w");
-  if (stage>=2) { pcp=pcb+1; epcp= (stage>2) ? npcb2 : npcb; d=1;}
+  if (stage>=2) { pcp=pcb+1; ct=0; epcp= (stage>2) ? npcb2 : npcb; d=1;}
   else
   if (stage==1) { pcp=opcb+facexp+1; ct=facexp+1; epcp=pcb; d=1;}
-  else { pcp=pcptr; epcp=pcb; d=0;}
+  else { pcp=pcptr; ct=0; epcp=pcb; d=0;}
   while (pcp<=epcp)
   { if (stage==0) pcp++; if ((p=  *pcp)!=0)
     { q=p+ *p; p-=(1+d); while (++p<=q) fprintf(wt,"%d ",*p); }
@@ -589,7 +590,7 @@ prnrel (void)
 */
 { int i,j,k,l,nl,w,x,y,ct,elno,fac,pow,len,gno; short *p,*q,*eprvec,**dp,**edp;
   char sub,triv,gth,u;
-  u= (stage) ? 1 : 0; pow=0; len=0;
+  u= (stage) ? 1 : 0; pow=0; len=0; gno=0;
   for (i=nng;i>=1;i--) if ((x=nexpnt[i])!=0)
   { len++;
     if (pow==0 || (stage==0 && wt[i+exp]<w)) {pow=x; gno=i; w=wt[i+exp];}
@@ -611,10 +612,10 @@ prnrel (void)
   }
   /* else printf("New gen no %d is eliminated.\n",gno); */
   eprvec=prvec+nng;  elno= (u) ? gno : exp+gno;
-  if (stage>=2) { dp=pcb+1; edp= (stage>2) ? npcb2 : npcb;}
+  if (stage>=2) { dp=pcb+1; ct=0; edp= (stage>2) ? npcb2 : npcb;}
   else
   if (stage==1) { dp=opcb+facexp+1; ct=facexp+1; edp=pcb;}
-  else { dp=pcptr; edp=pcb; }
+  else { dp=pcptr; ct=0; edp=pcb; }
 /* Now we edit the PCP relations, wasting as little space as possible */
   while (dp<=edp)
   { p= *dp;

@@ -36,7 +36,7 @@ nqmprog (void)
   char nt;
   FILE *ip,*op;
   if (ingp() == -1) {fprintf(stderr,"Input error.\n"); return(-1); }
-  eexpnt=expnt+exp; enexpnt=nexpnt+nng;
+  covrel=NULL; eexpnt=expnt+exp; enexpnt=nexpnt+nng;
 
 /* if nng=0, we are computing the multiplier of P. First we estimate the
    maximal possible no of new gens, mnng.

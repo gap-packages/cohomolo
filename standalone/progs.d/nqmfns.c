@@ -307,6 +307,7 @@ prnrel (int corrtl)
 */
 { short i,j,k,len,hp,ct,fac,x,y,a,b,c,hpi,gno,*p,**dp,term[30];
    char elim,sub,rep,triv;
+   a=0; b=0; gno=0;
 restart:
   hp=exp/2; len=0; rep=0;
   for (i=nng;i>=1;i--)
