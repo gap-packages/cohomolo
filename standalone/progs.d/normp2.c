@@ -135,7 +135,7 @@ found (void)
   return(0);
 }
 
-int 
+void
 deforbperm (int bpt, int imbpt)
 /* Update orbit permutation information using fact that tp[bpt]=imbpt. */
 { short i,x,y,z;

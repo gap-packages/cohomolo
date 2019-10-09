@@ -85,7 +85,7 @@ ingp (void)
   fclose(ip); return(0);
 }
 
-int 
+void
 outgp (void)
 /* The PCP is output, together with tails */
 { short i,k,l,**pcp,*b,*e,*c;
@@ -119,11 +119,11 @@ outgp (void)
   fclose(op);
 }
 
-int 
+void
 zero (short *p1, short *p2)
 { while ((++p1)<=p2) *p1=0; }
 
-int 
+void
 setnr (short *p)
 /* This is called only by collect, which follows */
 { short *p1,*p2,*c;

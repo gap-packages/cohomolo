@@ -27,7 +27,7 @@ resetsv (void)
   return(0);
 }
 
-int 
+void
 setfixb (short *p)
 { short bno; bno=1;
   while (bno<=nb && p[base[bno]]==base[bno]) bno++;

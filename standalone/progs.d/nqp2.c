@@ -14,6 +14,85 @@ short *wf,*wc,**inteno,intcpd,inng,*nsd1,*nsd2,intfe,**npcb2;
 extern FILE *ip,*ipm,*op;
 FILE *ipcopy,*opcopy;
 
+void
+enter (short *g, int pow)
+/* Enters a power of the word pointed to by g into rel for collection. */
+{ short *ps,*pf,*pc,i,sgn;
+  if (pow<0) { sgn= -1; pow= -pow; pf=g+1; ps=g+ *g+1; }
+  else { sgn=1; ps=g-1; pf=g+ *g-1; }
+  for (i=1;i<=pow;i++)
+  { pc=ps;
+    while (pc!=pf) { pc +=(2*sgn); wc+=2; *wc= *pc; *(wc+1)= *(pc+1) *sgn; }
+  }
+}
+
+void
+entvec (short *h, short *g, int pow)
+/* Similar, but g is a vector. Used only for H^1. */
+{ short i,j,l,*p,*q;
+  for (i=1;i<=dim;i++) if ((j=g[i])!=0)
+  { j*=pow; j%=prime; if (j<0) j+=prime;
+    wc+=2; *wc=exp+i; *(wc+1)=j;
+  }
+  if (h!=0)
+  { l= *h; p=h+l;
+    while (++h<p)
+    { q=nexpnt+(*h); *q+=(pow* *(++h)); *q%=prime; if (*q<0) *q+=prime;}
+  }
+}
+
+void
+expand (short *p1, short *p2, int len)
+/* Expand word p1 to vector p2 of length len. */
+{ short l,*p,*q;
+  l= *p1; p=p1; q=p+l; zero(p2,p2+len);
+  while (++p<q) { p2[*p]= *(p+1); p++; }
+}
+
+void
+compress (short *p1, short *p2, int len)
+/* compress vector p2 of length len to word p1. */
+{ short i,n,*p;
+  p=p1;
+  for (i=1;i<=len;i++) if ((n=p2[i])!=0) { *(++p)=i; *(++p)=n; }
+}
+
+void
+nchg (void)
+/* We have a new generator for H^2. This is put into echelon form with the
+   existing generators, and stored.
+*/
+{ short l,m,n,len,*p,*q,*v1,*r,*r1;
+  for (m=1;m<=onng;m++) if ((n=nexpnt[m])!=0)
+  { if (n<0) {n+=prime; nexpnt[m]=n;}
+    if ((p=extno[m])!=0)
+    { expand(p,rpf,onng); p=rpf; n=prime-n; q=p+onng; v1=nexpnt+1;
+      while (++p<=q) {*v1+= (n* *p); *v1%=prime; v1++;}
+    }
+  }
+  for (m=1;m<=onng;m++) if ((n=nexpnt[m])!=0)
+  { n=pinv[n]; p=nexpnt+m-1; q=nexpnt+onng;
+    while (++p<=q) {*p *=n; *p%=prime; }
+    chpdim++; printf("chpdim=%2d,    bno=%2d\n",chpdim,m);
+    for (l=1;l<=onng;l++) if ((p=extno[l])!=0)
+    { r=rpb-onng; expand(p,r,onng);
+      if ((n=r[m])!=0)
+      { n=prime-n; r1=r; q=r+onng; v1=nexpnt+1;
+        while (++r1<=q) {*r1+=(n* *v1); *r1%=prime; v1++;}
+        len=0;
+        for (n=1;n<=onng;n++) if (r[n]!=0) len+=2;
+        if (len> *p) {p=rpf; extno[l]=p; rpf+=(len+1); }
+        *p=len; compress(p,r,onng);
+      }
+    }
+    extno[m]=rpf;
+    len=0;
+    for (n=1;n<=onng;n++) if (nexpnt[n]!=0) len+=2;
+    *rpf=len; compress(rpf,nexpnt,onng); rpf+=(len+1);
+    break;
+  }
+}
+
 int 
 spact (void)
 /* Computes cohomology group H^i(P,M) or H^i(Q,M) */
@@ -165,42 +244,6 @@ ncl:;
     }
   }
   return(0);
-}
-
-int 
-nchg (void)
-/* We have a new generator for H^2. This is put into echelon form with the
-   existing generators, and stored.
-*/
-{ short l,m,n,len,*p,*q,*v1,*r,*r1;
-  for (m=1;m<=onng;m++) if ((n=nexpnt[m])!=0)
-  { if (n<0) {n+=prime; nexpnt[m]=n;}
-    if ((p=extno[m])!=0)
-    { expand(p,rpf,onng); p=rpf; n=prime-n; q=p+onng; v1=nexpnt+1;
-      while (++p<=q) {*v1+= (n* *p); *v1%=prime; v1++;}
-    }
-  }
-  for (m=1;m<=onng;m++) if ((n=nexpnt[m])!=0)
-  { n=pinv[n]; p=nexpnt+m-1; q=nexpnt+onng;
-    while (++p<=q) {*p *=n; *p%=prime; }
-    chpdim++; printf("chpdim=%2d,    bno=%2d\n",chpdim,m);
-    for (l=1;l<=onng;l++) if ((p=extno[l])!=0)
-    { r=rpb-onng; expand(p,r,onng);
-      if ((n=r[m])!=0)
-      { n=prime-n; r1=r; q=r+onng; v1=nexpnt+1;
-        while (++r1<=q) {*r1+=(n* *v1); *r1%=prime; v1++;}
-        len=0;
-        for (n=1;n<=onng;n++) if (r[n]!=0) len+=2;
-        if (len> *p) {p=rpf; extno[l]=p; rpf+=(len+1); }
-        *p=len; compress(p,r,onng);
-      }
-    }
-    extno[m]=rpf;
-    len=0;
-    for (n=1;n<=onng;n++) if (nexpnt[n]!=0) len+=2;
-    *rpf=len; compress(rpf,nexpnt,onng); rpf+=(len+1);
-    break;
-  }
 }
 
 int 
@@ -444,47 +487,4 @@ intact (void)
   }
   strcpy(outf1,inf0); onng=nng; outgp();
   return(0);
-}
-
-int 
-enter (short *g, int pow)
-/* Enters a power of the word pointed to by g into rel for collection. */
-{ short *ps,*pf,*pc,i,sgn;
-  if (pow<0) { sgn= -1; pow= -pow; pf=g+1; ps=g+ *g+1; }
-  else { sgn=1; ps=g-1; pf=g+ *g-1; }
-  for (i=1;i<=pow;i++)
-  { pc=ps;
-    while (pc!=pf) { pc +=(2*sgn); wc+=2; *wc= *pc; *(wc+1)= *(pc+1) *sgn; }
-  }
-}
-
-int 
-entvec (short *h, short *g, int pow)
-/* Similar, but g is a vector. Used only for H^1. */
-{ short i,j,l,*p,*q;
-  for (i=1;i<=dim;i++) if ((j=g[i])!=0)
-  { j*=pow; j%=prime; if (j<0) j+=prime;
-    wc+=2; *wc=exp+i; *(wc+1)=j;
-  }
-  if (h!=0)
-  { l= *h; p=h+l;
-    while (++h<p)
-    { q=nexpnt+(*h); *q+=(pow* *(++h)); *q%=prime; if (*q<0) *q+=prime;}
-  }
-}
-
-int 
-expand (short *p1, short *p2, int len)
-/* Expand word p1 to vector p2 of length len. */
-{ short l,*p,*q;
-  l= *p1; p=p1; q=p+l; zero(p2,p2+len);
-  while (++p<q) { p2[*p]= *(p+1); p++; }
-}
-
-int 
-compress (short *p1, short *p2, int len)
-/* compress vector p2 of length len to word p1. */
-{ short i,n,*p;
-  p=p1;
-  for (i=1;i<=len;i++) if ((n=p2[i])!=0) { *(++p)=i; *(++p)=n; }
 }

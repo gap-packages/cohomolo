@@ -203,11 +203,11 @@ outgp (void)
   return(0);
 }
 
-int 
+void
 zero (short *p1, short *p2)
 { while ((++p1)<=p2) *p1=0; }
 
-int 
+void
 setnr (short *p)
 /* Really a subprocedure of collect. Adjusts nexpnt by fac times string p. */
 { short *p1,*p2;
@@ -437,12 +437,59 @@ powdone:
   }
 }
 
-int 
+void
 setpinv (void)
 { short i,j;
   for (i=0;i<prime;i++) pinv[i]=0;
   for (i=1;i<prime;i++) if (pinv[i]==0) for (j=1;j<prime;j++)
   if (i*j % prime ==1) { pinv[i]=j; pinv[j]=i; break; }
+}
+
+void
+bgc (void)
+/* Garbage collection by outputting to a temporary file and reading in again
+   Occurs after wasted space accumulates from eliminating generators.
+*/
+{ short **pcp,*p,*q,**epcp; int l,k,d,ct;
+  char gcfile[80];
+  FILE *wt;
+  strcpy(gcfile,inf); strcat(gcfile,"wrd.t");
+  printf("Back garbage collection. wsp=%d.\n",wsp);
+  fflush(stdout); fflush(stderr);
+  wt=fopen(gcfile,"w");
+  if (stage>=2) { pcp=pcb+1; epcp= (stage>2) ? npcb2 : npcb; d=1;}
+  else
+  if (stage==1) { pcp=opcb+facexp+1; ct=facexp+1; epcp=pcb; d=1;}
+  else { pcp=pcptr; epcp=pcb; d=0;}
+  while (pcp<=epcp)
+  { if (stage==0) pcp++; if ((p=  *pcp)!=0)
+    { q=p+ *p; p-=(1+d); while (++p<=q) fprintf(wt,"%d ",*p); }
+    pcp++;
+    if (stage==1)
+    { if (ct==exp) { pcp+=facexp; ct=facexp+1; } else  ct++; }
+  }
+  rpb=rel+rsp-1;
+  printf("Written to file.\n"); fflush(stdout);
+  fclose(wt); wt=fopen(gcfile,"r");
+  if (stage>=2) { pcp=pcb+1; epcp= (stage>2) ? npcb2 : npcb;}
+  else
+  if (stage==1) { pcp=opcb+facexp+1; ct=facexp+1; epcp=pcb; }
+  else { pcp=pcptr; epcp=pcb; }
+  while (pcp<=epcp)
+  { if (stage==0) pcp++;
+    if (*pcp!=0)
+    { if (stage) { fscanf(wt,"%d%d",&k,&l); rpb-=(l+2); p=rpb+2; *(p-1)=k;}
+      else { fscanf(wt,"%d",&l); rpb-=(l+1); p=rpb+1;}
+      *pcp=p; *p=l; q=p+l;
+      while (++p<=q) fscanf(wt,"%hd",p);
+    }
+    pcp++;
+    if (stage==1)
+    { if (ct==exp) { pcp+=facexp; ct=facexp+1; } else  ct++; }
+  }
+  wsp=0;
+  fclose(wt); unlink(gcfile);
+  printf("Reread file.\n"); fflush(stdout);
 }
 
 int 
@@ -630,51 +677,4 @@ prnrel (void)
   if (nng==0)
   { printf("All new generators eliminated.\n"); return(0); }
   return(1);
-}
-
-int 
-bgc (void)
-/* Garbage collection by outputting to a temporary file and reading in again 
-   Occurs after wasted space accumulates from eleiemnating generators.
-*/
-{ short **pcp,*p,*q,**epcp; int l,k,d,ct;
-  char gcfile[80];
-  FILE *wt;
-  strcpy(gcfile,inf); strcat(gcfile,"wrd.t");
-  printf("Back garbage collection. wsp=%d.\n",wsp);
-  fflush(stdout); fflush(stderr);
-  wt=fopen(gcfile,"w");
-  if (stage>=2) { pcp=pcb+1; epcp= (stage>2) ? npcb2 : npcb; d=1;}
-  else
-  if (stage==1) { pcp=opcb+facexp+1; ct=facexp+1; epcp=pcb; d=1;}
-  else { pcp=pcptr; epcp=pcb; d=0;}
-  while (pcp<=epcp)
-  { if (stage==0) pcp++; if ((p=  *pcp)!=0)
-    { q=p+ *p; p-=(1+d); while (++p<=q) fprintf(wt,"%d ",*p); }
-    pcp++;
-    if (stage==1)
-    { if (ct==exp) { pcp+=facexp; ct=facexp+1; } else  ct++; }
-  }
-  rpb=rel+rsp-1;
-  printf("Written to file.\n"); fflush(stdout);
-  fclose(wt); wt=fopen(gcfile,"r");
-  if (stage>=2) { pcp=pcb+1; epcp= (stage>2) ? npcb2 : npcb;}
-  else
-  if (stage==1) { pcp=opcb+facexp+1; ct=facexp+1; epcp=pcb; }
-  else { pcp=pcptr; epcp=pcb; }
-  while (pcp<=epcp)
-  { if (stage==0) pcp++;
-    if (*pcp!=0)
-    { if (stage) { fscanf(wt,"%d%d",&k,&l); rpb-=(l+2); p=rpb+2; *(p-1)=k;}
-      else { fscanf(wt,"%d",&l); rpb-=(l+1); p=rpb+1;}
-      *pcp=p; *p=l; q=p+l;
-      while (++p<=q) fscanf(wt,"%hd",p);
-    }
-    pcp++;
-    if (stage==1)
-    { if (ct==exp) { pcp+=facexp; ct=facexp+1; } else  ct++; }
-  }
-  wsp=0;
-  fclose(wt); unlink(gcfile);
-  printf("Reread file.\n"); fflush(stdout);
 }
