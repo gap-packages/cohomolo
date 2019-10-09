@@ -27,7 +27,7 @@ int psp=PSP,svsp=SVSP;
 int 
 main (int argc, char *argv[])
 { short arg;  char c,err,ondef;
-  err=0; arg=1; subgp=0; mult=0; if (argc<=arg) {err=1; goto error;}
+  err=0; ondef=0; arg=1; subgp=0; mult=0; if (argc<=arg) {err=1; goto error;}
   while (argv[arg][0]=='-')
   { c=argv[arg][1];
     if (c=='s')

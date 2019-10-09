@@ -263,7 +263,7 @@ int readrel (int no)
 */
 { short stbr,endbr,exp,l,m,n,ptr,ch,len;
   char gotg,br,clbr,emptybr;
-  gotg=0; br=0; clbr=0; ptr=0; len=0;
+  gotg=0; br=0; clbr=0; emptybr=0; stbr=0; endbr=0; ptr=0; len=0;
   ch=getc(ip);
   while (ch!='\n')
   { if (ch==' ') ch=getc(ip);

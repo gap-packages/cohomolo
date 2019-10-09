@@ -86,7 +86,7 @@ setskno (void)
 /* Initialize the "bound" orbit, using bind, as above, and add the relevant
    elements of H to the generators of N.
  */
-  for (i=1;i<=npt;i++) bindor[i]=i; bindor[gbase[gskno]]=0;
+  for (i=1;i<=npt;i++) bindor[i]=i; bindor[gbase[gskno]]=0; n=0;
   for (i=stn;i!= -1;i=fp[i]) {bind(i); (*pno)++; pno[*pno]=i; n=i; }
   k=ntno[adno];
   if (k!=0)
@@ -184,7 +184,7 @@ nprg2 (void)
    orhct and ntct are approximately the values of orhno and ntno for the 
    current adno. First we initialize everything.
 */
-  n=0; ntct=0; orhct=0;
+  j=0; n=0; ntct=0; orhct=0;
   for (i=1;i<nbg;i++)
   { if (ntorno[i] > 0) orhct++; if (ntno[i]>0) ntct++;
 /* regsv is used when we compute automorphism actions of tp on O, as described

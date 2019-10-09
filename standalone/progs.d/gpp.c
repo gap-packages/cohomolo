@@ -57,7 +57,7 @@ gpprog (void)
     seek=jobt; given=jobt; ordknown=1;
     for (i=1;i<=jobt;i++)  fscanf(ip,"%hd",order+i);
   }
-  else ordknown=0;
+  else { seek=0; given=0; ordknown=0; }
 
 /* Now we read the generating permutations */
   np2=2*nperms-2;
@@ -106,6 +106,7 @@ loop:
       bno--; if (bno==0) goto foundorder; goto loop;
     }
   }
+  else cord=0;
 /* Now we start generating the Schreier generators that fix the firat bno
    base points, test them for membership, and add them as new generators
    if necessary.

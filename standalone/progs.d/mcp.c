@@ -211,7 +211,7 @@ conprog (int con)
     op=fopen(inf6,"w");
     fprintf(op,"%4d%4d%4d\n",prime,dim,2);
     cbm=mat[lmat+1];
-    if (dim==1) { cbm[1][1]=id=1; }
+    if (dim==1) { cbm[1][1]=id=1; icbm=NULL; bcf=NULL; ibcf=NULL; lm3=0; }
     else
     { icbm=mat[lmat+2]; bcf=mat[lmat+4][1]; lm3=lmat+3;
       for (i=1;i<=dim;i++) bcf[i]=0; ibcf=mat[lmat+4][2]; id=1;
