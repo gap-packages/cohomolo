@@ -10,6 +10,59 @@ FILE *ip,*op;
 
 void seeknln (void) { while (getc(ip)!='\n'); }
 
+/* We repeat a few procedures from permfns.c, since that file is not loaded
+   in matcalc.
+*/
+void
+addsv (int pt, short *sv)
+{ short pn;
+  pn=sv[pt];
+  while (pn!= -1)
+  { (*cp)++; cp[*cp]=pn; pt=pptr[pn][pt]; pn=sv[pt]; }
+}
+
+void
+invert (short *ptr1, short *ptr2)
+{ short i;
+  for (i=1;i<=npt;i++) ptr2[ptr1[i]]=i;
+}
+
+int
+image (int pt)
+{ short i;
+  for (i=1;i<= *cp;i++) pt=pptr[cp[i]][pt];
+  return(pt);
+}
+
+void
+readvec (short *ptr, int e)
+{ short i; for (i=1;i<=npt+e;i++) fscanf(ip,"%hd",ptr+i); }
+
+void
+readbaselo (int nb, short *base, short *lorb)
+{ short i;
+  for (i=1;i<=nb;i++) fscanf(ip,"%hd",base+i);
+  for (i=1;i<=nb;i++) fscanf(ip,"%hd",lorb+i);
+}
+
+void
+readpsv (int e, int nb, int nperms, short **svptr)
+{ short i,j,*k;
+  for (i=1;i<=nperms;i++)
+  { j=e+2*i-2; readvec(pptr[j],1); invert(pptr[j],pptr[j+1]); }
+  for (i=1;i<=nb;i++)
+  { readvec(svptr[i],0);
+    for (j=1;j<=npt;j++) { k=svptr[i]+j; if (*k>0) *k +=e;}
+  }
+}
+
+void setpinv (void)
+{ short i,j;
+  for (i=0;i<prime;i++) pinv[i]=0;
+  for (i=1;i<prime;i++) if (pinv[i]==0) for (j=1;j<prime;j++)
+  if (i*j % prime ==1) { pinv[i]=j; pinv[j]=i; break; }
+}
+
 int mcprog (void)
 { short i,j,k,l,m,n,nperms,np2,*p,**q;
   int quot;
@@ -246,57 +299,4 @@ conprog (int con)
     fclose(ip); fclose(op);
   }
   return(0);
-}
-
-/* We repeat a few procedures from permfns.c, since that file is not loaded
-   in matcalc.
-*/
-int 
-addsv (int pt, short *sv)
-{ short pn;
-  pn=sv[pt];
-  while (pn!= -1)
-  { (*cp)++; cp[*cp]=pn; pt=pptr[pn][pt]; pn=sv[pt]; }
-}
-
-int 
-invert (short *ptr1, short *ptr2)
-{ short i;
-  for (i=1;i<=npt;i++) ptr2[ptr1[i]]=i;
-}
-
-int 
-image (int pt)
-{ short i;
-  for (i=1;i<= *cp;i++) pt=pptr[cp[i]][pt];
-  return(pt);
-}
-
-int 
-readvec (short *ptr, int e)
-{ short i; for (i=1;i<=npt+e;i++) fscanf(ip,"%hd",ptr+i); }
-
-int 
-readbaselo (int nb, short *base, short *lorb)
-{ short i;
-  for (i=1;i<=nb;i++) fscanf(ip,"%hd",base+i);
-  for (i=1;i<=nb;i++) fscanf(ip,"%hd",lorb+i);
-}
-
-int 
-readpsv (int e, int nb, int nperms, short **svptr)
-{ short i,j,*k;
-  for (i=1;i<=nperms;i++)
-  { j=e+2*i-2; readvec(pptr[j],1); invert(pptr[j],pptr[j+1]); }
-  for (i=1;i<=nb;i++)
-  { readvec(svptr[i],0);
-    for (j=1;j<=npt;j++) { k=svptr[i]+j; if (*k>0) *k +=e;}
-  }
-}
-
-int setpinv (void)
-{ short i,j;
-  for (i=0;i<prime;i++) pinv[i]=0;
-  for (i=1;i<prime;i++) if (pinv[i]==0) for (j=1;j<prime;j++)
-  if (i*j % prime ==1) { pinv[i]=j; pinv[j]=i; break; }
 }

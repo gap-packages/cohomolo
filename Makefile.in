@@ -17,7 +17,6 @@ EXTRA_CFLAGS += -fno-builtin
 # tempting to reimplement this all in scratch in a modern C or C++,
 # or a radically different language (Ruse, Go, Julia, ...)
 EXTRA_CFLAGS += -Wno-implicit-function-declaration
-EXTRA_CFLAGS += -Wno-return-type
 EXTRA_CFLAGS += -Wno-dangling-else
 EXTRA_CFLAGS += -Wno-unused-result
 
