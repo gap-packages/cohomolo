@@ -32,7 +32,8 @@ static void snl_iop (void) { while (getc(iop)!='\n'); }
 
 int main (int argc, char *argv[])
 { short i,j,k,l,n,np,nb,ng,nsg,nr,ch,dim,ngext,nrext,rno,ct;
-  char c,err,arg,mult,append,split;
+  char c,err,mult,append,split;
+  int arg;
   gap=err=append=mult=split=0; arg=1;
   while (argv[arg][0]=='-')
   { if (argv[arg][1]=='a') append=1;
