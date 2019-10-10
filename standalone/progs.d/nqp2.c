@@ -224,10 +224,11 @@ spact (void)
     for (i=1;i<=facexp;i++) for (j=i;j<=facexp;j++) for (k=exp+1;k<=exp+dim;k++)
     if ((i==j && wt[i]+1+wt[k]==cl) || (i!=j && wt[i]+wt[j]+wt[k]==cl))
     if (assoc(k,j,i))
-    if (ch1)
-    { if ((l=prnrel())==0) goto ncl; if (l== -1) return(-1); }
-    else
-    { l=prnrel(); if (l== -1) return(-1); if (l>1) nchg(); }
+    { if (ch1)
+      { if ((l=prnrel())==0) goto ncl; if (l== -1) return(-1); }
+      else
+      { l=prnrel(); if (l== -1) return(-1); if (l>1) nchg(); }
+    }
 ncl:;
   }
   if (ch1) printf("Cohomology grp has dim %d\n",nng);

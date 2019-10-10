@@ -218,28 +218,29 @@ conprog (int con)
       for (n=dim;n>=1;n--)
       { cv=mat[lm3][1]; cve=cv+dim; cc=mat[lm3][2];
         for (i=dim;i>=1;i--) if (bcf[i]==0)
-        if (n==1) {p=cbm[1]; q=p+dim; while (++p<=q) *p=0; cbm[1][i]=1; break;}
-        else
-        { bn=i; p=cv;
-          while (++p<=cve) *p=0;
-          cv[i]=1;
-          while(1)
-          { for (j=1;j<=nperms;j++)
-            { comm(cv,cc,mat[nm2+j]);
-              for (k=dim;k>n;k--) if ((fac=cc[ibcf[k]])!=0)
-              { p=cc; r=p+dim; q=cbm[k]+1;
-                while (++p<=r)
-                { sum= *p-(fac* *q); *p=sum%prime; if (*p<0) *p+=prime; q++; }
+	{ if (n==1) {p=cbm[1]; q=p+dim; while (++p<=q) *p=0; cbm[1][i]=1; break;}
+          else
+          { bn=i; p=cv;
+            while (++p<=cve) *p=0;
+            cv[i]=1;
+            while(1)
+            { for (j=1;j<=nperms;j++)
+              { comm(cv,cc,mat[nm2+j]);
+                for (k=dim;k>n;k--) if ((fac=cc[ibcf[k]])!=0)
+                { p=cc; r=p+dim; q=cbm[k]+1;
+                  while (++p<=r)
+                  { sum= *p-(fac* *q); *p=sum%prime; if (*p<0) *p+=prime; q++; }
+                }
+                for (k=dim;k>0;k--) if (cc[k]!=0)
+                { bn=k; id=0; sw=cv; cv=cc; cc=sw; cve=cv+dim; break;}
+                if (k>0) break;
               }
-              for (k=dim;k>0;k--) if (cc[k]!=0)
-              { bn=k; id=0; sw=cv; cv=cc; cc=sw; cve=cv+dim; break;}
-              if (k>0) break;
+              if (j>nperms) break;
             }
-            if (j>nperms) break;
-          }
-          bcf[bn]=n; ibcf[n]=bn; p=cbm[n]; q=p+dim; r=cv+1;  fac=pinv[cv[bn]];
-          while (++p<=q) {sum= *r*fac; *p=sum%prime; r++; }
-          break;
+            bcf[bn]=n; ibcf[n]=bn; p=cbm[n]; q=p+dim; r=cv+1;  fac=pinv[cv[bn]];
+            while (++p<=q) {sum= *r*fac; *p=sum%prime; r++; }
+            break;
+	  }
         }
       }
     }

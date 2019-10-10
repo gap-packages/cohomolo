@@ -42,15 +42,17 @@ main (int argc, char *argv[])
   }
   strcpy(inf1,argv[arg]);strcat(inf1,".");strcpy(inf2,inf1);strcpy(outf,inf1);
   strcpy(outft,inf1); strcat(outft,"dcrt");
-  if (subgp) if (subgp==1)
-  { strcpy(inf3,inf1); strcpy(inf4,inf1);
-    if (ondef==0)
-    { arg++; if (argc<=arg) strcat(inf3,"sg1"); else strcat(inf3,argv[arg]);
-      arg++; if (argc<=arg) strcat(inf4,"cr1"); else strcat(inf4,argv[arg]);
+  if (subgp)
+  { if (subgp==1)
+    { strcpy(inf3,inf1); strcpy(inf4,inf1);
+      if (ondef==0)
+      { arg++; if (argc<=arg) strcat(inf3,"sg1"); else strcat(inf3,argv[arg]);
+        arg++; if (argc<=arg) strcat(inf4,"cr1"); else strcat(inf4,argv[arg]);
+      }
+      else { strcat(inf4,"cr1"); strcat(inf3,"sg1"); }
     }
-    else { strcat(inf4,"cr1"); strcat(inf3,"sg1"); }
+    else strcpy(inf0,inf1);
   }
-  else strcpy(inf0,inf1);
   arg++; if (argc<=arg) strcat(outf,"sc"); else strcat(outf,argv[arg]);
   arg++; if (argc<=arg) strcat(inf2,"dcr"); else strcat(inf2,argv[arg]);
   arg++; if (argc<=arg) strcat(inf1,"spc"); else strcat(inf1,argv[arg]);
