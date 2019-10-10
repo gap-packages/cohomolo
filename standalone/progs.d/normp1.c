@@ -237,16 +237,17 @@ L2:
     }
     *intorb[nint]=ct; lnth=cb; nnth++;
     if (heqg)
-    if (lorbg[cb]==lorbh[cb])
-    { if (sym==0) { permnos(stg,npt,cb); allorbs(glorb2,gorno2); }
-      if (sym || (*glorb2== *glorb1))
-      { ntorno[cb]=0; endorno[cb]=0;
-        if (gdone)
-        { fprintf(stderr,"H = G.\n"); return(1); }
-        cb++; goto L1;
+    { if (lorbg[cb]==lorbh[cb])
+      { if (sym==0) { permnos(stg,npt,cb); allorbs(glorb2,gorno2); }
+        if (sym || (*glorb2== *glorb1))
+        { ntorno[cb]=0; endorno[cb]=0;
+          if (gdone)
+          { fprintf(stderr,"H = G.\n"); return(1); }
+          cb++; goto L1;
+        }
       }
+      else {ad1=cb;heqg=0;}
     }
-    else {ad1=cb;heqg=0;}
     nhorbs++; ntorno[cb]=nhorbs; endorno[cb]=0;
     horno[nhorbs]=gorno1; hlorb[nhorbs]=glorb1;
     gorno1=glorb1+ *glorb1; glorb1=gorno1+npt1;
@@ -263,7 +264,7 @@ L3:
   { bpt = (inreg) ? rego[j] : intorb[nint][j];
     con1=1; i=stg;
     if (fpt)
-    if (glorb1[gorno1[bpt]]==1) lrego++; else con1=0;
+    { if (glorb1[gorno1[bpt]]==1) lrego++; else con1=0; }
     if (con1) con1 = (sym) ? nonb[bpt] && (gdone==0) : pptr[i][npt1]>=cb;
     while (con1)
     { con2 = (sym) ? 1 : pptr[i][bpt]!=bpt;
@@ -449,11 +450,13 @@ permnos (int no, int uf, int lf)
 int 
 newbasept (int hfl)
 /* Changes gbase[nnth] to bpt, If hfl=1 same for hbase[nnth] */
-{ if (hfl)  if (hbase[nnth] != bpt)
-  { printf("H base no %d changed from %d to %d.\n",nnth,hbase[nnth],bpt);
-    if ((intbase(bpt,nnth,&sth,&nbh,hbase,lorbh,svhptr))== -1) return(-1);
+{ if (hfl)
+  { if (hbase[nnth] != bpt)
+    { printf("H base no %d changed from %d to %d.\n",nnth,hbase[nnth],bpt);
+      if ((intbase(bpt,nnth,&sth,&nbh,hbase,lorbh,svhptr))== -1) return(-1);
+    }
+    else printf("H base no %d remains %d.\n",nnth,hbase[nnth]);
   }
-  else printf("H base no %d remains %d.\n",nnth,hbase[nnth]);
   if (sym==0)
   { if (gbase[cb] != bpt)
     { printf("G base no %d changed from %d to %d.\n",cb,gbase[cb],bpt);

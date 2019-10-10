@@ -339,16 +339,22 @@ restart:
     while (++dp<=pcb)
     { p= *dp; if (p!=0)
       { y=p[gno];
-        if (y!=0) for (j=1;j<=nng;j++) if (j==gno) continue;
-        else if ((k=nexpnt[j])!=0) {p[j]-=(y*k); p[j]%=cord[j]; }
+        if (y!=0)
+        { for (j=1;j<=nng;j++) if (j==gno) continue;
+          else if ((k=nexpnt[j])!=0) {p[j]-=(y*k); p[j]%=cord[j]; }
+	}
       }
       dp++;
     }
-    if (corrtl) for (i=3;i<=intexp;i++) if ((p=tlintg[i])!=0)
-    { y=p[gno];
-      if (y!=0) for (j=1;j<=nng;j++) if (j==gno) continue;
-      else
-      if ((k=nexpnt[j])!=0) {p[j]-=(y*k); p[j]%=cord[j]; }
+    if (corrtl)
+    { for (i=3;i<=intexp;i++) if ((p=tlintg[i])!=0)
+      { y=p[gno];
+        if (y!=0)
+	{ for (j=1;j<=nng;j++) if (j==gno) continue;
+          else
+          if ((k=nexpnt[j])!=0) {p[j]-=(y*k); p[j]%=cord[j]; }
+	}
+      }
     }
     a=cord[gno]; p=nexpnt;
     while (++p<=enexpnt)

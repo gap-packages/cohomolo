@@ -369,14 +369,15 @@ loop:
       { exsgn= -1; pex= -1; spc= p1+1; spf=spc+ *p1-2; goto recurse;}
     }
     else if (*e>=prime)
-    if (gen>facexp) *e-=prime;
-    else
+    { if (gen>facexp) *e-=prime;
+      else
 /* Deal with exponent >= prime */
-    { *e -=prime; dp=powptr[gen]; p1= *dp; p2= *(dp+1);
-      if (tails && p2!=0) {fac=sgn; setnr(p2); }
-      if (p1!=0 && *p1!=0)
-      { exsgn=1; pex= -1; pugen=gen; spf= p1+1; spc=spf+ *p1-2;
-        goto recurse;
+      { *e -=prime; dp=powptr[gen]; p1= *dp; p2= *(dp+1);
+        if (tails && p2!=0) {fac=sgn; setnr(p2); }
+        if (p1!=0 && *p1!=0)
+        { exsgn=1; pex= -1; pugen=gen; spf= p1+1; spc=spf+ *p1-2;
+          goto recurse;
+        }
       }
     }
   }
@@ -389,12 +390,13 @@ loop:
     { if (pugen==pgen)
       { spugen[stkp]= -pgen;
         if (ex<0)
-        if (gen>facexp) sex[stkp]=ex+prime;
-        else
-        { sex[stkp]=ex+prime; dp=powptr[gen]; p3= *dp; p4= *(dp+1);
-          if (tails && p4!=0) { fac= -sgn; setnr(p4); }
-          if (p3!=0 && *p3!=0)
-          { exsgn= -1; spc= p3+1; spf=spc+ *p3-2; goto recurse;}
+	{ if (gen>facexp) sex[stkp]=ex+prime;
+          else
+          { sex[stkp]=ex+prime; dp=powptr[gen]; p3= *dp; p4= *(dp+1);
+            if (tails && p4!=0) { fac= -sgn; setnr(p4); }
+            if (p3!=0 && *p3!=0)
+            { exsgn= -1; spc= p3+1; spf=spc+ *p3-2; goto recurse;}
+	  }
         }
       }
       else pugen=pgen;

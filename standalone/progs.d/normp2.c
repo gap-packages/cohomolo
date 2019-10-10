@@ -394,23 +394,24 @@ nprg2 (void)
       { imbpt=tp[gbase[adno]];
         if (fail) { m=ntorno[adno]; if (m>0) n=imorno[orhct][imbpt]; }
         if (reg[adno]<=0  || defim[adno]!=imbpt)
-        if (sym==0)
-        { if (expcp[*expcp]<=start[adno])
-          { (*expcp)++; expcp[*expcp]=start[adno]+1; bt=0; }
-          else if (adno>lexp && expcp[*expcp]<start[adno+1])
-          { expcp[*expcp]++; bt=0; }
-          if (adno<=lexp)
-          { sva=svgptr[adno]; ap=adpt+adno; (*ap)++;
-            while (sva[*ap]<=0 && *ap<=npt) (*ap)++;
-            if (*ap<=npt) {bt=0; exprep(*ap,adno,sva); } else bt=1;
+	{ if (sym==0)
+          { if (expcp[*expcp]<=start[adno])
+            { (*expcp)++; expcp[*expcp]=start[adno]+1; bt=0; }
+            else if (adno>lexp && expcp[*expcp]<start[adno+1])
+            { expcp[*expcp]++; bt=0; }
+            if (adno<=lexp)
+            { sva=svgptr[adno]; ap=adpt+adno; (*ap)++;
+              while (sva[*ap]<=0 && *ap<=npt) (*ap)++;
+              if (*ap<=npt) {bt=0; exprep(*ap,adno,sva); } else bt=1;
+            }
           }
-        }
-        else if (expcp[*expcp]<start[adno+1])
-        { j=expcp[*expcp]; inim[j]=0;
-          for (i=j+1;bt;i++)
-          if (inim[i]==0 && (adno!=gskno || i!=gbase[adno]))
-          { expcp[*expcp]=i; bt=0; }
-        }
+          else if (expcp[*expcp]<start[adno+1])
+          { j=expcp[*expcp]; inim[j]=0;
+            for (i=j+1;bt;i++)
+            if (inim[i]==0 && (adno!=gskno || i!=gbase[adno]))
+            { expcp[*expcp]=i; bt=0; }
+          }
+	}
         if (bt)
         { j=ntorno[adno];
           if (j>0)
