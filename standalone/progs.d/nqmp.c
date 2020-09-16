@@ -9,7 +9,6 @@ extern short  intexp,mng,mexp,wksp,
        spugen[],*intg[],*imintg[],*tlintg[];
 extern int ptrsp,rsp;
 short  *wf,*wc; char norm;
-FILE *ip,*op;
 
 /* The data structures for this program and for nqrun are similar.
    d1 and d2 contain definitions of generators. (Def. comes from commutator
@@ -35,6 +34,7 @@ nqmprog (void)
 { short i,j,k,l,m,d,*gi,*gj,*ti,*tj,cl,def,*ps,*pf,**dp,*nrpb,*p,*orpf,*orpb,
         nb,np,k1,*rno,*covrel,**pgen,tdef,sgn;
   char nt;
+  FILE *ip,*op;
   if (ingp() == -1) {fprintf(stderr,"Input error.\n"); return(-1); }
   eexpnt=expnt+exp; enexpnt=nexpnt+nng;
 

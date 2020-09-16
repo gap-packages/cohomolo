@@ -20,8 +20,6 @@ short  mexp=MEXP,mcl=MCL,no,rel[RSP],wt[MEXP],exp,*rpf,*rpb,
 extern short  prime,dim,*spv,**spm,mspace[],*vec[],**mat[],cp[],pinv[],opmats,
         mm,mv;
 extern int msp;
-FILE *ip,*op;
-
 
 int 
 calcmats (void)
@@ -59,7 +57,7 @@ calcmats (void)
   }
   for (i=1;i<=exp;i++) trans(mat[i+exp],mat[i]);
   if (opmats)
-  { op=fopen(outf,"w");
+  { FILE *op=fopen(outf,"w");
     fprintf(op,"%4d%4d%4d\n",prime,dim,exp);
     for (i=1;i<=exp;i++) printmat(mat[i]); 
     fclose(op);
@@ -71,6 +69,7 @@ int
 rdmats (void)
 /* reads matrices of generators of P */
 { short i; int quot;
+  FILE *ip;
   ip=fopen(inf4,"r");
   if (ip==0)
   { fprintf(stderr,"Cannot open %s\n ",inf4); return(-1); }
@@ -90,12 +89,12 @@ rdmats (void)
   fclose(ip);
   return(0);
 }
-FILE *ip;
 
 int 
 ingp (int inp)
 /* Read in output of respcrun -s */
 { short i,j,k,l,m,*orpf,**pcp;
+  FILE *ip;
   ip=fopen(inf3,"r");
   if (ip==0) { fprintf(stderr,"Cannot open %s\n",inf3); return(-1); }
   fscanf(ip,"%hd%hd%hd%hd%hd%hd",&prime,&exp,&i,&no,&j,&m);

@@ -8,9 +8,8 @@ extern short sp[],**mat[],*psp[],**imcos[],**cpco[],lorb[],
 short *cst,**cpst,***cdpst,**svptr,*cp,*rel;
 short *spst,**pspst,**pptr,**cpptr,npt,nb,nph,nph2,npg,npg2,
       rno,orno,coh_index,*invg;
-FILE  *ip,*op;
 
-void seeknln (void) { while (getc(ip)!='\n'); }
+void seeknln (FILE *ip) { while (getc(ip)!='\n'); }
 
 /* This program differs from most other permutation programs in that perms are
    all stored in the single array sp. Schreier vectors are stored in the short
@@ -23,13 +22,14 @@ void seeknln (void) { while (getc(ip)!='\n'); }
 int 
 crprog1 (void)
 { short *pc,*qc,ex,neg; int x;
+  FILE  *ip,*op;
   short i,j,k,l,m,n,cl,rl,*p,ocl,im,pt,pt1,pn,ipt;
   if ((ip=fopen(inf2,"r"))== 0)
   { fprintf(stderr,"Cannot open %s.\n",inf2); return(-1);}
   fscanf(ip,"%hd%hd%hd%hd",&npt,&nph,&nb,&k);
   if (nb>=mb) {fprintf(stderr,"nb too big. Increase MB.\n"); return(-1);}
   if (k<=2) {fprintf(stderr,"inf2 has illegal format.\n"); return(-1); }
-  seeknln(); seeknln();
+  seeknln(ip); seeknln(ip);
   for (i=1;i<=nb;i++) fscanf(ip,"%hd",lorb+i);
   pptr=psp-1; pspst=psp+nph; svptr=cpsp-1;  cpst=cpsp+nb;
   invg=sp; nph2=2*nph; spst=sp+nph2;
@@ -37,7 +37,7 @@ crprog1 (void)
   { pptr[i]=spst+(i-1)*npt-1; p=pptr[i];
     for (j=1;j<=npt;j++) {fscanf(ip,"%hd",&k); p[k]=j; }
     invg[2*i-2]=2*i-1; invg[2*i-1]=2*i-2;
-    seeknln();
+    seeknln(ip);
   }
   spst+=(npt*nph);
   for (i=1;i<=nb;i++)
@@ -75,7 +75,7 @@ crprog1 (void)
   strcpy(inf1,inf0); strcat(inf1,".rel");
   if ((ip=fopen(inf1,"r"))==0)
   { fprintf(stderr,"Cannot open %s.\n",inf1); return(-1);}
-  fscanf(ip,"%hd%hd",&k,&rno); seeknln();
+  fscanf(ip,"%hd%hd",&k,&rno); seeknln(ip);
   op=fopen(outft,"w");
 /* Now we have read everything in, and the computation can start */
   orno=0;
