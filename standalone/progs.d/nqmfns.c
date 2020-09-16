@@ -9,7 +9,6 @@ extern short  intexp,mexp,mng,wksp,
        spugen[],*tlintg[];
 extern int ptrsp,rsp;
 short  fac;
-FILE *ip,*op;
 
 int 
 ingp (void)
@@ -18,6 +17,7 @@ ingp (void)
    of nqrun, and tails are also read in.
 */
 { short i,j,k,l,m,x,y,no,*orpf,*orpb,**pcp;  char tails;
+  FILE *ip;
   if ((ip=fopen(inf1,"r"))==0)
   { fprintf(stderr,"Cannot open %s.\n",inf1); return(-1); }
   fscanf(ip,"%hd%hd%hd%hd%hd%hd",&prime,&exp,&nng,&no,&class,&m);
@@ -89,6 +89,7 @@ int
 outgp (void)
 /* The PCP is output, together with tails */
 { short i,k,l,**pcp,*b,*e,*c;
+  FILE *op;
   op=fopen(outf,"w");
   fprintf(op,"%4d%4d%4d%4d%4d%4d\n",prime,exp,nng,exp,class,1);
   for (i=1;i<=exp;i++) fprintf(op,"%4d",wt[i]); fprintf(op,"\n");
@@ -379,7 +380,7 @@ restart:
     nng--; mnng--; enexpnt--;
     if (nng==0)
     { if (gap)
-      { op=fopen(outfm,"w"); fprintf(op,"COHOMOLO.Multiplier:=[];\n");
+      { FILE *op=fopen(outfm,"w"); fprintf(op,"COHOMOLO.Multiplier:=[];\n");
         fclose(op);
         printf("All new generators eliminated. Multiplier is trivial.\n");
       }
