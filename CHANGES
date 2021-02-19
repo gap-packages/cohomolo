@@ -1,5 +1,8 @@
 This file describes changes in the cohomolo package.
 
+1.6.9 (2021-02-19)
+  - Fix linker error when using GCC 10
+
 1.6.8 (2019-07-07)
   - Allow CC and CFLAGS to be overridden
   - Fix a bunch of compiler warning
