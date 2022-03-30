@@ -1,5 +1,9 @@
 This file describes changes in the cohomolo package.
 
+1.6.10 (2022-03-30)
+  - Fix more compiler warnings
+  - Fix building the manual in latest GAP
+
 1.6.9 (2021-02-19)
   - Fix linker error when using GCC 10
 
