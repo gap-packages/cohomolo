@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.com/gap-packages/cohomolo.svg?branch=master)](https://travis-ci.com/gap-packages/cohomolo)
+[![Build Status](https://github.com/gap-packages/cohomolo/workflows/CI/badge.svg?branch=master)](https://github.com/gap-packages/cohomolo/actions?query=workflow%3ACI+branch%3Amaster)
 [![Code Coverage](https://codecov.io/github/gap-packages/cohomolo/coverage.svg?branch=master&token=)](https://codecov.io/gh/gap-packages/cohomolo)
 
 # The GAP 4 package 'cohomolo'
