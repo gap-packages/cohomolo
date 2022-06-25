@@ -37,7 +37,7 @@ This file describes changes in the cohomolo package.
   - Convert C functions from K&R to ANSI C
 
 1.6.1 (2016-01-14)
-  - Moved package homepage to http://gap-packages.github.io/cohomolo/
+  - Moved package homepage to https://gap-packages.github.io/cohomolo/
   - Added GPL v2 license
   - Improve build system
   - Fix many warnings in the C code
