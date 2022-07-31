@@ -5,19 +5,6 @@
 ##  Converted from the GAP 3.4.4 verion, Derek Holt 2000/03/10.
 ##  Changes are minimal - SplitExtension renamed SplitExtensionCHR
 ##
-#A  @(#)$Id: coho.g,v 1.1.1.1 1996/12/11 12:41:54 werner Exp $
-##
-#H  $Log: coho.g,v $
-#H  Revision 1.1.1.1  1996/12/11 12:41:54  werner
-#H  Preparing 3.4.4 for release
-#H
-#H  Revision 3.1  1996/02/07  13:08:26  sam
-#H  fixed calls of 'LogFFE' (specify root now)
-#H
-#H  Revision 3.0  1996/02/07  13:02:46  sam
-#H  initial revision under RCS
-#H
-##
 ##  This file contains the interface to my cohomology `C' programs.
 ##
 DeclareInfoClass("InfoCohomolo");
