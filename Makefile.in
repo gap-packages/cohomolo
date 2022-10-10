@@ -10,14 +10,12 @@ CFLAGS ?= -O2 -g
 # so we disable them to avoid spurious warnings and errors
 EXTRA_CFLAGS += -fno-builtin
 
-# evil HACK: disable some warnings, to prevent an overflowing build
-# log on Travis.
+# evil HACK: disable some warnings to prevent CI build log overflow.
 # FIXME: these warnings really should be fixed instead, but that's
 # very hard and unrewarding word on this old code base. It's more
 # tempting to reimplement this all in scratch in a modern C or C++,
-# or a radically different language (Ruse, Go, Julia, ...)
+# or a radically different language (Rust, Go, Julia, ...)
 EXTRA_CFLAGS += -Wno-implicit-function-declaration
-EXTRA_CFLAGS += -Wno-unused-result
 
 all:
 	mkdir -p bin/@GAPARCH@;
