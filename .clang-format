@@ -18,7 +18,7 @@ BreakBeforeBraces: Stroustrup
 ColumnLimit: 78
 Cpp11BracedListStyle: false
 IndentCaseLabels: false
-IndentWidth: 4
+IndentWidth: 2
 MaxEmptyLinesToKeep: 2
 PointerBindsToType: Middle
 SpacesBeforeTrailingComments: 4
