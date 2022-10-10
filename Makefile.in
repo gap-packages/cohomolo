@@ -8,7 +8,7 @@ CFLAGS ?= -O2 -g
 
 # many cohomolo symbols (e.g. 'exp') clash with C builtins,
 # so we disable them to avoid spurious warnings and errors
-EXTRA_CFLAGS += -fno-builtin
+EXTRA_CFLAGS += -fno-builtin -g
 
 # evil HACK: disable some warnings to prevent CI build log overflow.
 # FIXME: these warnings really should be fixed instead, but that's
