@@ -19,7 +19,7 @@ BindGlobal("COHOMOLO", rec(
                  CoDim2     := 0,
                  RelVals    := [],
                  PermRels   := [],
-                 RM_F       := "rm -f ",
+                 RM_F       := "rm -f ", # FIXME: this could be a problem on Cygwin
                  CALL       := DirectoriesPackagePrograms("cohomolo")
                  #This is the directory of the external executables
                 ) );
