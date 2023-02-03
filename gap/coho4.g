@@ -13,7 +13,7 @@ DeclareInfoClass("InfoCohomolo");
 ##
 #V  COHOMOLO . . . . . . . . . . . . . . . . . . . . . . . .  global variable
 ##
-COHOMOLO := rec(
+BindGlobal("COHOMOLO", rec(
                  Multiplier := [],
                  CoDim1     := 0,
                  CoDim2     := 0,
@@ -22,7 +22,7 @@ COHOMOLO := rec(
                  RM_F       := "rm -f ",
                  CALL       := DirectoriesPackagePrograms("cohomolo")
                  #This is the directory of the external executables
-                );
+                ) );
 
 #############################################################################
 ##
@@ -174,7 +174,7 @@ end;
 ##  Apart from checking validity, a Sylow <p>-subgroup of <G> is calculated.
 ##  The record (with various components set) is returned.
 ##
-CHR := function ( arg )
+BindGlobal( "CHR", function ( arg )
    local  chr, na, G, p, F, mats, Ggens, Fgens, ng, deg, dim, error, mat, rels,
           w, i, d;
    na := Number(arg);
@@ -273,15 +273,15 @@ CHR := function ( arg )
    chr.verbose := false;
    
    return chr;
-end;
+end );
 
 #############################################################################
 ##
 #F  IsCHR( x ) . . . . . . . . checks if the argument is a cohomology record.
 ##
-IsCHR := function(x)
+BindGlobal( "IsCHR", function(x)
    return IsRecord(x) and IsBound(x.isCHR) and x.isCHR=true;
-end;
+end );
 
 #############################################################################
 ##
@@ -297,7 +297,7 @@ end;
 ##  It selects S2 as soon as it has found an S2 with index <= <n>.
 ##  The sequence is stored as chr.chain.
 ##
-FindSubSeq := function ( chr, n )
+BindGlobal( "FindSubSeq", function ( chr, n )
    local  G, P, p, deg, seq, H, N, foundsub, orb, norbs, orbdone,
           sylind, bestind, ind, badind,
           orbsize, bestsub, orbno, orbstab, Z, OZ, OZG, centels, cent,
@@ -490,7 +490,7 @@ FindSubSeq := function ( chr, n )
    fi;
 
    chr.chain := seq;
-end;
+end );
 
 #############################################################################
 ##
@@ -510,7 +510,7 @@ end;
 ##  <filename> is the name of the base of the files to be created for use of
 ##       the external package. The files have names of form <filename>.<suffix>.
 ##
-Cohomolo := function( chr, mult, pres, first, filename )
+BindGlobal( "Cohomolo", function( chr, mult, pres, first, filename )
    local deg, G, P, p, base, lc, nint, ch, F, mats, i, optstring, callstring,
          ct, ok;
 
@@ -700,7 +700,7 @@ Cohomolo := function( chr, mult, pres, first, filename )
 
    Info(InfoCohomolo,1," Removing temporary files." );
    Exec( Concatenation( COHOMOLO.RM_F, filename, ".*" ) );
-end;
+end );
 
 #############################################################################
 ##
@@ -723,7 +723,7 @@ end;
 ##  This function is not intended to be called directly - it is accessed by
 ##  the individual functions, and by ExtPresentation.
 ##
-CalcExtPres := function( arg )
+BindGlobal( "CalcExtPres", function( arg )
     local chr, mult, vec, E, EG, p, F, ng, codim, mp, dim, rels, rel, relval, w,
           mats, row, modrv, multrv, f, table, rt, i, j, k, Erels;
 
@@ -833,7 +833,7 @@ CalcExtPres := function( arg )
       Add(Erels,w);
    od; 
    return E/Erels;
-end;
+end );
 
 #############################################################################
 ##
@@ -843,7 +843,7 @@ end;
 ##  <chr> is a cohomology record.
 ##  The result is returned as a list of the abelian invariants.
 ##
-SchurMultiplier := function( chr )
+BindGlobal( "SchurMultiplier", function( chr )
    if not IsCHR(chr) then
      Error("First argument of Cohomolo must be a cohomology record");
    fi;
@@ -851,7 +851,7 @@ SchurMultiplier := function( chr )
       Cohomolo(chr,true,false,false, TmpName() );
    fi;
    return chr.multiplier;
-end;
+end );
 
 #############################################################################
 ##
@@ -861,7 +861,7 @@ end;
 ##  if <chr>.fpgp and <chr>.permgp are isomorphic.
 ##  The p-cover is returned as an fp-group.
 ##
-CoveringGroup := function( chr )
+BindGlobal( "CoveringGroup", function( chr )
    if not IsCHR(chr) then
      Error("First argument of Cohomolo must be a cohomology record");
    fi;
@@ -869,7 +869,7 @@ CoveringGroup := function( chr )
       Cohomolo(chr,true,true,false, TmpName() );
    fi;
    return CalcExtPres(chr,true);
-end;
+end );
 
 #############################################################################
 ##
@@ -878,7 +878,7 @@ end;
 ##
 ##  <chr> is a cohomology record with <chr>.matrices defined.
 ##
-FirstCohomologyDimension := function( chr )
+BindGlobal( "FirstCohomologyDimension", function( chr )
    if not IsCHR(chr) then
      Error("First argument of Cohomolo must be a cohomology record");
    fi;
@@ -886,7 +886,7 @@ FirstCohomologyDimension := function( chr )
       Cohomolo(chr,false,false,true, TmpName() );
    fi;
    return chr.codim1;
-end;
+end );
 
 #############################################################################
 ##
@@ -895,7 +895,7 @@ end;
 ##
 ##  <chr> is a cohomology record with <chr>.matrices defined.
 ##
-SecondCohomologyDimension := function( chr )
+BindGlobal( "SecondCohomologyDimension", function( chr )
    if not IsCHR(chr) then
      Error("First argument of Cohomolo must be a cohomology record");
    fi;
@@ -903,7 +903,7 @@ SecondCohomologyDimension := function( chr )
      Cohomolo(chr,false,false,false, TmpName() );
    fi;
    return chr.codim2;
-end;
+end );
 
 #############################################################################
 ##
@@ -913,12 +913,12 @@ end;
 ##  To use this <chr>.fpgp and <chr>.matrices must both be define
 ##  This is a routine calculation and does not call Cohomolo.
 ##
-SplitExtensionCHR := function( chr )
+BindGlobal( "SplitExtensionCHR", function( chr )
    if not IsCHR(chr) then
      Error("First argument of Cohomolo must be a cohomology record");
    fi;
    return CalcExtPres(chr,false,[]);
-end;
+end );
 
 #############################################################################
 ##
@@ -935,7 +935,7 @@ end;
 ##  By default, <vec> is taken to be [1,0,...,0], where the length is equal
 ##  to Dim(H^2(G,M)).
 ##
-NonsplitExtension := function( arg )
+BindGlobal( "NonsplitExtension", function( arg )
    local chr, vec, i;
    if Number(arg)<>1 and Number(arg)<>2 then
      Error("Number of arguments of NonSplitExtension wrong");
@@ -957,7 +957,7 @@ NonsplitExtension := function( arg )
       for i in [2..chr.codim2] do vec[i]:=0; od;
    fi;
    return CalcExtPres(chr,false,vec);
-end;
+end );
 
 #############################################################################
 ##
@@ -971,7 +971,7 @@ end;
 ##  be faithful.
 ##  It is a straightforward application of standard GAP functions.
 ##
-PermRep := function(F,K)
+BindGlobal( "PermRep", function(F,K)
    local  ng, Ggens, GGi, CT, i;
    if not IsFpGroup(F) or not IsSubgroup(F,K) then
      Error("PermRep(F,K): K must be a subgroup of the fp-group F");
@@ -982,7 +982,7 @@ PermRep := function(F,K)
    Ggens := [];
    for i in [1..ng] do Ggens[i] := GGi[2*i-1]; od;
    return Group(Ggens,());
-end;
+end );
 
 #############################################################################
 ##
@@ -996,7 +996,7 @@ end;
 ##  It is only really useful for moderately small groups - currently, its
 ##  use is restricted to groups of order at most 32767.
 ##
-CalcPres := function( chr )
+BindGlobal( "CalcPres", function( chr )
    local deg, G, base, F, Fg, Fr, optstring, callstring, ng, ordgen, o, rel,
    i, l, w, g, h, ct, neg, filename;
 
@@ -1088,5 +1088,4 @@ CalcPres := function( chr )
 
    Unbind(chr.permrels);
    chr.fpgp := F/Fr;
-end;
-
+end );
