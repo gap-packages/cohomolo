@@ -1,5 +1,6 @@
 name: cohomolo
-version: 1.6.11
+version: "1.6.11"
+license: "GPL-2.0-or-later"
 date: 2023-01-03
 description: |
     Cohomology groups of finite groups on finite modules
@@ -28,3 +29,31 @@ abstract: |
 status: accepted
 doc-html: htm/chapters.htm
 doc-pdf: doc/manual.pdf
+keywords: |
+    Cohomology, Schur Multiplier, Covering group.
+citeas: |
+    <p class='BibEntry'>
+    [<span class='BibKey'>HT23</span>]   <b class='BibAuthor'>Holt, D. and GAP Team, T.</b>,
+     <i class='BibTitle'>cohomolo, Cohomology groups of finite groups on finite modules,
+             Version 1.6.11</i>
+     (<span class='BibYear'>2023</span>)<br />
+    (<span class='BibNote'>Refereed GAP package</span>),
+    <span class='BibHowpublished'><a href="https://gap-packages.github.io/cohomolo">https://gap-packages.github.io/cohomolo</a></span>.
+    </p>
+    
+
+bibtex: |
+    @misc{ cohomolo1.6.11,
+      author =           {Holt, D. and GAP Team, T.},
+      title =            {{cohomolo},  Cohomology  groups  of  finite  groups on
+                          finite modules, {V}ersion 1.6.11},
+      month =            {Jan},
+      year =             {2023},
+      note =             {Refereed GAP package},
+      howpublished =     {\href        {https://gap-packages.github.io/cohomolo}
+                          {\texttt{https://gap-packages.github.io/}\discretionary
+                          {}{}{}\texttt{cohomolo}}},
+      keywords =         {Cohomology; Schur Multiplier; Covering group},
+      printedkey =       {HT23}
+    }
+
