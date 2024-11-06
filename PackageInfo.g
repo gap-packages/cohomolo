@@ -62,7 +62,6 @@ PackageDoc := rec(
   PDFFile   := "doc/manual.pdf",
   SixFile   := "doc/manual.six",
   LongTitle := "Computing Cohomology groups and Schur Multipliers",
-  Autoload  := true
 ),
 
 
@@ -91,7 +90,6 @@ AvailabilityTest := function()
     return true;
   end,
 
-Autoload := false,
 
 Keywords := [
   "Cohomology",
