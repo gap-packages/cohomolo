@@ -85,7 +85,7 @@ AvailabilityTest := function()
       Info(InfoWarning,1,
         "See the installation instructions; ",
         "type: ?Installing the package");
-      return fail;
+      return false;
     fi;
     return true;
   end,
