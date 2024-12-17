@@ -2,7 +2,7 @@
 ##
 #A  coho4.g                     March 2000                      Derek Holt
 ##
-##  Converted from the GAP 3.4.4 verion, Derek Holt 2000/03/10.
+##  Converted from the GAP 3.4.4 version, Derek Holt 2000/03/10.
 ##  Changes are minimal - SplitExtension renamed SplitExtensionCHR
 ##
 ##  This file contains the interface to my cohomology `C' programs.
@@ -160,7 +160,7 @@ end;
 ##
 ##  This function makes a cohomology record. It should be called before
 ##  using any of the main cohomology functions.
-##  <G> must be a permutation group, and <p> a prime (ususally dividing the
+##  <G> must be a permutation group, and <p> a prime (usually dividing the
 ##  order of <G>).
 ##  <F> must either be 0 (if not required, but <mats> is), or a finitely
 ##  presented group with the same number of generators as <G> and mapping
@@ -290,7 +290,7 @@ end );
 ##  <chr> should be a cohomology record, and n a positive integer.
 ##  Let G=chr.permgp and P=chr.sylow.
 ##  FindSubSeq calculates a sequence [S1,...,St] of subgroups of G, where
-##  Si > S(i+1) S1 = <G>,  S2 = <P> and the indices are a ssmall as possible.
+##  Si > S(i+1) S1 = <G>,  S2 = <P> and the indices are as small as possible.
 ##  It works, by trying to find a subgroup S2 of G with small index, and then
 ##  repeating with S2 in place of G.
 ##  The parameter <n> indicates how hard it should try.
