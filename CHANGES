@@ -1,5 +1,8 @@
 This file describes changes in the cohomolo package.
 
+1.6.12 (2025-10-17)
+  - Various janitorial changes
+
 1.6.11 (2023-01-03)
   - Enhance the `configure` script to accept `--with-gaproot=PATH`
   - Various janitorial changes
