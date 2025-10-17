@@ -1,104 +1,103 @@
+#############################################################################
+##  
+##  Demo PackageInfo.g for the GitHubPagesForGAP
+##
+
 SetPackageInfo( rec(
 
-PackageName := "cohomolo",
-Subtitle := "Cohomology groups of finite groups on finite modules",
-Version := "1.6.11",
-Date := "03/01/2023", # dd/mm/yyyy format
-License := "GPL-2.0-or-later",
+PackageName := "GitHubPagesForGAP",
+
+Subtitle := "A GitHub Pages generator for GAP packages",
+Version := "0.4",
+Date := "10/04/2025", # dd/mm/yyyy format
+License := "0BSD",
 
 Persons := [
   rec(
-    LastName := "Holt",
-    FirstNames := "Derek",
+    LastName      := "Horn",
+    FirstNames    := "Max",
     IsAuthor      := true,
-    IsMaintainer  := false,
-    Email := "D.F.Holt@warwick.ac.uk",
-    WWWHome := "http://homepages.warwick.ac.uk/staff/D.F.Holt/",
-    PostalAddress := Concatenation( [
-                       "Mathematics Institute\n",
-                       "University of Warwick\n",
-                       "Coventry CV4 7AL\n", "UK" ] )
+    IsMaintainer  := true,
+    Email         := "mhorn@rptu.de",
+    WWWHome       := "https://www.quendi.de/math",
+    GitHubUsername:= "fingolfin",
+    PostalAddress := Concatenation(
+                       "Fachbereich Mathematik\n",
+                       "RPTU Kaiserslautern-Landau\n",
+                       "Gottlieb-Daimler-Straße 48\n",
+                       "67663 Kaiserslautern\n",
+                       "Germany" ),
+    Place         := "Kaiserslautern, Germany",
+    Institution   := "RPTU Kaiserslautern-Landau"
   ),
-
 
   rec(
-    LastName      := "GAP Team",
-    FirstNames    := "The",
+    LastName      := "Thor",
+    FirstNames    := "A. U.",
+    IsAuthor      := true,
+    IsMaintainer  := false,
+    #Email         := "author@example.com",
+  ),
+
+  rec(
+    LastName      := "Itor",
+    FirstNames    := "Jan",
     IsAuthor      := false,
     IsMaintainer  := true,
-    Email         := "support@gap-system.org",
+    #Email         := "janitor@example.com",
   ),
 ],
 
-Status := "accepted",
-CommunicatedBy := "unknown (unknown)",
-AcceptDate     := "01/1970",   # unknown, package might predate refereeing system
+Status := "other",
 
-SourceRepository := rec(
-    Type := "git",
-    URL := Concatenation( "https://github.com/gap-packages/", ~.PackageName ),
-),
-IssueTrackerURL := Concatenation( ~.SourceRepository.URL, "/issues" ),
-PackageWWWHome  := Concatenation( "https://gap-packages.github.io/", ~.PackageName ),
-README_URL      := Concatenation( ~.PackageWWWHome, "/README.md" ),
-PackageInfoURL  := Concatenation( ~.PackageWWWHome, "/PackageInfo.g" ),
-ArchiveURL      := Concatenation( ~.SourceRepository.URL,
-                                 "/releases/download/v", ~.Version,
-                                 "/", ~.PackageName, "-", ~.Version ),
-ArchiveFormats := ".tar.gz",
+# The following are not strictly necessary in your own PackageInfo.g
+# (in the sense that update.g only looks at the usual fields
+# like PackageWWWHome, ArchiveURL etc.). But they are convenient
+# if you use exactly the scheme for your package website that we propose.
+GithubUser := "gap-system",
+GithubRepository := ~.PackageName,
+GithubWWW := Concatenation("https://github.com/", ~.GithubUser, "/", ~.GithubRepository),
 
-AbstractHTML :=
-  "The <span class=\"pkgname\">cohomolo</span> package is a\
-       <span class=\"pkgname\">GAP</span> interface to some `C' programs\
-   for computing Schur multipliers and covering groups of finite groups\
-   and first and second cohomology groups of finite groups acting\
-   on finite modules",
+PackageWWWHome := Concatenation("https://", ~.GithubUser, ".github.io/", ~.GithubRepository, "/"),
+README_URL     := Concatenation( ~.PackageWWWHome, "README.md" ),
+PackageInfoURL := Concatenation( ~.PackageWWWHome, "PackageInfo.g" ),
+# The following assumes you are using the Github releases system. If not, adjust
+# it accordingly.
+ArchiveURL     := Concatenation(~.GithubWWW,
+                    "/releases/download/v", ~.Version, "/",
+                    ~.GithubRepository, "-", ~.Version),
 
+ArchiveFormats := ".tar.gz .tar.bz2",
+
+AbstractHTML := 
+  "This is a pseudo package that contains no actual\
+  <span class=\"pkgname\">GAP</span> code. Instead, it is a template for other\
+  GAP packages that allows to quickly setup GitHub Pages.",
 
 PackageDoc := rec(
-  BookName  := "cohomolo",
-  ArchiveURLSubset := ["doc", "htm"],
-  HTMLStart := "htm/chapters.htm",
+  BookName  := "GitHubPagesForGAP",
+  ArchiveURLSubset := ["doc"],
+  HTMLStart := "doc/chap0.html",
   PDFFile   := "doc/manual.pdf",
   SixFile   := "doc/manual.six",
-  LongTitle := "Computing Cohomology groups and Schur Multipliers",
-  Autoload  := true
+  LongTitle := "A GitHub Pages generator for GAP packages",
 ),
 
-
+# The following dependencies are fake and for testing / demo purposes
 Dependencies := rec(
-  GAP := ">=4.7",
-  NeededOtherPackages := [],
-  SuggestedOtherPackages := [],
-  ExternalConditions := ["Unix only"]
+  GAP := ">=4.8.1",
+  NeededOtherPackages := [
+    ["GAPDoc", ">= 1.2"],
+    ["IO", ">= 4.1"],
+  ],
+  SuggestedOtherPackages := [["orb", ">= 4.2"]],
+  ExternalConditions := []
 ),
 
-AvailabilityTest := function()
-  local path,file;
-    # test for existence of the compiled binary
-    path:=DirectoriesPackagePrograms("cohomolo");
-    file:=Filename(path,"extprun");
-    if file=fail then
-      Info(InfoWarning,1,
- "Package ``cohomolo'': The program `extprun' (for example) is not compiled");
-      Info(InfoWarning,1,
-        "`cohomolo' is thus unavailable");
-      Info(InfoWarning,1,
-        "See the installation instructions; ",
-        "type: ?Installing the package");
-      return fail;
-    fi;
-    return true;
-  end,
+AvailabilityTest := ReturnTrue,
 
-Autoload := false,
-
-Keywords := [
-  "Cohomology",
-  "Schur Multiplier",
-  "Covering group"
-],
-
-TestFile := "tst/testall.g",
+Keywords := ["GitHub Pages", "GAP"]
 
 ));
+
+
