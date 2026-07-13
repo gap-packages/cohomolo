@@ -40,6 +40,9 @@ jobs:
         with:
           mode: onlyneeded
       - uses: gap-actions/process-coverage@v3
+      - name: Process C coverage
+        working-directory: standalone/progs.d
+        run: gcov -pb *.gcno
       - uses: codecov/codecov-action@v6
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
