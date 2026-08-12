@@ -44,7 +44,10 @@ on this record.
 If no presentation of the permutation group <A>G</A> is known, and <A>G</A> has
 order at most 32767, then a presentation can be computed using the
 package function <C>CalcPres</C> (which calls a standalone <C>C</C> program), or
-alternatively by the &GAP; function <C>Image(IsomorphismFpGroup(<A>G</A>))</C>.
+alternatively by the &GAP; function call
+<C>Image(IsomorphismFpGroupByGenerators(<A>G</A>, GeneratorsOfGroup(<A>G</A>)))</C>.
+Note that <C>IsomorphismFpGroup</C> is not suitable here, since the
+presentation it returns is on a different generating set.
 On the other hand, if you start with a finitely
 presented group, then you can create a permutation representation
 with the function <C>PermRep</C> (although there is no guarantee that the
@@ -221,8 +224,9 @@ immediate results.)</Item>
 on the same set of generators as <A>chr</A><C>.permgp</C>, and stores it as <A>chr</A><C>.fpgp</C>.
 It currently only works for groups of order up to 32767, although that
 could easily be increased if required. Note that a presentation of a
-finite group <A>G</A> can also be computed by the standard &GAP; function
-call <C>Image(IsomorphismFpGroup(<A>G</A>))</C>.
+finite group <A>G</A> on its given generators can also be computed by the
+standard &GAP; function call
+<C>Image(IsomorphismFpGroupByGenerators(<A>G</A>, GeneratorsOfGroup(<A>G</A>)))</C>.
 </Description>
 </ManSection>
 </Section>
