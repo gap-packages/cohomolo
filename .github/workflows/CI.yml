@@ -35,6 +35,8 @@ jobs:
         with:
           gap-version: ${{ matrix.gap-version }}
       - uses: gap-actions/build-pkg@v3
+      - name: Build the standalone-only programs
+        run: make standalone
       - uses: gap-actions/run-pkg-tests@v4
       - uses: gap-actions/run-pkg-tests@v4
         with:
