@@ -5,8 +5,8 @@
 
 ## Package description
 
-It may be used to perform certain cohomological calculations on a finite
-permutation group G. The following properties of G can be computed:
+The `cohomolo` package may be used to perform certain cohomological
+calculations on a finite permutation group G. The following properties of G can be computed:
 
 1. The p-part Mul_p of the Schur multiplier Mul of G,
 and a presentation of a covering extension of Mul_p by G, for a specified
@@ -48,7 +48,7 @@ immediately after configuring GAP itself on this architecture.
 ## Documentation
 
 Full information and documentation can be found in the manual, available
-as PDF `doc/manual.pdf` or as HTML `htm/chapters.htm`, or on the package
+as PDF `doc/manual.pdf` or as HTML `doc/chap0_mj.html`, or on the package
 homepage at
 
   <https://gap-packages.github.io/cohomolo/>
@@ -77,6 +77,6 @@ This package has been updated from the original GAP3 package
 with minimal changes, so the user should find the interface unchanged.
 In fact the only real changes are that the function `InfoCohomology` has been
 replaced by the `Info` variable `InfoCohomolo`, and the function
-`SplitExtension` has been renamed `SplitExtensionCHR, to avoid clashing
+`SplitExtension` has been renamed `SplitExtensionCHR`, to avoid clashing
 with an existing GAP function name. (Of course, it does more or less
 the same thing as the GAP function!)
