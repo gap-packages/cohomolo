@@ -1,7 +1,16 @@
-# General makefile for GAP4 cohomolo package -
-# all executables are put into the bin directory.
-BIN = bin/@GAPARCH@
+# Makefile for the GAP package cohomolo.
+#
+# Generated from Makefile.in by ./configure; requires GNU make.
+# All executables are put into $(BINDIR).
+
 GAPPATH = @GAPPATH@
+GAPARCH = @GAPARCH@
+GAP ?= $(GAPPATH)/gap
+GAP_ARGS = -q --quitonbreak --packagedirs $(abspath .)
+
+SRCDIR = standalone/progs.d
+OBJDIR = obj
+BINDIR = bin/$(GAPARCH)
 
 CC ?= gcc
 CFLAGS ?= -O2 -g
@@ -10,31 +19,107 @@ CFLAGS ?= -O2 -g
 # so we disable them to avoid spurious warnings and errors
 EXTRA_CFLAGS += -fno-builtin
 
-# evil HACK: disable some warnings, to prevent an overflowing build
-# log on Travis.
+# evil HACK: disable some warnings, to prevent an overflowing build log.
 # FIXME: these warnings really should be fixed instead, but that's
-# very hard and unrewarding word on this old code base. It's more
-# tempting to reimplement this all in scratch in a modern C or C++,
-# or a radically different language (Ruse, Go, Julia, ...)
+# very hard and unrewarding work on this old code base.
 EXTRA_CFLAGS += -Wno-implicit-function-declaration
 EXTRA_CFLAGS += -Wno-unused-result
 
-all:
-	mkdir -p bin/@GAPARCH@;
-	cd standalone/progs.d;\
-	$(MAKE) CC="$(CC)" BIN="..//..//$(BIN)" CFLAGS="$(CFLAGS) $(EXTRA_CFLAGS)" LDFLAGS="$(LDFLAGS)"
+ALL_CFLAGS = $(CFLAGS) $(EXTRA_CFLAGS) -MMD -MP
+
+# objs(a b c) turns a list of base names into the matching object file paths
+objs = $(patsubst %,$(OBJDIR)/%.o,$(1))
+
+#
+# the programs called by the GAP code, and the ones only usable standalone
+#
+PROGS = conrun crrun egrun extprun gprun grrun matcalc normrun nqmrun nqrun \
+	pcrun readrels scrun selgen sylrun
+SCRIPTS = calcpres.gap cohomology.gap execcmd.gap
+
+STANDALONE_PROGS = chbrun makegp matperm matsum optrun permmat pkrun subdir \
+	sylnorm tcrun tcrunb tens testmf testpf wreath
+STANDALONE_SCRIPTS = clrgrp cohomology execcmd
+
+all: $(addprefix $(BINDIR)/,$(PROGS) $(SCRIPTS))
+
+standalone: all $(addprefix $(BINDIR)/,$(STANDALONE_PROGS) $(STANDALONE_SCRIPTS))
+
+#
+# which object files each program is linked from
+#
+$(BINDIR)/chbrun:   $(call objs,testchb chb permfns)
+$(BINDIR)/conrun:   $(call objs,conpdcd conpdc1 conpdc2)
+$(BINDIR)/crrun:    $(call objs,crd crp1 crp2 matfns)
+$(BINDIR)/egrun:    $(call objs,egd egp permfns)
+$(BINDIR)/extprun:  $(call objs,extpd exa exb exc permfns matfns)
+$(BINDIR)/gprun:    $(call objs,gpd gpp permfns)
+$(BINDIR)/grrun:    $(call objs,grd grp permfns)
+$(BINDIR)/makegp:   $(call objs,mg)
+$(BINDIR)/matcalc:  $(call objs,mcd mcp matfns)
+$(BINDIR)/matperm:  $(call objs,matperm matfns)
+$(BINDIR)/matsum:   $(call objs,matsum)
+$(BINDIR)/normrun:  $(call objs,normd normp1 normp2 chb permfns morepermfns)
+$(BINDIR)/nqmrun:   $(call objs,nqmd nqmp nqmfns)
+$(BINDIR)/nqrun:    $(call objs,nqd nqp1 nqp2 nqp3 nqfns matfns)
+$(BINDIR)/optrun:   $(call objs,optd optp permfns)
+$(BINDIR)/pcrun:    $(call objs,pcd pcp permfns pcscfns)
+$(BINDIR)/permmat:  $(call objs,permmat)
+$(BINDIR)/pkrun:    $(call objs,pkd pkp pkmatfns)
+$(BINDIR)/readrels: $(call objs,readrels)
+$(BINDIR)/scrun:    $(call objs,scd scp permfns pcscfns)
+$(BINDIR)/selgen:   $(call objs,slg)
+$(BINDIR)/subdir:   $(call objs,subdir)
+$(BINDIR)/sylnorm:  $(call objs,snd sylp2 normp1 normp2 permfns morepermfns chb)
+$(BINDIR)/sylrun:   $(call objs,syld sylp morepermfns permfns)
+$(BINDIR)/tcrun:    $(call objs,tcd tcp)
+$(BINDIR)/tcrunb:   $(call objs,tcdb tcpb)
+$(BINDIR)/tens:     $(call objs,tens)
+$(BINDIR)/testmf:   $(call objs,testmf matfns)
+$(BINDIR)/testpf:   $(call objs,testpf permfns)
+$(BINDIR)/wreath:   $(call objs,wreath)
+
+#
+# how to build them
+#
+$(addprefix $(BINDIR)/,$(PROGS) $(STANDALONE_PROGS)): | $(BINDIR)
+	$(CC) $(LDFLAGS) -o $@ $^
+
+$(addprefix $(BINDIR)/,$(SCRIPTS) $(STANDALONE_SCRIPTS)): $(BINDIR)/%: $(SRCDIR)/% | $(BINDIR)
+	cp $< $@
+	chmod +x $@
+
+$(OBJDIR)/%.o: $(SRCDIR)/%.c | $(OBJDIR)
+	$(CC) $(ALL_CFLAGS) -c -o $@ $<
+
+$(BINDIR) $(OBJDIR):
+	mkdir -p $@
+
+-include $(wildcard $(OBJDIR)/*.d)
+
+#
+# other targets
+#
+doc:
+	$(GAP) $(GAP_ARGS) makedoc.g
+
+html:
+	NOPDF=1 $(GAP) $(GAP_ARGS) makedoc.g
+
+check test:
+	$(GAP) $(GAP_ARGS) tst/testall.g
+
+run:
+	$(GAP) $(GAP_ARGS) -c 'LoadPackage("cohomolo");'
 
 clean:
-	cd standalone/progs.d; $(MAKE) clean
+	rm -rf $(OBJDIR)
 
-distclean:
-	cd standalone/progs.d; $(MAKE) clean
-	rm -rf bin htm
-
-doc:
-	cd doc && ./make_doc
+distclean: clean
+	rm -rf bin
+	rm -f Makefile
 
 Makefile: configure Makefile.in $(GAPPATH)/sysinfo.gap
 	./configure $(GAPPATH)
 
-.PHONY: all clean distclean doc
+.PHONY: all standalone check test clean distclean doc html run
