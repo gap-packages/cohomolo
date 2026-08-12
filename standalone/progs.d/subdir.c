@@ -1,3 +1,4 @@
+#include "subdir.h"
 #include "defs.h"
 
 #define PSP 100000
@@ -115,7 +116,7 @@ int main(int argc, char * argv[])
   printf("How many permutations do you wish to output?  ");
   scanf("%hd", &np);
   fprintf(op, "%4d%4d%4d%4d\n", npt1 + npt2, np, nb, 0);
-  if (nb > 0)
+  if (nb > 0) {
     if (npt1 + npt2 >= 1000) {
       for (i = 1; i <= nb; i++)
         fprintf(op, "%5d", base[i]);
@@ -126,6 +127,7 @@ int main(int argc, char * argv[])
         fprintf(op, "%4d", base[i]);
       fprintf(op, "\n");
     }
+  }
   printf("Now input the %d pairs of perm nos. Perm 0 = identity.\n", np);
   for (i = 1; i <= np; i++) {
     scanf("%hd%hd", &m, &n);
@@ -157,7 +159,7 @@ error:
   exit(0);
 }
 
-int snl(void)
+void snl(void)
 {
   while (getc(ip) != '\n')
     ;

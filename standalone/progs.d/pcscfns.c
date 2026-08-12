@@ -1,7 +1,6 @@
+#include "pcscfns.h"
 #include "defs.h"
-
-extern short npt, nb, npt1, exp, prime, pinv[], cp[], power[], wt[], base[],
-    ngno[], igno[], *svptr[], *pptr[], d1[];
+#include "permfns.h"
 
 /* Let the central series for P be P=P(n)>...>P(1)>P(0)=1. The procedures
    in this file express a permutation g in P in in its normal form in the
@@ -41,7 +40,7 @@ int express(short * p, short * relc, int nwt)
 {
   short hgen, h, l, coeff, pow, m, n, *ip, *gp, pt;
   l = 0;
-  h = exp;
+  h = expo;
   ip = p + npt1;
   while (1) {
     firstgen(p, &hgen, &coeff);
@@ -52,7 +51,7 @@ int express(short * p, short * relc, int nwt)
     if (hgen == 0)
       break;
     l++;
-    relc[l] = exp + 1 - hgen;
+    relc[l] = expo + 1 - hgen;
     if ((nwt && wt[hgen] < nwt) ||
         (nwt && wt[hgen] == nwt && d1[hgen] == 0)) {
       power[hgen] = pinv[coeff];

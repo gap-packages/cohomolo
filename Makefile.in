@@ -15,14 +15,7 @@ BINDIR = bin/$(GAPARCH)
 CC ?= gcc
 CFLAGS ?= -O2 -g
 
-# many cohomolo symbols (e.g. 'exp') clash with C builtins,
-# so we disable them to avoid spurious warnings and errors
-EXTRA_CFLAGS += -fno-builtin
-
-# evil HACK: disable some warnings, to prevent an overflowing build log.
-# FIXME: these warnings really should be fixed instead, but that's
-# very hard and unrewarding work on this old code base.
-EXTRA_CFLAGS += -Wno-implicit-function-declaration
+# FIXME: the code ignores the result of fgets, fscanf and friends all over
 EXTRA_CFLAGS += -Wno-unused-result
 
 ALL_CFLAGS = $(CFLAGS) $(EXTRA_CFLAGS) -MMD -MP

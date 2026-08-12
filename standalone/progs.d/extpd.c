@@ -1,4 +1,7 @@
 #include "defs.h"
+#include "exa.h"
+#include "matfns.h"
+#include "permfns.h"
 
 #define PSP 500000
 #define SPACE 500000

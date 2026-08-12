@@ -1,3 +1,4 @@
+#include "wreath.h"
 #include "defs.h"
 
 #define PSP 100000
@@ -120,7 +121,7 @@ error:;
   exit(0);
 }
 
-int snl(void)
+void snl(void)
 {
   while (getc(ip) != '\n')
     ;

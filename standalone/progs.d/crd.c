@@ -1,4 +1,7 @@
+#include "crp1.h"
+#include "crp2.h"
 #include "defs.h"
+#include "matfns.h"
 
 #define SPACE 2000000
 #define CSPACE 1000000

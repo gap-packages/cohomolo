@@ -1,12 +1,7 @@
+#include "nqmfns.h"
 #include "defs.h"
 
-extern char  inf1[], outf[], outfm[], gap;
-extern short intexp, mexp, mng, wksp, prime, exp, nng, class, *rpf, *rpb,
-    *eexpnt, *enexpnt, **pcb, mnng, mord, rel[], expnt[], nexpnt[], cord[],
-    wt[], d1[], d2[], *pcptr[], **powptr[], **comptr[], *sspc[], *sspf[],
-    sgen[], sex[], spgen[], spex[], spugen[], *tlintg[];
-extern int ptrsp, rsp;
-short      fac;
+short fac;
 
 int ingp(void)
 /* The PCP for P (output from pcrun) is read in, and all of the associated
@@ -21,9 +16,9 @@ int ingp(void)
     fprintf(stderr, "Cannot open %s.\n", inf1);
     return (-1);
   }
-  fscanf(ip, "%hd%hd%hd%hd%hd%hd", &prime, &exp, &nng, &no, &class, &m);
-  if (exp > mexp) {
-    fprintf(stderr, "exp too big. Increase MEXP.\n");
+  fscanf(ip, "%hd%hd%hd%hd%hd%hd", &prime, &expo, &nng, &no, &class, &m);
+  if (expo > mexp) {
+    fprintf(stderr, "expo too big. Increase MEXP.\n");
     return (-1);
   }
   if (nng > mng) {
@@ -34,14 +29,14 @@ int ingp(void)
     fprintf(stderr, "Wrong version of nq.\n");
     return (-1);
   }
-  tails = exp == no;
+  tails = expo == no;
   if (tails == 0)
     nng = 0;
-  for (i = 1; i <= exp; i++)
+  for (i = 1; i <= expo; i++)
     fscanf(ip, "%hd", wt + i);
-  for (i = 1; i <= exp + nng; i++)
+  for (i = 1; i <= expo + nng; i++)
     fscanf(ip, "%hd", d1 + i);
-  for (i = 1; i <= exp + nng; i++)
+  for (i = 1; i <= expo + nng; i++)
     fscanf(ip, "%hd", d2 + i);
   for (i = 1; i <= nng; i++)
     fscanf(ip, "%hd", cord + i);
@@ -85,7 +80,7 @@ int ingp(void)
         *(pcp++) = 0;
     }
   }
-  for (i = no + 1; i <= exp; i++) {
+  for (i = no + 1; i <= expo; i++) {
     comptr[i] = pcp - 2;
     for (j = 1; j < i; j++) {
       *(pcp++) = 0;
@@ -127,7 +122,7 @@ int ingp(void)
     else
       *(pcp++) = 0;
   }
-  for (i = no + 1; i <= exp; i++) {
+  for (i = no + 1; i <= expo; i++) {
     powptr[i] = pcp;
     *(pcp++) = 0;
     *(pcp++) = 0;
@@ -151,14 +146,14 @@ void outgp(void)
   short  i, k, l, **pcp, *b, *e, *c;
   FILE * op;
   op = fopen(outf, "w");
-  fprintf(op, "%4d%4d%4d%4d%4d%4d\n", prime, exp, nng, exp, class, 1);
-  for (i = 1; i <= exp; i++)
+  fprintf(op, "%4d%4d%4d%4d%4d%4d\n", prime, expo, nng, expo, class, 1);
+  for (i = 1; i <= expo; i++)
     fprintf(op, "%4d", wt[i]);
   fprintf(op, "\n");
-  for (i = 1; i <= exp + nng; i++)
+  for (i = 1; i <= expo + nng; i++)
     fprintf(op, "%4d", d1[i]);
   fprintf(op, "\n");
-  for (i = 1; i <= exp + nng; i++)
+  for (i = 1; i <= expo + nng; i++)
     fprintf(op, "%4d", d2[i]);
   fprintf(op, "\n");
   if (nng > 0) {
@@ -429,7 +424,7 @@ int intgen(int i, int j)
     return (-1);
   }
   nng++;
-  sum = exp + nng;
+  sum = expo + nng;
   if (sum > mng) {
     fprintf(stderr, "Too many newgens. Increase MNG.\n");
     return (-1);
@@ -510,7 +505,7 @@ int assoc(int g1, int g2, int g3)
   *(p + 1) = 1;
   collect(p, rpf, 1);
   p = rpf;
-  for (i = 1; i <= exp; i++) {
+  for (i = 1; i <= expo; i++) {
     e = expnt[i];
     if (e != 0) {
       *(p++) = i;
@@ -569,7 +564,7 @@ int prnrel(int corrtl)
   b = 0;
   gno = 0;
 restart:
-  hp = exp / 2;
+  hp = expo / 2;
   len = 0;
   rep = 0;
   for (i = nng; i >= 1; i--) {
@@ -671,9 +666,9 @@ restart:
     while (++dp <= pcb) {
       p = *dp;
       if (p != 0) {
-        if (*p > (exp + gno))
+        if (*p > (expo + gno))
           (*p)--;
-        else if (*p == (exp + gno))
+        else if (*p == (expo + gno))
           *p = 0;
         triv = 1;
         for (j = 1; j < gno; j++)
@@ -692,8 +687,8 @@ restart:
     }
     for (j = gno; j < nng; j++) {
       cord[j] = cord[j + 1];
-      d1[exp + j] = d1[exp + j + 1];
-      d2[exp + j] = d2[exp + j + 1];
+      d1[expo + j] = d1[expo + j + 1];
+      d2[expo + j] = d2[expo + j + 1];
       nexpnt[j] = nexpnt[j + 1];
     }
     if (corrtl)

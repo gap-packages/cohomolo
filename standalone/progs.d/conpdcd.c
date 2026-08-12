@@ -1,3 +1,5 @@
+#include "conpdc1.h"
+#include "conpdc2.h"
 #include "defs.h"
 
 #define PSP 500000

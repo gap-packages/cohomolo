@@ -1,4 +1,6 @@
+#include "exb.h"
 #include "defs.h"
+#include "exc.h"
 
 #define tmalloc(D, T, N)                                                     \
   {                                                                          \
@@ -18,7 +20,7 @@
 extern char  mult;
 extern short wd1[], wd2[], wd3[], wd4[], *cst, *cend, ***coeff, fullsc, clsd,
     lkah, conch, **cco, **def;
-extern short invg[], mwdl, endr, *fpt, *bpt, nelim, lo, **imcos, dim, ccos,
+extern short invg[], mwdl, endr, *fpt, *bpt, nelim, lo, **imcos, dim, curcos,
     lastd, cind, nfree, stcr, endcr, fcos, bcos, lcl, np2, *rel, ng;
 
 int scanrel(void)
@@ -47,10 +49,10 @@ int scanrel(void)
     p[*s] = *(s + 1);
     s++;
   }
-  if (mult == 0 && ccos > 1)
-    action(p, def[ccos]);
-  fcos = ccos;
-  bcos = ccos;
+  if (mult == 0 && curcos > 1)
+    action(p, def[curcos]);
+  fcos = curcos;
+  bcos = curcos;
   compfsc = 1;
   for (i = stcr; i <= endcr; i++) {
     k = imcos[rel[i]][fcos];
@@ -187,8 +189,8 @@ int coinc(int c1, int c2)
     lastd = bhc;
   else
     bpt[fhc] = bhc;
-  if (ccos == hc) {
-    ccos = bhc;
+  if (curcos == hc) {
+    curcos = bhc;
     endcr = endr;
     esc = 1;
     clsd = 0;
@@ -270,8 +272,8 @@ int coinc(int c1, int c2)
               lastd = bhc;
             else
               bpt[fhc] = bhc;
-            if (ccos == him) {
-              ccos = bhc;
+            if (curcos == him) {
+              curcos = bhc;
               endcr = endr;
               esc = 1;
               clsd = 0;

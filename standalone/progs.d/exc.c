@@ -1,4 +1,6 @@
+#include "exc.h"
 #include "defs.h"
+#include "permfns.h"
 
 extern char  mult, outft[];
 extern short rwd[], ***scoeff[], *cst, *cend, *ocst, ***coeff, wd1[], wd2[],

@@ -1,3 +1,4 @@
+#include "conpdc1.h"
 #include "defs.h"
 
 extern char inf1[], inf2[], inf3[], outf1[], outf2[], outf3[], temp1[],

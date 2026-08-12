@@ -1,4 +1,6 @@
 #include "defs.h"
+#include "nqmfns.h"
+#include "nqmp.h"
 
 #define MNG 1001
 #define MEXP 41
@@ -19,13 +21,13 @@ char gap, act, crel, ims, inf0[80], inf1[80], inf2[80], outf[80], outfm[80];
              inf2=gpname.sc
              inf0 used to remember gpname.
 */
-short mng = MNG - 1, mexp = MEXP - 1, wksp = WKSP, prime, exp, nng, class,
+short mng = MNG - 1, mexp = MEXP - 1, wksp = WKSP, prime, expo, nng, class,
       *rpf, *rpb, *eexpnt, *enexpnt, **pcb, mnng, mord, intexp, rel[RSP],
       expnt[MEXP], nexpnt[MNG], cord[MNG], wt[MEXP], d1[MEXP + MNG],
       d2[MEXP + MNG], *pcptr[PTRSP], **powptr[MEXP], **comptr[MEXP],
       *sspc[MEXP], *sspf[MEXP], sgen[MEXP], sex[MEXP], spgen[MEXP],
       spex[MEXP], spugen[MEXP], *intg[MEXP], *imintg[MEXP], *tlintg[MEXP];
-int rsp = RSP, ptrsp = PTRSP;
+int   rsp = RSP, ptrsp = PTRSP;
 
 int main(int argc, char * argv[])
 {

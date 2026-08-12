@@ -1,13 +1,15 @@
+#include "pcp.h"
 #include "defs.h"
+#include "pcscfns.h"
 #include "permfns.h"
 
 extern char mult, conv, gens, inf1[], inf2[], outf1[], outf2[], outf3[],
     outf4[];
 extern short perm[], sv[], cp[], fpt[], orb[], igno[], base[], lorb[], pno[],
     *pptr[], *svptr[], gno[], ngno[], power[], wt[], d1[], d2[], facord[],
-    pinv[], rel[], *relptr[], mp, mpt, mb, mexp;
+    pinv[], rel[], mp, mpt, mb, mexp;
 extern int psp, svsp;
-short      npt, np, npt1, nb, exp, prime;
+short      npt, np, npt1, nb, expo, prime;
 FILE *     ip, *op;
 
 int resetsv(void)
@@ -259,13 +261,13 @@ int pcprog(void)
      change a generator, we have to completely restart this process. In the
      second stage, the PCP is computed and output.
   */
-  exp = np;
+  expo = np;
   setpinv();
-  if (exp >= mexp) {
-    fprintf(stderr, "exp too big. Increase MEXP.\n");
+  if (expo >= mexp) {
+    fprintf(stderr, "expo too big. Increase MEXP.\n");
     return (-1);
   }
-  for (i = 1; i <= exp; i++) {
+  for (i = 1; i <= expo; i++) {
     ngno[i] = gno[i];
     wt[i] = 1;
     power[i] = 1;
@@ -276,8 +278,8 @@ int pcprog(void)
   class = 1;
 
 restart:
-  for (i = exp; i > 1; i--)
-    for (j = exp; j >= i; j--) {
+  for (i = expo; i > 1; i--)
+    for (j = expo; j >= i; j--) {
       pnf = pptr[nf];
       ipnf = pnf + npt1;
       p1 = pptr[ngno[i]];
@@ -331,15 +333,15 @@ restart:
             fprintf(stderr, "Out of perm space. Increase PSP (or MP).\n");
             return (-1);
           }
-          for (k = 1; k <= exp; k++) {
+          for (k = 1; k <= expo; k++) {
             d1[k] = 0;
             d2[k] = 0;
           }
           goto restart;
         }
         else {
-          d1[hgen] = exp + 1 - i;
-          d2[hgen] = exp + 1 - j;
+          d1[hgen] = expo + 1 - i;
+          d2[hgen] = expo + 1 - j;
         }
       }
     }
@@ -351,14 +353,14 @@ restart:
   *pno = 0;
   *gno = np;
   printpsv(nb, gno, svptr);
-  for (i = exp; i > 0; i--)
+  for (i = expo; i > 0; i--)
     fprintf(op, "%4d", wt[i]);
   fprintf(op, "\n");
   fprintf(op, "%4d%4d\n", prime, ngads);
-  for (i = 1; i <= exp; i++)
+  for (i = 1; i <= expo; i++)
     fprintf(op, "%4d", power[i]);
   fprintf(op, "\n");
-  for (i = 1; i <= exp; i++) {
+  for (i = 1; i <= expo; i++) {
     j = ngno[i];
     if (j != gno[i])
       printvec(pptr[j], 1);
@@ -367,31 +369,31 @@ restart:
   /* Output pcp gens as permutations if required. */
   if (gens) {
     op = fopen(outf4, "w");
-    fprintf(op, "%4d%4d%4d%4d\n", npt, exp, 0, 0);
-    for (i = exp; i >= 1; i--) {
+    fprintf(op, "%4d%4d%4d%4d\n", npt, expo, 0, 0);
+    for (i = expo; i >= 1; i--) {
       j = ngno[i];
       printvec(pptr[j], 0);
     }
     fclose(op);
   }
   op = fopen(outf2, "w");
-  fprintf(op, "%4d%4d%4d%4d%4d%4d\n", prime, exp, exp, exp - 1, class, mult);
-  for (i = exp; i > 0; i--)
+  fprintf(op, "%4d%4d%4d%4d%4d%4d\n", prime, expo, expo, expo - 1, class, mult);
+  for (i = expo; i > 0; i--)
     fprintf(op, "%4d", wt[i]);
   fprintf(op, "\n");
-  for (i = exp; i > 0; i--)
+  for (i = expo; i > 0; i--)
     fprintf(op, "%4d", d1[i]);
   fprintf(op, "\n");
-  for (i = exp; i > 0; i--)
+  for (i = expo; i > 0; i--)
     fprintf(op, "%4d", d2[i]);
   fprintf(op, "\n");
-  for (i = 2; i < exp; i++)
+  for (i = 2; i < expo; i++)
     for (j = 1; j < i; j++) {
       pnf = pptr[nf];
       ipnf = pnf + npt1;
-      p1 = pptr[ngno[exp + 1 - i]];
+      p1 = pptr[ngno[expo + 1 - i]];
       ip1 = p1 + npt1;
-      p2 = pptr[ngno[exp + 1 - j]];
+      p2 = pptr[ngno[expo + 1 - j]];
       ip2 = p2 + npt1;
       for (n = 1; n <= npt; n++) {
         pt = p2[p1[ip2[ip1[n]]]];
@@ -400,7 +402,7 @@ restart:
       }
       express(pnf, rel + 1, 0);
       l = *(rel + *(rel + 1));
-      m = 1 + exp - l;
+      m = 1 + expo - l;
       if (d1[m] == i && d2[m] == j)
         *rel = l;
       else
@@ -409,10 +411,10 @@ restart:
         fprintf(op, "%4d", rel[k]);
       fprintf(op, "\n");
     }
-  for (i = 1; i < exp; i++) {
+  for (i = 1; i < expo; i++) {
     pnf = pptr[nf];
     ipnf = pnf + npt1;
-    p1 = pptr[ngno[exp + 1 - i]];
+    p1 = pptr[ngno[expo + 1 - i]];
     ip1 = p1 + npt1;
     for (n = 1; n <= npt; n++) {
       pt = n;
@@ -423,7 +425,7 @@ restart:
     }
     express(pnf, rel + 1, 0);
     l = *(rel + *(rel + 1));
-    m = 1 + exp - l;
+    m = 1 + expo - l;
     if (d1[m] == i && d2[m] == i)
       *rel = l;
     else

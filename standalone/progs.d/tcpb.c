@@ -1,9 +1,10 @@
+#include "tcpb.h"
 #include "defs.h"
 
 extern char ginrel[];
 extern int  space;
 extern int  mpt, rel[], cosno[], gno[], inv[], gch[], *imcos[];
-int ng, ngi, nsg, nr, endsg, endr, maxcos, str, len, ad, *fpt, *bpt, ccos,
+int ng, ngi, nsg, nr, endsg, endr, maxcos, str, len, ad, *fpt, *bpt, curcos,
     maxd, totd, lastd, cind, nfree, stcr, endcr, fcos, bcos, lcl;
 char   fullsc, clsd, lkah;
 FILE * op;
@@ -38,7 +39,7 @@ void seeknln(void)
 
 int readrel(int s, int no)
 {
-  int  stbr, endbr, exp, l, m, n;
+  int  stbr, endbr, expo, l, m, n;
   char ch;
   char gotg, br, clbr, emptybr, name[10];
   if (s)
@@ -97,30 +98,30 @@ int readrel(int s, int no)
       if (ch == '-') {
         ch = getchar();
         if (digit(ch) == 0)
-          exp = -1;
+          expo = -1;
         else {
-          exp = 0;
+          expo = 0;
           while (digit(ch)) {
-            exp *= 10;
-            exp -= (ch - '0');
+            expo *= 10;
+            expo -= (ch - '0');
             ch = getchar();
           }
         }
       }
       else {
-        exp = 0;
+        expo = 0;
         while (digit(ch)) {
-          exp *= 10;
-          exp += (ch - '0');
+          expo *= 10;
+          expo += (ch - '0');
           ch = getchar();
         }
       }
-      if (exp == 0) {
+      if (expo == 0) {
         inperr(name, no);
         return (-1);
       }
       if (clbr) {
-        if (exp < 0)
+        if (expo < 0)
           for (m = stbr, n = endbr; m <= n; m++, n--) {
             if (m == n)
               rel[m] = -rel[m];
@@ -130,10 +131,10 @@ int readrel(int s, int no)
               rel[n] = l;
             }
           }
-        exp = abs(exp);
-        exp--;
+        expo = abs(expo);
+        expo--;
         clbr = 0;
-        for (n = 1; n <= exp; n++)
+        for (n = 1; n <= expo; n++)
           for (m = stbr; m <= endbr; m++) {
             len++;
             ad++;
@@ -142,13 +143,13 @@ int readrel(int s, int no)
       }
       else {
         n = rel[ad];
-        if (exp < 0) {
+        if (expo < 0) {
           n = -n;
           rel[ad] = n;
-          exp = -exp;
+          expo = -expo;
         }
-        exp--;
-        for (m = 1; m <= exp; m++) {
+        expo--;
+        for (m = 1; m <= expo; m++) {
           len++;
           ad++;
           rel[ad] = n;
@@ -273,7 +274,7 @@ int tcprog(void)
     imcos[i] = fpt + maxcos * (2 + i);
   printf("Maxcos=%d.\n\n", maxcos);
 
-  ccos = 1;
+  curcos = 1;
   lastd = 1;
   maxd = 1;
   totd = 1;
@@ -295,7 +296,7 @@ int tcprog(void)
       return (-1);
     }
   }
-  while (ccos != 0) {
+  while (curcos != 0) {
     clsd = 1;
     endcr = endsg;
     while (endcr != endr) {
@@ -303,16 +304,16 @@ int tcprog(void)
       if (fullsc == 0) {
         clsd = 0;
         if (lkah == 0) {
-          lcl = bpt[ccos];
+          lcl = bpt[curcos];
           printf("Entering lookahead.\n");
           lkah = 1;
         }
       }
     }
     if (lkah) {
-      i = fpt[ccos];
+      i = fpt[curcos];
       if (clsd) {
-        j = bpt[ccos];
+        j = bpt[curcos];
         if (j != lcl) {
           fpt[j] = i;
           if (i == 0)
@@ -320,26 +321,26 @@ int tcprog(void)
           else
             bpt[i] = j;
           j = fpt[lcl];
-          fpt[lcl] = ccos;
-          bpt[ccos] = lcl;
-          fpt[ccos] = j;
-          bpt[j] = ccos;
+          fpt[lcl] = curcos;
+          bpt[curcos] = lcl;
+          fpt[curcos] = j;
+          bpt[j] = curcos;
         }
-        lcl = ccos;
+        lcl = curcos;
       }
-      ccos = i;
-      if (ccos == 0) {
+      curcos = i;
+      if (curcos == 0) {
         if (cind == maxcos) {
           fprintf(stderr, "Not enough space.\n");
           return (-1);
         }
         printf("Exiting lookahead. No. of cosets=%d\n", cind);
-        ccos = fpt[lcl];
+        curcos = fpt[lcl];
         lkah = 0;
       }
     }
     else
-      ccos = fpt[ccos];
+      curcos = fpt[curcos];
   }
 
   for (i = 1; i <= ng; i++)
@@ -396,8 +397,8 @@ int scanrel(void)
   fullsc = 1;
   stcr = endcr + 2;
   endcr += (1 + rel[stcr - 1]);
-  fcos = ccos;
-  bcos = ccos;
+  fcos = curcos;
+  bcos = curcos;
   comp = 1;
   for (i = stcr; i <= endcr; i++) {
     k = imcos[rel[i]][fcos];
@@ -475,8 +476,8 @@ int coinc(int c1, int c2)
     lastd = bhc;
   else
     bpt[fhc] = bhc;
-  if (ccos == hc) {
-    ccos = bhc;
+  if (curcos == hc) {
+    curcos = bhc;
     endcr = endr;
     clsd = 0;
   }
@@ -519,8 +520,8 @@ int coinc(int c1, int c2)
               lastd = bhc;
             else
               bpt[fhc] = bhc;
-            if (ccos == him) {
-              ccos = bhc;
+            if (curcos == him) {
+              curcos = bhc;
               endcr = endr;
               clsd = 0;
             }

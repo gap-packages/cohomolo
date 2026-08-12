@@ -1,4 +1,6 @@
+#include "crp2.h"
 #include "defs.h"
+#include "matfns.h"
 
 extern char   mult, inf0[], inf1[], inf2[], outf[], outft[], inf3[];
 extern short *cst, **cpst, ***cdpst, csp[], *cpsp[], **cdpsp[], ***coeff[];

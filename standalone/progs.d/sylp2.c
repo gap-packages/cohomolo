@@ -1,4 +1,6 @@
+#include "sylp2.h"
 #include "defs.h"
+#include "morepermfns.h"
 #include "permfns.h"
 
 extern char  inf1[], inf2[], outf1[], chpar;
@@ -9,11 +11,14 @@ extern short mp, mexp, mb, mnpt, par1, par2, par3, par4, prime, perm[], sv[],
     *intorb[];
 extern int psp, sp, svsp;
 
-short npt, im, cb, adno, *tp, *itp, nb, bno, lexp, np2, *adpt, *lorbdef,
-    *ntfpt, *ntbpt, *invbase, *facord, *orno, *lporb, *deft, *orbp, **gorb,
-    bnoorno, opno, opct;
-char  ok, bt;
-FILE *ip, *op;
+/* these are shared with the normalizer part of sylnorm, which defines them */
+extern short npt, cb, adno, *tp, *itp, lexp, *adpt;
+extern char  bt;
+extern FILE *ip, *op;
+
+short im, nb, bno, np2, *lorbdef, *ntfpt, *ntbpt, *invbase, *facord, *orno,
+    *lporb, *deft, *orbp, **gorb, bnoorno, opno, opct;
+char  ok;
 /* This program and normrun involve backtrack searches. These can be speeded
    up by storing the perms for each coset rep in the stabilizer chain, which
    can be computed using Schreier vectors. As many such perms as space allows
@@ -583,7 +588,7 @@ exit:
   return (bno);
 }
 
-int deforbp(void)
+void deforbp(void)
 /* This tests whether the fact that tp sends cb (=gbase[adno]) to im
    contradicts permutation of the orbits. If so then ok is set false.
 */
@@ -621,7 +626,7 @@ int deforbp(void)
     tp[cb] = im;
 }
 
-int ranelt(void)
+void ranelt(void)
 /* finds random element of group */
 {
   short i, k, l;
@@ -684,7 +689,7 @@ int lcm(int x, int y)
   return (x * y / b);
 }
 
-int fndelt(void)
+void fndelt(void)
 {
   short i, k, l;
   (*pno)++;

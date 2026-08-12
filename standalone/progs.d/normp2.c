@@ -1,4 +1,7 @@
+#include "normp2.h"
+#include "chb.h"
 #include "defs.h"
+#include "morepermfns.h"
 #include "permfns.h"
 
 extern char cent, sym, hgst, nop, nonb[], inf1[], inf2[], inf3[], outf1[],

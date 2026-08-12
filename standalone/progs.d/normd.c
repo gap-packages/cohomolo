@@ -1,4 +1,9 @@
+#include "chb.h"
 #include "defs.h"
+#include "morepermfns.h"
+#include "normp1.h"
+#include "normp2.h"
+#include "permfns.h"
 
 #define NPT 32767
 #define PSP 1000000
@@ -32,7 +37,7 @@ short mp = MP, mexp = MEXP, mb = MB - 1, mnpt = NPT, risp = RISP, prime = 0,
       *svhptr[MB], *svnptr[NPT], *intorb[MB], *horno[MB], *hlorb[MB],
       *expptr[MEXP], *imorno[MB], *imlorb[MB], *orbperm[MB], *deftime[MB],
       *regsv[MB], orep[NPT + 1];
-int psp = PSP, sp = SPACE, svsp = SVSP;
+int   psp = PSP, sp = SPACE, svsp = SVSP;
 
 int main(int argc, char * argv[])
 {

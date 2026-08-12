@@ -1,4 +1,6 @@
+#include "pkp.h"
 #include "defs.h"
+#include "pkmatfns.h"
 
 extern char inf[], outf[], temp[], temp2[], mspace[], *vec[], **mat[], cvec[],
     pinv[], mstr[], full, intop, opt, aut;
@@ -272,7 +274,7 @@ int pkprog(void)
         printf("\n");
       }
     }
-    if (sdim < dim)
+    if (sdim < dim) {
       /* sdim<dim means the module is reducible */
       if (opt == 0)
         break;
@@ -285,6 +287,7 @@ int pkprog(void)
         }
         irr = 0;
       }
+    }
   next:
     /* The last vector generated the whole space, so go on to the next */
     adno = nlty;

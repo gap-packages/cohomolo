@@ -1,8 +1,13 @@
+#include "nqp1.h"
 #include "defs.h"
+#include "matfns.h"
+#include "nqfns.h"
+#include "nqp2.h"
+#include "nqp3.h"
 
 extern char inf0[], inf1[], inf2[], inf3[], inf4[], outf0[], outf1[], outf2[],
     outfd[], inf[], act, ch1, crel, cfm, gap;
-extern short mv, mm, facexp, tails, stage, depth, no, mng, mcl, prime, exp,
+extern short mv, mm, facexp, tails, stage, depth, no, mng, mcl, prime, expo,
     nng, class, *rpf, *rpb, **pcb, dim, onng, *spv, **spm, rel[], wt[], d1[],
     d2[], *pcptr[], sd1[], sd2[], swt[], dpth[], mspace[], *vec[], **mat[],
     cp[];
@@ -16,7 +21,7 @@ FILE *ip, *ipm, *op;
 
 /* General comments on programs nqrun (and nqmrun).
    See file Info.5 for format of ip/op files, and meaning of variables
-   exp,prime,facexp,no,class,depth.
+   expo,prime,facexp,no,class,depth.
    Definiton of i is [d1[i],d2[i]] or d1[i]^prime if equal.
    wt[i] and dpth[i] are weights and depths.
    sd1,sd2 and swt are used to recall defs and weights of the calculation
@@ -96,7 +101,7 @@ int nqprog(void)
   {
     norm = 0;
     if (act) {
-      oexp = exp;
+      oexp = expo;
       if (ip == 0)
         i = 1;
       else if ((i = intmats()) == -1)
@@ -114,7 +119,7 @@ int nqprog(void)
           onng = nng;
         }
         else
-          exp = oexp;
+          expo = oexp;
         break;
       }
       adn = 1;
@@ -136,7 +141,7 @@ int nqprog(void)
           fprintf(stderr, "Cannot open file %s.\n", inf0);
           return (-1);
         }
-        fscanf(ip, "%hd%hd%hd", &prime, &exp, &facexp);
+        fscanf(ip, "%hd%hd%hd", &prime, &expo, &facexp);
         for (i = 1; i <= 2; i++)
           while ((c = getc(ip)) != '\n')
             ;
@@ -144,7 +149,7 @@ int nqprog(void)
         ct = 0;
         while (ct <= facexp) {
           exp1++;
-          if (exp1 == exp)
+          if (exp1 == expo)
             break;
           fscanf(ip, "%hd", &ct);
         }
@@ -156,7 +161,7 @@ int nqprog(void)
         strcpy(outf1, outf0);
         if (calcfm(matcl) == -1)
           return (-1);
-        exp += nng;
+        expo += nng;
       }
       if (act)
       /* Rearrange pointers intg, cintg in ptrsp, now we know how many new
@@ -301,9 +306,9 @@ int intmats(void)
   ip = fopen(inf3, "r");
   fseek(ip, inf3offset, 0);
 retry:
-  fscanf(ip, "%hd", &exp);
-  /* if exp=0, the corresponding dcrep matrix must be skipped */
-  if (exp == 0) {
+  fscanf(ip, "%hd", &expo);
+  /* if expo=0, the corresponding dcrep matrix must be skipped */
+  if (expo == 0) {
     ipm = fopen(inf4, "r");
     fseek(ipm, inf4offset, 0);
     for (i = 1; i <= dim * dim; i++)
@@ -312,27 +317,27 @@ retry:
     fclose(ipm);
     goto retry;
   }
-  if (exp == -1) {
+  if (expo == -1) {
     fclose(ip);
     return (1);
   }
-  norm = exp == ngens;
-  facexp = exp;
-  no = exp - 1;
-  for (i = 1; i <= exp; i++)
+  norm = expo == ngens;
+  facexp = expo;
+  no = expo - 1;
+  for (i = 1; i <= expo; i++)
     fscanf(ip, "%hd", wt + i);
   class = 1;
-  for (i = 1; i <= exp; i++)
+  for (i = 1; i <= expo; i++)
     if (wt[i] > class)
       class = wt[i];
-  ct = ch1 ? exp + dim + mng : exp;
+  ct = ch1 ? expo + dim + mng : expo;
   cintg = pcptr + ptrsp - 1 - ct;
   intg = cintg - ct;
   ptrsp -= (2 * ct);
   rpb = rel + rsp - 1;
   ct = 0;
   if (norm) {
-    for (i = 1; i <= exp; i++)
+    for (i = 1; i <= expo; i++)
       if (wt[i] == 1) {
         rpb -= 3;
         intg[i] = rpb + 1;
@@ -342,7 +347,7 @@ retry:
       }
   }
   else
-    for (i = 1; i <= exp; i++) {
+    for (i = 1; i <= expo; i++) {
       if (wt[i] == 1) {
         ct++;
         fscanf(ip, "%hd", &l);
@@ -364,7 +369,7 @@ retry:
       while (getc(ip) != '\n')
         ;
     }
-  for (i = 1; i <= exp; i++) {
+  for (i = 1; i <= expo; i++) {
     if (wt[i] == 1) {
       fscanf(ip, "%hd", &l);
       p = rpb - l;
@@ -380,7 +385,7 @@ retry:
   rsp = rpb - rel + 1;
   if (norm)
     return (0);
-  if (maxm < ngens + ct || maxm < 2 * exp + 3) {
+  if (maxm < ngens + ct || maxm < 2 * expo + 3) {
     printf("Not enough mat space. Increase MSP (of MV or MM).\n");
     return (-1);
   }
@@ -390,7 +395,7 @@ retry:
     mat[i + ngens] = swop;
   }
   ngens = ct;
-  cbno = 2 * exp + 1;
+  cbno = 2 * expo + 1;
   cbm = mat[cbno];
   /* mat[cbno] is the action base change matrix */
   if (cbdef(1, ct, cbno, sd1, sd2, swt, &matcl))
@@ -438,7 +443,7 @@ int calcfm(int steps)
     if (steps > 0 && depth >= steps)
       break;
     depth++;
-    bd = exp + 1;
+    bd = expo + 1;
     for (dp = depth - 1; dp >= 0; dp--) {
       ed = bd - 1;
       if (dp != 0) {
@@ -517,20 +522,20 @@ int calcfm(int steps)
     if (nng == 0) {
       printf("Frattini Module Complete.\n");
       printf("Final order at depth %d was:  %d ^ %d.\n", depth - 1, prime,
-             exp);
+             expo);
       fflush(stdout);
       break;
     }
     outgp();
     printf("Order of group at depth %d is:  %d ^ %d\n", depth, prime,
-           exp + nng);
+           expo + nng);
     printf("Wasted space=%d.\n\n", wsp);
     fflush(stdout);
     if (st == 1) {
       strcpy(inf1, outf1);
       if (act) {
         inp = 1;
-        exp1 = exp + nng;
+        exp1 = expo + nng;
         inf3offset = ftell(ip);
         fclose(ip);
       }

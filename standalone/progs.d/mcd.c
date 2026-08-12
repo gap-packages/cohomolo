@@ -1,4 +1,6 @@
 #include "defs.h"
+#include "matfns.h"
+#include "mcp.h"
 
 #define MSP 2500000
 #define MM 400

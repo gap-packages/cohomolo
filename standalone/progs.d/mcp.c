@@ -1,4 +1,6 @@
+#include "mcp.h"
 #include "defs.h"
+#include "matfns.h"
 
 extern char slg, con, check, inf1[], inf2[], inf3[], inf4[], inf5[], inf6[],
     outf1[];

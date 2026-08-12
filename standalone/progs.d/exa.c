@@ -1,4 +1,8 @@
+#include "exa.h"
 #include "defs.h"
+#include "exb.h"
+#include "exc.h"
+#include "matfns.h"
 #include "permfns.h"
 
 #define tmalloc(D, T, N)                                                     \
@@ -26,7 +30,7 @@ extern short perm[], sv[], orb[], imsp[], *ptsp[], **simcos[], pinv[], gno[],
     mm, msp, mv, mwdl, mlwdl;
 int   rsp;
 short endr, maxcos, *fpt, *bpt, nelim, bno, lo, **imcos, *spst, **pspst, dim,
-    prime, ccos, lastd, cind, nfree, stcr, endcr, fcos, bcos, lcl, npt, np2,
+    prime, curcos, lastd, cind, nfree, stcr, endcr, fcos, bcos, lcl, npt, np2,
     *rel, *spv, **spm, ng, rwl, nb;
 short *cst, *cend, ***coeff, **cpst, ***cdpst, fullsc, clsd, lkah, conch,
     **cco, *ocst, **def;
@@ -295,10 +299,10 @@ int extpprog(void)
       fpt[i] = i + 1;
     fpt[lo] = 0;
     fpt[maxcos] = 0;
-    ccos = 1;
+    curcos = 1;
     lkah = 0;
     /* At last we are ready to proceed with the enumeration */
-    while (ccos != 0) {
+    while (curcos != 0) {
       clsd = 1;
       endcr = -1;
       while (endcr != endr) {
@@ -307,19 +311,19 @@ int extpprog(void)
         if (fullsc == 0) {
           clsd = 0;
           if (lkah == 0) {
-            lcl = bpt[ccos];
+            lcl = bpt[curcos];
             lkah = 1;
             nelim = 0;
             printf("Entering lookahead.\n");
           }
         }
       }
-      ccos = fpt[ccos];
+      curcos = fpt[curcos];
       if (lkah) {
-        if (nelim >= l1 || ccos == 0) {
+        if (nelim >= l1 || curcos == 0) {
           if (cind != maxcos) {
             printf("Exiting lookahead. cind=%d.\n", cind);
-            ccos = fpt[lcl];
+            curcos = fpt[lcl];
             lkah = 0;
           }
           else {
@@ -328,7 +332,7 @@ int extpprog(void)
           }
         }
       }
-    } /* while ccos!=0 */
+    } /* while curcos!=0 */
       /* End of enumeration. Tidy up and prepare for next bno */
     p = imcos[0] + lo;
     q = imcos[1];

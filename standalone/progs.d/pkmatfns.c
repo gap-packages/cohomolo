@@ -1,10 +1,7 @@
+#include "pkmatfns.h"
 #include "defs.h"
 
-extern char  prime, **mat[], cvec[], pinv[], aut;
-extern short dim, svec[], maxnull;
-extern FILE *ip, *op;
-
-int trans(char ** a, char ** b)
+void trans(char ** a, char ** b)
 /* The transpose of matrix a is written into matrix b.
    Externals: dim.
 */
@@ -19,7 +16,7 @@ int trans(char ** a, char ** b)
   }
 }
 
-int copy(char ** a, char ** b)
+void copy(char ** a, char ** b)
 /* copies matrix a to matrix b.  Externals:  dim  */
 {
   short i;
@@ -33,7 +30,7 @@ int copy(char ** a, char ** b)
   }
 }
 
-int ncopy(int n, char ** a, char ** b)
+void ncopy(int n, char ** a, char ** b)
 /* Copies n times matrix a to matrix b. Externals: prime,dim. */
 {
   char *ptr, *ptre, *ptr2;
@@ -49,7 +46,7 @@ int ncopy(int n, char ** a, char ** b)
   }
 }
 
-int sum(int n, char ** a, char ** b)
+void sum(int n, char ** a, char ** b)
 /* Adds n times matrix a to matrix b. Externals: prime,dim. */
 {
   char *ptr, *ptre, *ptr2;
@@ -66,7 +63,7 @@ int sum(int n, char ** a, char ** b)
   }
 }
 
-int im(char * v, char * w, char ** a)
+void im(char * v, char * w, char ** a)
 /* The image w of vector v under matrix a is computed.
    Externals: dim,prime.
 */
@@ -86,7 +83,7 @@ int im(char * v, char * w, char ** a)
   }
 }
 
-int prod(char ** a, char ** b, char ** c)
+void prod(char ** a, char ** b, char ** c)
 /* The product of matrices a and b is computed and stored in c.
    Warning:  a and c may be equal, but not b and c.
    Externals: prime,dim,cvec.
@@ -104,7 +101,7 @@ int prod(char ** a, char ** b, char ** c)
   }
 }
 
-int readmat(char ** a)
+void readmat(char ** a)
 /* Matrix a is read from input ip.
    Externals: dim,ip.
 */
@@ -121,7 +118,7 @@ int readmat(char ** a)
   }
 }
 
-int rvecsum(int n, char * v)
+void rvecsum(int n, char * v)
 /* n times vector read from ip is added to v. Externals: prime,dim,ip. */
 {
   char *ptr, *ptre;
@@ -136,7 +133,7 @@ int rvecsum(int n, char * v)
   }
 }
 
-int printmat(char ** a)
+void printmat(char ** a)
 /* Matrix a is output to op.
    Externals: dim,op.
 */
@@ -396,7 +393,7 @@ int spgen(char ** a, int n)
   return (spdim);
 }
 
-int opnmat(char ** a, int n, int tdim, int fop)
+void opnmat(char ** a, int n, int tdim, int fop)
 /* Output of matrices 1-n using basis in mat a.
    tdim=dim of output matrices. Output coeffs begin at fop.
    Externals: prime,dim,mat,cvec,svec,op.

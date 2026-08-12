@@ -1,4 +1,6 @@
+#include "matperm.h"
 #include "defs.h"
+#include "matfns.h"
 
 #define MSP 100000
 #define MM 101
@@ -184,7 +186,7 @@ error:
   exit(0);
 }
 
-int encode(void)
+void encode(void)
 {
   short i, *p1, *p2, *q;
   char  c;
@@ -195,7 +197,7 @@ int encode(void)
     p2 = p1 + dim;
     q = p1;
     while (++q <= p2)
-      if (*q != 0)
+      if (*q != 0) {
         if (c == 0) {
           c = 1;
           *(++nfptr) = q - p1;
@@ -204,11 +206,12 @@ int encode(void)
           *(++nfptr) = q - p1;
           *(++nfptr) = *q;
         }
+      }
     *(++nfptr) = 0;
   }
 }
 
-int decode(int n)
+void decode(int n)
 {
   short i, *p1, *p2, *ptr, *q;
   char  c;
@@ -270,9 +273,10 @@ int normalize(void)
         rst++;
         break;
       }
+  return (0);
 }
 
-int setpinv(void)
+void setpinv(void)
 {
   int i, j;
   for (i = 0; i < prime; i++)
