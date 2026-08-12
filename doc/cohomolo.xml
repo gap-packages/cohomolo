@@ -8,9 +8,9 @@ cohomological calculations on a finite group <A>G</A>, based on <Cite Key="Holt8
 There is a file <C><A>gap-dir</A>/pkg/cohomolo/gap/cohomolo.tst</C> which contains
 simple commands that can be used to test the installation of the package.
 If you start &GAP; in the directory <C><A>gap-dir</A>/pkg/cohomolo/gap</C>, then
-you can read the file <F>cohomolo.tst</F> into &GAP; to peform the test.
+you can read the file <F>cohomolo.tst</F> into &GAP; to perform the test.
 <P/>
-This Package has been updated from the original &GAP;3 package
+This package has been updated from the original &GAP;3 package
 with minimal changes, so the user should find the interface unchanged.
 In fact the only real changes are that the function <C>InfoCohomology</C> has been
 replaced by the <C>Info</C> variable <C>InfoCohomolo</C>, and the function
@@ -54,7 +54,7 @@ The functions all compute and make use of a descending sequence of subgroups
 of <A>G</A>, starting at <A>G</A> and ending with a Sylow <A>p</A>-subgroup of <A>G</A>, and
 it is usually most efficient to have the indices of the subgroups in this
 chain as small as possible. If you get a warning message, and one of
-the function fails because the indices in the chain computed are too large,
+the functions fails because the indices in the chain computed are too large,
 then you can try to remedy matters by supplying your own chain. See
 Section&nbsp;<Ref Sect="Further Information"/> for more details, and an example.
 <P/>
@@ -203,7 +203,7 @@ those of <A>M</A>; and</Item>
 first to calculate the dimension of <M>H^2(G,M)</M>, which must of course be known
 if the second parameter is to be given; it is preferable to call
 <C>NonsplitExtension</C> immediately without the second parameter (which will
-return one nonsplit extension), and then to call 'SecondCohomologyDimension',
+return one nonsplit extension), and then to call <C>SecondCohomologyDimension</C>,
 which will at that stage return the required dimension immediately -
 all subsequent calls of <C>NonsplitExtension</C> on <A>chr</A> will also yield
 immediate results.)</Item>
