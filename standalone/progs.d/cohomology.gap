@@ -37,6 +37,17 @@ fi
 
 export gpname cmd cmddest cmdsource step verbose
 
+# nqrun and nqmrun exit 2 once the result has become trivial. They have
+# written it out by then, so stop here rather than report a failure.
+runnq () {
+  ${DIR}execcmd.gap
+  case $? in
+    0) ;;
+    2) exit 0;;
+    *) exit 1;;
+  esac
+}
+
 if test -r ${gpname}.tc
 then tc=true
 else tc=false
@@ -251,7 +262,7 @@ true)
           esac;;
     esac
 
-    cmd="${DIR}$nqcall $gpname"; ${DIR}execcmd.gap || exit 1
+    cmd="${DIR}$nqcall $gpname"; runnq
     
     if test $mult = false -a $co = true
     then cmdsource=" < ${gpname}.nqip"
@@ -269,14 +280,14 @@ true)
             false) nqflag=;;
           esac
           cmd="${DIR}$nqcall $nqflag -a $gpname sc0 $nqarg";
-          ${DIR}execcmd.gap || exit 1;;
+          runnq;;
     false) case $co in
            true) case $neqg in
                  true)  case $mult in
                           true) cmd="${DIR}$nqcall -c $gpname";
-                                ${DIR}execcmd.gap || exit 1;;
+                                runnq;;
                          false) cmd="${DIR}$nqcall -a -c $gpname $$"
-                                ${DIR}execcmd.gap || exit 1;;
+                                runnq;;
                         esac;;
                  esac;;
            esac;;
@@ -289,14 +300,14 @@ true)
            true) nqarg=;;
            false) nqarg=dcr${no}mat;;
            esac
-           cmd="${DIR}$nqcall -a $gpname sc$no $nqarg"; ${DIR}execcmd.gap || exit 1
+           cmd="${DIR}$nqcall -a $gpname sc$no $nqarg"; runnq
         done
 
         case $co in
         true) nqflag=-c;;
         false) nqflag=;;
         esac
-        cmd="${DIR}$nqcall -a $nqflag $gpname"; ${DIR}execcmd.gap || exit 1;;
+        cmd="${DIR}$nqcall -a $nqflag $gpname"; runnq;;
       esac
     cmdsource=;;
 false)
@@ -312,7 +323,7 @@ false)
         done;;
     esac
     cmdsource=" < ${gpname}.nqip"
-    cmd="${DIR}nqrun -g -a -c $gpname $$"; ${DIR}execcmd.gap || exit 1
+    cmd="${DIR}nqrun -g -a -c $gpname $$"; runnq
     cmdsource=;;
 esac
     

@@ -14,6 +14,7 @@
 */
 
 char gap, act, crel, ims, inf0[80], inf1[80], inf2[80], outf[80], outfm[80];
+char trivmult;    /* set once the multiplier is known to be trivial */
 /* Defaults: inf1=gpname.pcp if not -a
                  =gpname.cov if -a
              outf=gpname.cov
@@ -90,7 +91,7 @@ int main(int argc, char * argv[])
   else
     strcat(outf, argv[arg]);
   if (nqmprog() == -1)
-    exit(1);
+    exit(trivmult ? 2 : 1);
 error:
   if (err) {
     fprintf(stderr, "Usage:  nqmrun");

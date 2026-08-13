@@ -104,6 +104,7 @@ int nqmprog(void)
     nextcl:;
     }
     if (nng == 0) {
+      trivmult = 1;
       if (gap) {
         op = fopen(outfm, "w");
         fprintf(op, "COHOMOLO.Multiplier:=[];\n");

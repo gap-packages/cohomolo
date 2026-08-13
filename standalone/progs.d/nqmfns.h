@@ -4,6 +4,7 @@
 #include "defs.h"
 
 extern char  inf1[], outf[], outfm[], gap;
+extern char  trivmult;
 extern short intexp, mexp, mng, wksp, prime, expo, nng, class, *rpf, *rpb,
     *eexpnt, *enexpnt, **pcb, mnng, mord, rel[], expnt[], nexpnt[], cord[],
     wt[], d1[], d2[], *pcptr[], **powptr[], **comptr[], *sspc[], *sspf[],

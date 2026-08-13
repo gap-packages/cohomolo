@@ -5,7 +5,7 @@
 
 #define MNG 16001
 #define MEXP 16001
-#define RSP 2500000
+#define RSP 25000000
 #define PTRSP 250000
 #define MCL 31
 #define MSP 200000

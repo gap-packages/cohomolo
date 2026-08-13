@@ -19,10 +19,46 @@ BindGlobal("COHOMOLO", rec(
                  CoDim2     := 0,
                  RelVals    := [],
                  PermRels   := [],
-                 RM_F       := "rm -f ",
                  CALL       := DirectoriesPackagePrograms("cohomolo")
                  #This is the directory of the external executables
                 ) );
+
+#############################################################################
+##
+#F  COHOMOLO.Run( <prog>, <args> ) . . . . . . . . . run an external program
+##
+##  Fail loudly: a program that ran out of space leaves the output files of
+##  an earlier stage behind, which would otherwise be read as the result.
+##
+COHOMOLO.Run := function( prog, args )
+   local res;
+
+   Info(InfoCohomolo,2,prog," ",JoinStringsWithSeparator(args," "));
+   res := Process( DirectoryCurrent(), Filename( COHOMOLO.CALL, prog ),
+                   InputTextUser(), OutputTextUser(), args );
+   if res <> 0 then
+      Error( "the cohomolo program ", prog, " failed with exit code ", res );
+   fi;
+end;
+
+#############################################################################
+##
+#F  COHOMOLO.RemoveTempFiles( <filename> ) . . remove <filename>.* if present
+##
+COHOMOLO.RemoveTempFiles := function( filename )
+   local pos, dir, prefix, name;
+
+   pos := Length( filename );
+   while filename[pos] <> '/' do pos := pos - 1; od;
+   dir := Directory( filename{[1..pos-1]} );
+   prefix := Concatenation( filename{[pos+1..Length(filename)]}, "." );
+   for name in DirectoryContents( dir ) do
+      if Length(name) > Length(prefix) and name{[1..Length(prefix)]} = prefix
+      then
+         RemoveFile( Filename( dir, name ) );
+      fi;
+   od;
+end;
 
 #############################################################################
 ##
@@ -511,7 +547,7 @@ end );
 ##       the external package. The files have names of form <filename>.<suffix>.
 ##
 BindGlobal( "Cohomolo", function( chr, mult, pres, first, filename )
-   local deg, G, P, p, base, lc, nint, ch, F, mats, i, optstring, callstring,
+   local deg, G, P, p, base, lc, nint, ch, F, mats, i, optstring, args,
          ct, ok;
 
    if not IsCHR(chr) then
@@ -582,7 +618,7 @@ BindGlobal( "Cohomolo", function( chr, mult, pres, first, filename )
    chr.neqg := lc=1 or (lc=2 and chr.norm);
    #Now write things to files -
    #but first make sure there is no rubbish left from a previous run.
-   Exec( Concatenation( COHOMOLO.RM_F, filename, ".*" ) );
+   COHOMOLO.RemoveTempFiles( filename );
    base := chr.base;
    COHOMOLO.WritePermGroup(G,deg,base,Concatenation(filename,".inperm"));
    if lc > 1 then
@@ -618,8 +654,7 @@ BindGlobal( "Cohomolo", function( chr, mult, pres, first, filename )
       COHOMOLO.WriteMatrices(mats,Concatenation(filename,".inmat"));
    fi;
    
-   #Now work out the command for the external program.
-   callstring := Filename(COHOMOLO.CALL, "cohomology.gap");
+   #Now work out the arguments for the external program.
    optstring := "-";
    if mult        then Add( optstring, 'm'); fi;
    if pres        then Add( optstring, 'c'); fi;
@@ -627,18 +662,13 @@ BindGlobal( "Cohomolo", function( chr, mult, pres, first, filename )
    if chr.norm    then Add( optstring, 'n'); fi;
    if chr.neqg    then Add( optstring, 'e'); fi;
    if chr.verbose then Add( optstring, 'v'); fi;
+   args := [ String( chr.prime ), filename ];
    if 1 < Length( optstring ) then
-      callstring := Concatenation(callstring," ", optstring );
+      args := Concatenation( [ optstring ], args );
    fi;
-   callstring:= Concatenation( callstring,
-                               " ", String( chr.prime ), " ", filename );
-   if chr.verbose then Print(callstring,"\n"); fi;
 
    Info(InfoCohomolo,1," Cohomolo package: Calling external program." );
-   if InfoLevel(InfoCohomolo)>=2 then
-     Print("#I", callstring, "\n");
-   fi;
-   Exec( callstring );
+   COHOMOLO.Run( "cohomology.gap", args );
    Info(InfoCohomolo,1," External program complete." );
 
    if mult then
@@ -678,17 +708,14 @@ BindGlobal( "Cohomolo", function( chr, mult, pres, first, filename )
 
      #We have to calculate the other extensions for the basis of H^2(G,M).
       Add( optstring, 'r' );
-      callstring := Filename(COHOMOLO.CALL, "cohomology.gap");
-      callstring := Concatenation(callstring," ",
-                      optstring, " ", String(chr.prime), " ", filename );
-            
+      args := [ optstring, String( chr.prime ), filename ];
+
       for i in [2..chr.codim2] do
          PrintTo(Concatenation(filename,".nqip"),i,"\n");
-         if chr.verbose then Print(callstring,"\n"); fi;
 
          Info(InfoCohomolo,1,
                     " Cohomolo package: Calling external program." );
-         Exec( callstring );
+         COHOMOLO.Run( "cohomology.gap", args );
          Info(InfoCohomolo,1," External program complete." );
 
          if not READ(Concatenation(filename,".rvals")) then
@@ -699,7 +726,7 @@ BindGlobal( "Cohomolo", function( chr, mult, pres, first, filename )
    fi;
 
    Info(InfoCohomolo,1," Removing temporary files." );
-   Exec( Concatenation( COHOMOLO.RM_F, filename, ".*" ) );
+   COHOMOLO.RemoveTempFiles( filename );
 end );
 
 #############################################################################
@@ -997,7 +1024,7 @@ end );
 ##  use is restricted to groups of order at most 32767.
 ##
 BindGlobal( "CalcPres", function( chr )
-   local deg, G, base, F, Fg, Fr, optstring, callstring, ng, ordgen, o, rel,
+   local deg, G, base, F, Fg, Fr, optstring, args, ng, ordgen, o, rel,
    i, l, w, g, h, ct, neg, filename;
 
    if not IsCHR(chr) then
@@ -1017,18 +1044,16 @@ BindGlobal( "CalcPres", function( chr )
    filename:= TmpName();
    COHOMOLO.WritePermGroup(G,deg,base,Concatenation( filename, ".inperm" ) );
    
-   #Now work out the command for the external program.
-   callstring := Filename( COHOMOLO.CALL, "calcpres.gap" );
+   #Now work out the arguments for the external program.
    optstring := "-";
    if chr.verbose then Add( optstring, 'v' ); fi;
+   args := [ filename ];
    if 1 < Length( optstring ) then
-      callstring := Concatenation(callstring," ", optstring );
+      args := Concatenation( [ optstring ], args );
    fi;
-   callstring := Concatenation(callstring," ", filename );
-   if chr.verbose then Print(callstring,"\n"); fi;
 
    Info(InfoCohomolo,1," Calling external program." );
-   Exec(callstring);
+   COHOMOLO.Run( "calcpres.gap", args );
    Info(InfoCohomolo,1," External program complete." );
 
    if not READ(Concatenation( filename, ".reg.relg" ) ) then
@@ -1037,7 +1062,7 @@ BindGlobal( "CalcPres", function( chr )
    chr.permrels := COHOMOLO.PermRels;
 
    Info(InfoCohomolo,1," Removing temporary files." );
-   Exec( Concatenation( COHOMOLO.RM_F, filename, ".*" ) );
+   COHOMOLO.RemoveTempFiles( filename );
 
    # Now we build the finitely presented group.
    ng := Length(GeneratorsOfGroup(G));
