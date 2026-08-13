@@ -1,6 +1,6 @@
 Makefile
-/standalone/progs.d/*.o
 /bin
+/obj
 
 *.gcno
 *.gcov
