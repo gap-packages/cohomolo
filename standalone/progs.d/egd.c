@@ -1,4 +1,6 @@
 #include "defs.h"
+#include "egp.h"
+#include "permfns.h"
 
 #define NPT 32767
 #define MXP 501

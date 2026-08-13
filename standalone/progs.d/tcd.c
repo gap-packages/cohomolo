@@ -1,4 +1,5 @@
 #include "defs.h"
+#include "tcp.h"
 
 #define SPACE 2500000
 #define MPT 10000

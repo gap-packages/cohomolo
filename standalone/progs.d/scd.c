@@ -1,4 +1,7 @@
 #include "defs.h"
+#include "pcscfns.h"
+#include "permfns.h"
+#include "scp.h"
 
 #define NPT 32767
 #define PSP 2000000

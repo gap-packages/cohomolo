@@ -1,4 +1,6 @@
+#include "sylp.h"
 #include "defs.h"
+#include "morepermfns.h"
 #include "permfns.h"
 
 extern char  inf[], outf[];

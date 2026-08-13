@@ -1,4 +1,6 @@
+#include "testpf.h"
 #include "defs.h"
+#include "permfns.h"
 
 #define PSP 60000
 #define MP 200
@@ -77,7 +79,7 @@ reenter:
     }
     for (i = 1; i <= np; i++) {
       if (readperm(pptr[i]) == 2) {
-        fprintf(stderr, "Perm no %i is not a permutation.\n");
+        fprintf(stderr, "Perm no %i is not a permutation.\n", i);
         exit(1);
       }
       pno[i] = 1;
@@ -404,7 +406,7 @@ reenter:
       printf("Input perm nos to be saved, preceded by their number.\n");
       scanf("%hd", &n);
       fprintf(op, "%3d %4d%4d%4d\n", npt, n, nb, 0);
-      if (nb != 0)
+      if (nb != 0) {
         if (npt >= 10000) {
           for (i = 1; i <= nb; i++)
             fprintf(op, "%6d", base[i]);
@@ -420,6 +422,7 @@ reenter:
             fprintf(op, "%4d", base[i]);
           fprintf(op, "\n");
         }
+      }
       f = 0;
       for (i = 1; i <= n; i++) {
         scanf("%hd", &m);
@@ -470,7 +473,7 @@ reenter:
       }
       for (i = 1; i <= np; i++) {
         if (readperm(pptr[i + n - 1]) == 2) {
-          fprintf(stderr, "Perm no %i is not a permutation.\n");
+          fprintf(stderr, "Perm no %i is not a permutation.\n", i);
           pno[i + n - 1] = 0;
           break;
         }
@@ -491,7 +494,7 @@ reenter:
   exit(0);
 }
 
-int snl(void)
+void snl(void)
 {
   while (getchar() != '\n')
     ;

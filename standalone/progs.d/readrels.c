@@ -428,7 +428,7 @@ int readrel(int no)
    Each relation is preceded by its length.
 */
 {
-  short stbr, endbr, exp, l, m, n, ptr, ch, len;
+  short stbr, endbr, expo, l, m, n, ptr, ch, len;
   char  gotg, br, clbr, emptybr;
   gotg = 0;
   br = 0;
@@ -485,30 +485,30 @@ int readrel(int no)
       if (ch == '-') {
         ch = getc(ip);
         if (digit(ch) == 0)
-          exp = -1;
+          expo = -1;
         else {
-          exp = 0;
+          expo = 0;
           while (digit(ch)) {
-            exp *= 10;
-            exp -= (ch - '0');
+            expo *= 10;
+            expo -= (ch - '0');
             ch = getc(ip);
           }
         }
       }
       else {
-        exp = 0;
+        expo = 0;
         while (digit(ch)) {
-          exp *= 10;
-          exp += (ch - '0');
+          expo *= 10;
+          expo += (ch - '0');
           ch = getc(ip);
         }
       }
-      if (exp == 0) {
+      if (expo == 0) {
         inperr(no);
         return (-1);
       }
       if (clbr) {
-        if (exp < 0)
+        if (expo < 0)
           for (m = stbr, n = endbr; m <= n; m++, n--) {
             if (m == n)
               rel[m] = inv(rel[m]);
@@ -518,10 +518,10 @@ int readrel(int no)
               rel[n] = l;
             }
           }
-        exp = abs(exp);
-        exp--;
+        expo = abs(expo);
+        expo--;
         clbr = 0;
-        for (n = 1; n <= exp; n++)
+        for (n = 1; n <= expo; n++)
           for (m = stbr; m <= endbr; m++) {
             len++;
             ptr++;
@@ -530,13 +530,13 @@ int readrel(int no)
       }
       else {
         n = rel[ptr];
-        if (exp < 0) {
+        if (expo < 0) {
           n++;
           rel[ptr] = n;
-          exp = -exp;
+          expo = -expo;
         }
-        exp--;
-        for (m = 1; m <= exp; m++) {
+        expo--;
+        for (m = 1; m <= expo; m++) {
           len++;
           ptr++;
           rel[ptr] = n;

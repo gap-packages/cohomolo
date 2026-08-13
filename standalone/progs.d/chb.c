@@ -1,8 +1,7 @@
+#include "chb.h"
 #include "defs.h"
 #include "permfns.h"
 
-extern short npt, nf, cp[], orb[], pno[], fp[], tsv1[], tsv2[], tsv3[],
-    orep[], *pptr[], mb;
 short cpno;
 
 int addperm(void)

@@ -1,12 +1,15 @@
+#include "nqp2.h"
 #include "defs.h"
+#include "matfns.h"
+#include "nqfns.h"
 
 extern char inf0[], inf1[], inf4[], outf0[], outf1[], outf2[], outcopy[], act,
     ch1, norm;
-extern short intexp, facexp, stage, mcl, prime, exp, nng, *rpf, *rpb, *eexpnt,
-    *enexpnt, **pcb, dim, onng, **npcb, rel[], expnt[], nexpnt[], pinv[],
-    wt[], d1[], d2[], *pcptr[], **powptr[], **comptr[], sd1[], sd2[], swt[],
-    dpth[], **mat[], cp[], **intg, **cintg, cbno, ngens, maxm, matcl, **extno,
-    **subno, chsdim, chpdim, exp1;
+extern short intexp, facexp, stage, mcl, prime, expo, nng, *rpf, *rpb,
+    *eexpnt, *enexpnt, **pcb, dim, onng, **npcb, rel[], expnt[], nexpnt[],
+    pinv[], wt[], d1[], d2[], *pcptr[], **powptr[], **comptr[], sd1[], sd2[],
+    swt[], dpth[], **mat[], cp[], **intg, **cintg, cbno, ngens, maxm, matcl,
+    **extno, **subno, chsdim, chpdim, exp1;
 extern int   rsp, ptrsp, rspk, marg;
 extern long  inf3offset, inf4offset;
 short *      wf, *wc, **inteno, intcpd, inng, *nsd1, *nsd2, intfe, **npcb2;
@@ -50,7 +53,7 @@ void entvec(short * h, short * g, int pow)
       if (j < 0)
         j += prime;
       wc += 2;
-      *wc = exp + i;
+      *wc = expo + i;
       *(wc + 1) = j;
     }
   if (h != 0) {
@@ -182,11 +185,11 @@ int spact(void)
     fclose(ip);
   }
   ct = ngens;
-  j = exp;
+  j = expo;
   for (i = 1; i <= dim; i++) {
     j++;
     wt[j] = swt[i];
-    d1[j] = (sd1[i] > 0) ? sd1[i] + exp : 0;
+    d1[j] = (sd1[i] > 0) ? sd1[i] + expo : 0;
     d2[j] = sd2[i];
   }
   printf("Computing matrices.\n");
@@ -202,8 +205,8 @@ int spact(void)
         mat[i] = mat[ct];
         mat[ct] = swop;
         for (j = 1; j <= dim; j++)
-          if (d2[exp + j] == ct)
-            d2[exp + j] = i;
+          if (d2[expo + j] == ct)
+            d2[expo + j] = i;
       }
       if (inv(mat[i], mat[facexp + i]) == -1)
         return (-1);
@@ -252,7 +255,7 @@ int spact(void)
   v2 = mat[facexp + 1][2];
   for (i = 1; i <= dim; i++)
     v1[i] = 0;
-  ie = exp;
+  ie = expo;
   for (i = 1; i <= dim; i++) {
     if (i > 1)
       v1[i - 1] = 0;
@@ -265,7 +268,7 @@ int spact(void)
         l = 0;
         for (k = 1; k <= dim; k++)
           if ((m = v2[k]) != 0) {
-            *(nrpf++) = k + exp;
+            *(nrpf++) = k + expo;
             *(nrpf++) = m;
             l += 2;
           }
@@ -290,8 +293,8 @@ int spact(void)
     }
     for (cl = matcl + 1; cl > 1; cl--) {
       printf("cl=%d.\n", cl);
-      for (fg = facexp + 1; dpth[fg] == 1 && fg <= exp; fg++)
-        for (i = exp + 1; i <= exp + dim; i++)
+      for (fg = facexp + 1; dpth[fg] == 1 && fg <= expo; fg++)
+        for (i = expo + 1; i <= expo + dim; i++)
           if (wt[i] + 1 == cl) {
             if (intgen(i, fg) == -1)
               return (-1);
@@ -303,8 +306,8 @@ int spact(void)
               }
             }
           }
-      while (fg <= exp) {
-        for (i = exp + 1; i <= exp + dim; i++)
+      while (fg <= expo) {
+        for (i = expo + 1; i <= expo + dim; i++)
           if (wt[i] + dpth[fg] == cl) {
             if (dpth[d1[fg]] == dpth[fg] - 1) {
               if (assoc(i, d1[fg], d2[fg]))
@@ -325,11 +328,11 @@ int spact(void)
       }
       for (i = 1; i <= facexp; i++) {
         wi = wt[i];
-        for (j = facexp + 1; j <= exp; j++) {
+        for (j = facexp + 1; j <= expo; j++) {
           wj = dpth[j];
           if (wi + wj >= cl)
             break;
-          for (k = exp + 1; k <= exp + dim; k++)
+          for (k = expo + 1; k <= expo + dim; k++)
             if (wi + wj + wt[k] == cl)
               if (assoc(k, j, i)) {
                 if ((l = prnrel()) == 0)
@@ -369,14 +372,14 @@ int spact(void)
     if (cl <= matcl + 1) {
       for (i = 1; i <= facexp; i++)
         if (wt[i] == 1)
-          for (j = exp + 1; j <= exp + dim; j++)
+          for (j = expo + 1; j <= expo + dim; j++)
             if (wt[j] + 1 == cl)
               if (intgen(j, i) == -1)
                 return (-1);
       for (i = 1; i <= facexp; i++) {
         wi = wt[i];
         if (wi > 1)
-          for (j = exp + 1; j <= exp + dim; j++)
+          for (j = expo + 1; j <= expo + dim; j++)
             if (wi + wt[j] == cl)
               if (assoc(j, d1[i], d2[i]))
                 if (subrel(j, i) == -1)
@@ -385,7 +388,7 @@ int spact(void)
     }
     for (i = 1; i <= facexp; i++)
       for (j = i; j <= facexp; j++)
-        for (k = exp + 1; k <= exp + dim; k++)
+        for (k = expo + 1; k <= expo + dim; k++)
           if ((i == j && wt[i] + 1 + wt[k] == cl) ||
               (i != j && wt[i] + wt[j] + wt[k] == cl))
             if (assoc(k, j, i)) {
@@ -464,23 +467,23 @@ int intact(void)
      but a slightly messy method has been used to save long definitions.
   */
   p = d1;
-  q = p + exp + dim + onng;
+  q = p + expo + dim + onng;
   v1 = sd1 + 1;
   while (++p <= q)
     *(v1++) = *p;
-  nsd1 = sd1 + exp + dim;
+  nsd1 = sd1 + expo + dim;
   p = d2;
-  q = p + exp + dim + onng;
+  q = p + expo + dim + onng;
   v1 = sd2 + 1;
   while (++p <= q)
     *(v1++) = *p;
-  nsd2 = sd2 + exp + dim;
+  nsd2 = sd2 + expo + dim;
   if (ch1) {
-    for (i = exp + 1; i <= exp + dim + nng; i++) {
+    for (i = expo + 1; i <= expo + dim + nng; i++) {
       p = (sd1[i] == 0) ? 0 : *(comptr[sd1[i]] + sd2[i]);
       if (p != 0) {
         l = *p;
-        if (i <= exp + dim)
+        if (i <= expo + dim)
           l -= 2;
         if (l > 0) {
           sd1[i] = -sd1[i];
@@ -516,7 +519,7 @@ int intact(void)
         }
       }
   inng = onng;
-  intexp = exp;
+  intexp = expo;
   if (ch1 == 0) {
     p = wt;
     q = p + facexp;
@@ -668,7 +671,7 @@ int intact(void)
         if (wc >= wf)
           collect(wc, wf, 1);
         l = 0;
-        for (k = exp; k >= 1; k--)
+        for (k = expo; k >= 1; k--)
           if ((x = expnt[k]) != 0) {
             *rpb = x;
             *(rpb - 1) = k;
@@ -702,7 +705,7 @@ int intact(void)
         if (wc >= wf)
           collect(wc, wf, 1);
         l = 0;
-        for (k = exp; k >= 1; k--)
+        for (k = expo; k >= 1; k--)
           if ((x = expnt[k]) != 0) {
             *rpb = x;
             *(rpb - 1) = k;
@@ -738,7 +741,7 @@ int intact(void)
       q1 = q + *q;
       while (--p1 > p)
         if ((f1 = *p1) != 0) {
-          c = p1 - p + exp;
+          c = p1 - p + expo;
           q = intg[b];
           while (++q < q1) {
             d = *(q++);
@@ -772,7 +775,7 @@ int intact(void)
       q1 = q + *q;
       while (--p1 > p)
         if ((f1 = *p1) != 0) {
-          c = p1 - p + exp;
+          c = p1 - p + expo;
           q = cintg[b];
           while (++q < q1) {
             d = *(q++);

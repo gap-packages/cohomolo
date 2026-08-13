@@ -1,4 +1,6 @@
 #include "defs.h"
+#include "pkmatfns.h"
+#include "pkp.h"
 
 #define SPACE 6000000
 #define MDIM 2000

@@ -1,3 +1,4 @@
+#include "permmat.h"
 #include "defs.h"
 
 char inf[80], outf[80];

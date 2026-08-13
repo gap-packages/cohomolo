@@ -1,3 +1,4 @@
+#include "egp.h"
 #include "defs.h"
 #include "permfns.h"
 

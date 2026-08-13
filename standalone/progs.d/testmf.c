@@ -1,4 +1,6 @@
+#include "testmf.h"
 #include "defs.h"
+#include "matfns.h"
 
 #define MSP 100000
 #define MM 200

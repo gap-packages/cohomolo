@@ -1,3 +1,5 @@
+#include "conpdc2.h"
+#include "conpdc1.h"
 #include "defs.h"
 
 extern char inf0[], inf1[], inf2[], inf3[], outf1[], outf2[], outf3[],

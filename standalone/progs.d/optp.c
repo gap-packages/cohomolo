@@ -1,3 +1,4 @@
+#include "optp.h"
 #include "defs.h"
 #include "permfns.h"
 
@@ -5,8 +6,8 @@
 extern char heqg, words, fullg, check, outf[], inf1[], inf2[], inf3[],
     outf0[];
 extern short perm[], sv[], cp[], actgen[], orb[], base[], lorbc[], lorbg[],
-    lorbh[], order[], pno[], *pptr[], *svptr1[], *svptr2[], *svptr3[], scpf[],
-    scps[], sadpt[], mp, mb;
+    lorbh[], pno[], *pptr[], *svptr1[], *svptr2[], *svptr3[], scpf[], scps[],
+    sadpt[], mp, mb;
 extern int psp, svsp;
 short      npt, mxp, sth, stcom, np2, nb, npt1, cps, cpf;
 char       hing, cthere, hsvth;
@@ -91,7 +92,7 @@ int optprog(void)
       return (-1);
     if (i != npt || (k > 0 && j != nb))
       err = 1;
-    if (err == 0)
+    if (err == 0) {
       if (k > 0) {
         for (i = 1; i <= nb; i++) {
           fscanf(ip, "%hd", &j);
@@ -130,6 +131,7 @@ int optprog(void)
         }
         hsvth = 0;
       }
+    }
     if (err) {
       fprintf(stderr, "Wrong input format for H.\n");
       return (-1);
@@ -427,9 +429,9 @@ loop:
     goto loop;
 }
 
-int test(short ** svp, int exp)
+int test(short ** svp, int expo)
 /* Test whether the current perm (in cp) lies in the group G, using the
-   Schreier Vector svp. If exp is true, print out word for element in
+   Schreier Vector svp. If expo is true, print out word for element in
    generators of G.
 */
 {
@@ -437,13 +439,13 @@ int test(short ** svp, int exp)
   for (l = 1; l <= nb; l++) {
     k = image(base[l]);
     if (svp[l][k] == 0) {
-      if (exp)
+      if (expo)
         printf("Permutation is not in group.\n");
       return (0);
     }
     addsv(k, svp[l]);
   }
-  if (exp)
+  if (expo)
     for (i = cp[0]; i > 1; i--) {
       k = cp[i];
       l = (k % 2 == 0) ? -(k + 2) / 2 : (k + 1) / 2;
@@ -731,7 +733,7 @@ int im(int pt)
   return (pt);
 }
 
-int addsvb(int pt, short * sv)
+void addsvb(int pt, short * sv)
 /* Similar to addsv in permfns.c, but goes backwards, using current perm
    in intsect
 */
@@ -746,7 +748,7 @@ int addsvb(int pt, short * sv)
   }
 }
 
-int addsvf(int pt, short * sv)
+void addsvf(int pt, short * sv)
 /* Same but goes forwards */
 {
   short pn;
@@ -856,7 +858,7 @@ restart:
   return (0);
 }
 
-int rhc(void)
+void rhc(void)
 /* Replace H by C */
 {
   short i, l, *p, *q, *r;
@@ -903,7 +905,7 @@ int rhc(void)
     printf("H is not a subgroup of G.\n");
 }
 
-int rgh(int c)
+void rgh(int c)
 /* Replace G by H, and is c=1 also H by C */
 {
   short i, l, *p, *q, *r;

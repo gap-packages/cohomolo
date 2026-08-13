@@ -1,7 +1,6 @@
+#include "morepermfns.h"
 #include "defs.h"
 #include "permfns.h"
-
-extern short npt, pno[], expcp[], cp[], genorb[], *pptr[], *expptr[];
 
 int expandp(int nb, short * p, short * base, short ** svptr)
 /* Generates the Schreier vector expression for perm p into cp.

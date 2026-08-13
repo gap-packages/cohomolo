@@ -1,3 +1,4 @@
+#include "chb.h"
 #include "defs.h"
 #include "permfns.h"
 

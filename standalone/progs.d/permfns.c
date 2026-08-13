@@ -1,9 +1,6 @@
 #include "permfns.h"
 #include "defs.h"
 
-extern short npt, cp[], orb[], *pptr[], pno[];
-extern FILE *ip, *op;
-
 short orbitsv(short pt, short * sv, short lo)
 /* Computes orbit of pt under perms listed in pno, and writes
    Schreier vector into sv

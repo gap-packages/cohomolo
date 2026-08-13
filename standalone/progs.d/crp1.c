@@ -1,3 +1,4 @@
+#include "crp1.h"
 #include "defs.h"
 
 extern char  mult, inf0[], inf1[], inf2[], outf[], outft[], inf3[];

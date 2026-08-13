@@ -1,7 +1,9 @@
+#include "nqmp.h"
 #include "defs.h"
+#include "nqmfns.h"
 
 extern char  ims, act, gap, crel, inf0[], inf1[], inf2[], outf[], outfm[];
-extern short intexp, mng, mexp, wksp, prime, exp, nng, class, *rpf, *rpb,
+extern short intexp, mng, mexp, wksp, prime, expo, nng, class, *rpf, *rpb,
     *eexpnt, *enexpnt, **pcb, mnng, mord, rel[], expnt[], nexpnt[], cord[],
     wt[], d1[], d2[], *pcptr[], **powptr[], **comptr[], *sspc[], *sspf[],
     sgen[], sex[], spgen[], spex[], spugen[], *intg[], *imintg[], *tlintg[];
@@ -39,7 +41,7 @@ int nqmprog(void)
     return (-1);
   }
   covrel = NULL;
-  eexpnt = expnt + exp;
+  eexpnt = expnt + expo;
   enexpnt = nexpnt + nng;
 
   /* if nng=0, we are computing the multiplier of P. First we estimate the
@@ -47,10 +49,10 @@ int nqmprog(void)
   */
   if (nng == 0) {
     mnng = 0;
-    for (i = 1; i <= exp; i++)
+    for (i = 1; i <= expo; i++)
       if (wt[i] > 1)
         mnng++;
-    for (i = 1; i <= exp; i++)
+    for (i = 1; i <= expo; i++)
       for (j = 1; j < i; j++) {
         gi = *(comptr[i] + 2 * j);
         if ((wt[i] + wt[j] <= class + 1) && (wt[i] == 1 || wt[j] == 1) &&
@@ -58,24 +60,24 @@ int nqmprog(void)
           mnng++;
       }
     printf("mnng=%d\n", mnng);
-    j = exp / 2;
+    j = expo / 2;
     mord = 1;
     for (i = 1; i <= j; i++)
       mord *= prime;
     /* Now we start introducing the new generators */
     for (cl = class + 1; cl >= 2; cl--) {
-      for (i = 1; i < exp; i++)
-        for (j = i + 1; j <= exp; j++)
+      for (i = 1; i < expo; i++)
+        for (j = i + 1; j <= expo; j++)
           if (wt[i] + wt[j] == cl && (wt[i] == 1 || wt[j] == 1))
             if (intgen(j, i) == -1)
               return (-1);
-      for (i = 3; i <= exp; i++)
+      for (i = 3; i <= expo; i++)
         if (wt[i] == cl)
           if (intgen(i, i) == -1)
             return (-1);
-      for (i = 3; i < exp; i++)
+      for (i = 3; i < expo; i++)
         if (wt[i] > 1)
-          for (j = i + 1; j <= exp; j++)
+          for (j = i + 1; j <= expo; j++)
             if (wt[j] > 1 && wt[i] + wt[j] == cl) {
               k = d1[i];
               l = d2[i];
@@ -83,7 +85,7 @@ int nqmprog(void)
                 if (subrel(j, i) == -1)
                   return (-1);
             }
-      for (j = 1; j <= exp; j++)
+      for (j = 1; j <= expo; j++)
         for (i = 1; i <= j; i++)
           if (wt[i] + wt[j] == cl) {
             if (assoc(j, i, i))
@@ -93,7 +95,7 @@ int nqmprog(void)
               if ((l = prnrel(0)) == -1)
                 goto nextcl;
           }
-      for (k = 3; k <= exp; k++)
+      for (k = 3; k <= expo; k++)
         for (j = 2; j < k; j++)
           for (i = 1; i < j; i++)
             if (wt[i] + wt[j] + wt[k] == cl && assoc(k, j, i))
@@ -123,7 +125,7 @@ int nqmprog(void)
     }
     fscanf(ip, "%hd", &intexp);
     while (intexp != -1) {
-      norm = intexp == exp;
+      norm = intexp == expo;
       if (ims) {
         if (norm == 0) {
           fprintf(stderr, "-i can only be called for g in N(P).\n");
@@ -166,7 +168,7 @@ int nqmprog(void)
       /* Now we compute the action */
       if (norm) {
         wf = rpf;
-        for (l = 3; l <= exp; l++)
+        for (l = 3; l <= expo; l++)
           if ((i = d1[l]) != 0) {
             j = d2[l];
             p = *(comptr[i] + 2 * j);

@@ -1,4 +1,6 @@
 #include "defs.h"
+#include "grp.h"
+#include "permfns.h"
 
 #define PSP 1000000
 #define SPACE 1000000

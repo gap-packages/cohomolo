@@ -1,4 +1,7 @@
 #include "defs.h"
+#include "morepermfns.h"
+#include "permfns.h"
+#include "sylp.h"
 
 #define NPT 32767
 #define PSP 1000000

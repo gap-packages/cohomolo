@@ -1,4 +1,6 @@
 #include "defs.h"
+#include "optp.h"
+#include "permfns.h"
 
 #define PSP 2000000
 #define SVSP 600000

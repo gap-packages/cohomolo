@@ -1,4 +1,7 @@
 #include "defs.h"
+#include "matfns.h"
+#include "nqfns.h"
+#include "nqp1.h"
 
 #define MNG 16001
 #define MEXP 16001
@@ -23,15 +26,15 @@
 char inf0[80], inf1[80], inf2[80], inf3[80], inf4[80], inf[80], outf0[80],
     outf1[80], outf2[80], outfd[80], outcopy[80], act, ch1, crel, cfm, gap;
 short mv = MV, mm = MM, mexp = MEXP, mng = MNG, mcl = MCL, facexp, tails,
-      depth, no, prime, exp, nng, class, *rpf, *rpb, *eexpnt, *enexpnt, **pcb,
-      intexp, stage, dim, onng, **opcb, **npcb, *nd1, *nd2, *spv, **spm,
-      rel[RSP], expnt[MEXP], nexpnt[MNG], prvec[MNG], pinv[MPR],
+      depth, no, prime, expo, nng, class, *rpf, *rpb, *eexpnt, *enexpnt,
+      **pcb, intexp, stage, dim, onng, **opcb, **npcb, *nd1, *nd2, *spv,
+      **spm, rel[RSP], expnt[MEXP], nexpnt[MNG], prvec[MNG], pinv[MPR],
       wt[MEXP + MNG], d1[MEXP + MNG], d2[MEXP + MNG], *pcptr[PTRSP],
       **powptr[MEXP], **comptr[MEXP], *sspc[MCL], *sspf[MCL], sgen[MCL],
       sex[MCL], spgen[MCL], spex[MCL], spugen[MCL], dpth[MEXP + MNG],
       sd1[MEXP], sd2[MEXP], swt[MEXP], mspace[MSP], *vec[MV], **mat[MM],
       cp[MWL];
-int rsp = RSP, msp = MSP, ptrsp = PTRSP, wsp, marg = MARG;
+int   rsp = RSP, msp = MSP, ptrsp = PTRSP, wsp, marg = MARG;
 
 /*  act=1 if -a set, ch1=1 if -1 set, crel=1 if -c set,
     inf0 (if act) = pcp output from previous run of nqrun,

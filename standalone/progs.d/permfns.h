@@ -1,6 +1,11 @@
 #ifndef COHOMOLO_PERMFNS_H
 #define COHOMOLO_PERMFNS_H
 
+#include "defs.h"
+
+extern short npt, cp[], orb[], *pptr[], pno[];
+extern FILE *ip, *op;
+
 short orbitsv(short pt, short * sv, short lo);
 short addsv(short pt, short * sv);
 short image(short pt);
@@ -12,5 +17,6 @@ short readbaselo(short nb, short * base, short * lorb);
 short printbaselo(short nb, short * base, short * lorb);
 short printpsv(short nb, short * gno, short ** svptr);
 short readpsv(short e, short nb, short nperms, short ** svptr);
+void  seeknln(void);
 
 #endif

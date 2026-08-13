@@ -1,7 +1,5 @@
+#include "matfns.h"
 #include "defs.h"
-
-extern short prime, dim, *spv, **spm, **mat[], pinv[];
-extern FILE *ip, *op;
 
 void trans(short ** a, short ** b)
 /* The transpose of matrix a is written into matrix b.

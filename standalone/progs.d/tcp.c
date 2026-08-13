@@ -1,9 +1,10 @@
+#include "tcp.h"
 #include "defs.h"
 
 extern char  rs, ginrel[];
 extern int   space, mxc;
 extern short mpt, rel[], cosno[], gno[], inv[], gch[], *imcos[];
-short ng, ngi, nsg, nr, endsg, endr, maxcos, str, len, ad, *fpt, *bpt, ccos,
+short ng, ngi, nsg, nr, endsg, endr, maxcos, str, len, ad, *fpt, *bpt, curcos,
     maxd, totd, lastd, cind, nfree, stcr, endcr, fcos, bcos, lcl;
 char   fullsc, clsd, lkah;
 FILE * op;
@@ -43,7 +44,7 @@ int readrel(int s, int no)
   in rel.
 */
 {
-  short stbr, endbr, exp, l, m, n;
+  short stbr, endbr, expo, l, m, n;
   char  ch;
   char  gotg, br, clbr, emptybr, name[10];
   if (s)
@@ -102,30 +103,30 @@ int readrel(int s, int no)
       if (ch == '-') {
         ch = getchar();
         if (digit(ch) == 0)
-          exp = -1;
+          expo = -1;
         else {
-          exp = 0;
+          expo = 0;
           while (digit(ch)) {
-            exp *= 10;
-            exp -= (ch - '0');
+            expo *= 10;
+            expo -= (ch - '0');
             ch = getchar();
           }
         }
       }
       else {
-        exp = 0;
+        expo = 0;
         while (digit(ch)) {
-          exp *= 10;
-          exp += (ch - '0');
+          expo *= 10;
+          expo += (ch - '0');
           ch = getchar();
         }
       }
-      if (exp == 0) {
+      if (expo == 0) {
         inperr(name, no);
         return (-1);
       }
       if (clbr) {
-        if (exp < 0)
+        if (expo < 0)
           for (m = stbr, n = endbr; m <= n; m++, n--) {
             if (m == n)
               rel[m] = -rel[m];
@@ -135,10 +136,10 @@ int readrel(int s, int no)
               rel[n] = l;
             }
           }
-        exp = abs(exp);
-        exp--;
+        expo = abs(expo);
+        expo--;
         clbr = 0;
-        for (n = 1; n <= exp; n++)
+        for (n = 1; n <= expo; n++)
           for (m = stbr; m <= endbr; m++) {
             len++;
             ad++;
@@ -147,13 +148,13 @@ int readrel(int s, int no)
       }
       else {
         n = rel[ad];
-        if (exp < 0) {
+        if (expo < 0) {
           n = -n;
           rel[ad] = n;
-          exp = -exp;
+          expo = -expo;
         }
-        exp--;
-        for (m = 1; m <= exp; m++) {
+        expo--;
+        for (m = 1; m <= expo; m++) {
           len++;
           ad++;
           rel[ad] = n;
@@ -341,7 +342,7 @@ compmaxcos:
     printf("Maxcos=%d.\n", maxcos);
 
   /* Now we are ready to start the enumeration.
-     ccos=current coset being scanned.
+     curcos=current coset being scanned.
      lastd=last coset defined.
      maxd=max no of cosets that were defined at any one time.
      totd=total number of cosets defined.
@@ -352,7 +353,7 @@ compmaxcos:
      When nfree=0, there are no further nos. free (cind=maxcos), and then
      lookahead is entered (lkah=1)
   */
-  ccos = 1;
+  curcos = 1;
   lastd = 1;
   maxd = 1;
   totd = 1;
@@ -390,7 +391,7 @@ compmaxcos:
      we come out of lookahead. lcl marks the last fully scanned coset before
      entering lookahead, so this is the return point.
   */
-  while (ccos != 0) {
+  while (curcos != 0) {
     clsd = 1;
     endcr = endsg;
     while (endcr != endr) {
@@ -398,19 +399,19 @@ compmaxcos:
       if (fullsc == 0) {
         clsd = 0;
         if (lkah == 0) {
-          lcl = bpt[ccos];
+          lcl = bpt[curcos];
           printf("Entering lookahead.\n");
           lkah = 1;
         }
       }
     }
     if (lkah) {
-      i = fpt[ccos];
+      i = fpt[curcos];
       /* If the coset was fully scanned, then we change the linking to put it
          on the end of the list of scanned cosets.
       */
       if (clsd) {
-        j = bpt[ccos];
+        j = bpt[curcos];
         if (j != lcl) {
           fpt[j] = i;
           if (i == 0)
@@ -418,15 +419,15 @@ compmaxcos:
           else
             bpt[i] = j;
           j = fpt[lcl];
-          fpt[lcl] = ccos;
-          bpt[ccos] = lcl;
-          fpt[ccos] = j;
-          bpt[j] = ccos;
+          fpt[lcl] = curcos;
+          bpt[curcos] = lcl;
+          fpt[curcos] = j;
+          bpt[j] = curcos;
         }
-        lcl = ccos;
+        lcl = curcos;
       }
-      ccos = i;
-      if (ccos == 0)
+      curcos = i;
+      if (curcos == 0)
       /* End of lookahead */
       {
         if (cind == maxcos) {
@@ -436,12 +437,12 @@ compmaxcos:
           return (-1);
         }
         printf("Exiting lookahead. No. of cosets=%d\n", cind);
-        ccos = fpt[lcl];
+        curcos = fpt[lcl];
         lkah = 0;
       }
     }
     else
-      ccos = fpt[ccos];
+      curcos = fpt[curcos];
   }
 
   /* That ends the enumeration. In case ginrel[i] is 0 for any generator, we
@@ -500,10 +501,11 @@ compmaxcos:
       }
     }
   }
+  return (0);
 }
 
 int scanrel(void)
-/* Scan ccos under relation or subgen starting at rel[endcr] */
+/* Scan curcos under relation or subgen starting at rel[endcr] */
 {
   short i, j, k, l, m;
   char  comp;
@@ -511,8 +513,8 @@ int scanrel(void)
   fullsc = 1;
   stcr = endcr + 2;
   endcr += (1 + rel[stcr - 1]);
-  fcos = ccos;
-  bcos = ccos;
+  fcos = curcos;
+  bcos = curcos;
   comp = 1;
   for (i = stcr; i <= endcr; i++)
   /* Forward scan. If incomplete, try backward scan
@@ -573,9 +575,10 @@ int scanrel(void)
   }
   if (fcos != bcos)
     coinc(fcos, bcos);
+  return (0);
 }
 
-int coinc(int c1, int c2)
+void coinc(int c1, int c2)
 /* Process coincidence c1 = c2.
    fpt and bpt are used differently in this routine.
    For pairs d1,d2 of coincidences in the queue waiting to be processed,
@@ -603,8 +606,8 @@ int coinc(int c1, int c2)
     lastd = bhc;
   else
     bpt[fhc] = bhc;
-  if (ccos == hc) {
-    ccos = bhc;
+  if (curcos == hc) {
+    curcos = bhc;
     endcr = endr;
     clsd = 0;
   }
@@ -659,8 +662,8 @@ int coinc(int c1, int c2)
               lastd = bhc;
             else
               bpt[fhc] = bhc;
-            if (ccos == him) {
-              ccos = bhc;
+            if (curcos == him) {
+              curcos = bhc;
               endcr = endr;
               clsd = 0;
             }

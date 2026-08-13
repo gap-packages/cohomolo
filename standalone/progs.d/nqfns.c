@@ -1,15 +1,7 @@
+#include "nqfns.h"
 #include "defs.h"
 
-extern char  inf[], inf1[], outf1[];
-extern short facexp, tails, stage, depth, no, mng, mexp, prime, exp, nng,
-    class, dim, onng, *rpf, *rpb, *eexpnt, *enexpnt, **pcb, **opcb, **npcb,
-    **npcb2, *nd1, *nd2, **extno, **subno, chpdim, chsdim, rel[], expnt[],
-    nexpnt[], prvec[], pinv[], wt[], d1[], d2[], *pcptr[], **powptr[],
-    **comptr[], *sspc[], *sspf[], sgen[], sex[], spgen[], spex[], spugen[],
-    dpth[];
-extern int   rsp, wsp, ptrsp, marg;
-short        fac;
-extern FILE *ip, *op;
+short fac;
 
 int ingp(int inp)
 /* Input a group with pcp. Normally inp=1, and file inf1 is opened inside
@@ -25,9 +17,9 @@ int ingp(int inp)
       fprintf(stderr, "Cannot open %s\n", inf1);
       return (-1);
     }
-    fscanf(ip, "%hd%hd%hd%hd%hd%hd", &prime, &exp, &facexp, &no, &class, &m);
-    if (exp >= mexp) {
-      fprintf(stderr, "exp too big. Increase MEXP.\n");
+    fscanf(ip, "%hd%hd%hd%hd%hd%hd", &prime, &expo, &facexp, &no, &class, &m);
+    if (expo >= mexp) {
+      fprintf(stderr, "expo too big. Increase MEXP.\n");
       return (-1);
     }
     if (m != 0) {
@@ -36,18 +28,18 @@ int ingp(int inp)
     }
   }
   nng = 0;
-  sum = (stage == 2 || stage == 4) ? exp + dim : exp;
+  sum = (stage == 2 || stage == 4) ? expo + dim : expo;
   if (inp)
     for (i = 1; i <= sum; i++)
       fscanf(ip, "%hd", wt + i);
   if (stage < 2) {
-    if (exp > facexp)
-      for (i = 1; i <= exp; i++)
+    if (expo > facexp)
+      for (i = 1; i <= expo; i++)
         fscanf(ip, "%hd", dpth + i);
     else
-      for (i = 1; i <= exp; i++)
+      for (i = 1; i <= expo; i++)
         dpth[i] = 0;
-    depth = dpth[exp];
+    depth = dpth[expo];
   }
   for (i = 1; i <= sum; i++)
     fscanf(ip, "%hd", d1 + i);
@@ -89,7 +81,7 @@ int ingp(int inp)
     }
   }
   if (tails || no < facexp)
-    for (i = no + 1; i <= exp; i++) {
+    for (i = no + 1; i <= expo; i++) {
       comptr[i] = pcp - 1 - tails;
       m = (i > facexp) ? facexp : i - 1;
       for (j = 1; j <= m; j++) {
@@ -123,14 +115,14 @@ int ingp(int inp)
       *(pcp++) = 0;
   }
   if (stage == 3)
-    no = exp;
+    no = expo;
   if (stage == 0)
     pcb = pcp - 1;
   /* End of input of PCP of P */
   else {
     opcb = pcp - 1;
-    nd1 = d1 + exp + dim;
-    nd2 = d2 + exp + dim;
+    nd1 = d1 + expo + dim;
+    nd2 = d2 + expo + dim;
     if (stage == 2 || stage == 4) {
       fscanf(ip, "%hd", &nng);
       for (i = 1; i <= nng; i++)
@@ -138,7 +130,7 @@ int ingp(int inp)
       for (i = 1; i <= nng; i++)
         fscanf(ip, "%hd", nd2 + i);
       if (stage == 4) {
-        jump = exp * dim;
+        jump = expo * dim;
         pcpj = pcp + jump;
       }
       else {
@@ -150,11 +142,11 @@ int ingp(int inp)
       jump = 0;
       pcpj = NULL;
     }
-    for (i = exp + 1; i <= exp + dim; i++) {
+    for (i = expo + 1; i <= expo + dim; i++) {
       comptr[i] = pcp - 1;
       if (stage == 4)
         powptr[i] = pcpj - 1;
-      for (j = 1; j <= exp; j++)
+      for (j = 1; j <= expo; j++)
         if (stage == 3 || stage == 1)
           *(pcp++) = 0;
         else {
@@ -188,7 +180,7 @@ int ingp(int inp)
     }
     pcb = pcp - 1;
     if (stage != 4 && stage != 2)
-      for (i = exp + 1; i <= exp + dim; i++) {
+      for (i = expo + 1; i <= expo + dim; i++) {
         powptr[i] = pcp - 1;
         for (j = 1; j <= facexp; j++)
           *(pcp++) = 0;
@@ -199,7 +191,7 @@ int ingp(int inp)
     npcb2 = npcb;
   }
   wsp = 0;
-  eexpnt = expnt + exp;
+  eexpnt = expnt + expo;
   if (stage)
     eexpnt += dim;
   enexpnt = nexpnt + nng;
@@ -255,10 +247,10 @@ int outgp(void)
   short **pcp, *b, *c, *e, *f, **pcpj;
   char    jtl;
   op = fopen(outf1, "w");
-  sum = (stage) ? exp + dim : (tails) ? exp + nng : exp;
+  sum = (stage) ? expo + dim : (tails) ? expo + nng : expo;
   if (tails)
-    no = exp;
-  nexp = stage ? exp : sum;
+    no = expo;
+  nexp = stage ? expo : sum;
   class = 1;
   for (i = 1; i <= sum; i++)
     if (wt[i] > class)
@@ -306,7 +298,7 @@ int outgp(void)
         fprintf(op, " %3d", *b);
     if (c != 0)
       while (++c <= f) {
-        fprintf(op, " %3d", *c + exp);
+        fprintf(op, " %3d", *c + expo);
         fprintf(op, " %3d", *(++c));
       }
     if (jtl) {
@@ -339,7 +331,7 @@ int outgp(void)
         fprintf(op, " %3d", nd2[i]);
       fprintf(op, "\n");
       if (stage == 4) {
-        jump = dim * exp;
+        jump = dim * expo;
         pcpj = pcp + jump;
         jtl = 1;
       }
@@ -392,13 +384,13 @@ void setnr(short * p)
 int collect(short * spc, short * spf, int sgn)
 /* The basic collection routine. Taken basically from Canberra NQA.
    There are several complications.
-   1) The basic word is collected into an exponent vector expnt[1-exp],
+   1) The basic word is collected into an exponent vector expnt[1-expo],
       but collection also generates terms in the new generators, 1-nng.
       These are all central, and these terms come from the tails in the PCP.
       They are collected in the vector nexpnt. The procedure setnr is
       always used for this.
    2) Negative powers can occur in the string to be collected.
-   3) Generators i with i>exp are generators of d(M). These do not need to be
+   3) Generators i with i>expo are generators of d(M). These do not need to be
       collected themselves; they are only there to generatoe terms in nng.
       They are not accumulated in expnt, but dealt with in blocks, as they
       occur.
@@ -429,14 +421,14 @@ recurse:
   spgen[stkp] = pgen;
 
 loop:
-  if (gen > exp) {
-    p4 = prvec + exp + dim;
-    pe = prvec + exp;
+  if (gen > expo) {
+    p4 = prvec + expo + dim;
+    pe = prvec + expo;
     zero(pe, p4);
     done = 0;
     exsgn = (spc < spf) ? -1 : 1;
-    /* First we collect all gens i>exp in this block as a vector. We use prvec
-       for this purpose, since it is not otherwise in use at present.
+    /* First we collect all gens i>expo in this block as a vector. We use
+       prvec for this purpose, since it is not otherwise in use at present.
        (prvec is fundamentally there for use in prnrel() .)
     */
     while (1) {
@@ -448,7 +440,7 @@ loop:
       spc -= (2 * exsgn);
       gen = *spc;
       ex = exsgn * *(spc + 1);
-      if (gen <= exp)
+      if (gen <= expo)
         break;
     }
     fpg = pgen;
@@ -486,7 +478,7 @@ loop:
       fpg++;
       fpex = expnt[fpg];
     }
-    while (fpg <= exp) {
+    while (fpg <= expo) {
       if (fpex > 0) {
         p3 = p4;
         while (p3 > pe) {
@@ -504,7 +496,7 @@ loop:
       fpg++;
       fpex = expnt[fpg];
     }
-    p1 = expnt + exp;
+    p1 = expnt + expo;
     while (++pe <= p4) {
       p1++;
       *p1 += *pe;
@@ -528,15 +520,15 @@ loop:
     sgen[stkp] = gen;
     sex[stkp] = ex;
     sspc[stkp] = spc;
-  } /* gen>exp */
+  } /* gen>expo */
   else if (gen > facexp) {
-    p4 = prvec + exp;
+    p4 = prvec + expo;
     pe = prvec + facexp;
     zero(pe, p4);
     done = 0;
     exsgn = (spc < spf) ? -1 : 1;
-    /* For facexp<gen<=exp, we again treat generators in blocks, and first add
-       them all up together in prvec.
+    /* For facexp<gen<=expo, we again treat generators in blocks, and first
+       add them all up together in prvec.
     */
     while (1) {
       prvec[gen] += ex;
@@ -547,7 +539,7 @@ loop:
       spc -= (2 * exsgn);
       gen = *spc;
       ex = exsgn * *(spc + 1);
-      if (gen <= facexp || gen > exp)
+      if (gen <= facexp || gen > expo)
         break;
     }
     fpg = pgen;
@@ -836,7 +828,7 @@ void bgc(void)
     }
     pcp++;
     if (stage == 1) {
-      if (ct == exp) {
+      if (ct == expo) {
         pcp += facexp;
         ct = facexp + 1;
       }
@@ -885,7 +877,7 @@ void bgc(void)
     }
     pcp++;
     if (stage == 1) {
-      if (ct == exp) {
+      if (ct == expo) {
         pcp += facexp;
         ct = facexp + 1;
       }
@@ -935,10 +927,10 @@ int intgen(int i, int j)
     *dp = rpb + 2;
   }
   else {
-    sum = exp + nng;
+    sum = expo + nng;
     d1[sum] = i;
     d2[sum] = j;
-    dpth[nng + exp] = depth;
+    dpth[nng + expo] = depth;
     wt[sum] = (i == j) ? wt[i] + 1 : wt[i] + wt[j];
     rpb -= 3;
     *(rpb + 1) = 2;
@@ -1020,7 +1012,7 @@ int assoc(int g1, int g2, int g3)
   char    eq12, eq23, prnt, triv;
   short * p;
   int     i, e, sum;
-  sum = stage ? exp + dim : exp;
+  sum = stage ? expo + dim : expo;
   if (g3 < 0) {
     prnt = 1;
     g3 = -g3;
@@ -1096,10 +1088,10 @@ int prnrel(void)
   for (i = nng; i >= 1; i--)
     if ((x = nexpnt[i]) != 0) {
       len++;
-      if (pow == 0 || (stage == 0 && wt[i + exp] < w)) {
+      if (pow == 0 || (stage == 0 && wt[i + expo] < w)) {
         pow = x;
         gno = i;
-        w = wt[i + exp];
+        w = wt[i + expo];
       }
     }
   if (len == 0)
@@ -1124,7 +1116,7 @@ int prnrel(void)
   }
   /* else printf("New gen no %d is eliminated.\n",gno); */
   eprvec = prvec + nng;
-  elno = (u) ? gno : exp + gno;
+  elno = (u) ? gno : expo + gno;
   if (stage >= 2) {
     dp = pcb + 1;
     ct = 0;
@@ -1242,7 +1234,7 @@ int prnrel(void)
     }
     dp++;
     if (stage == 1) {
-      if (ct == exp) {
+      if (ct == expo) {
         dp += facexp;
         ct = facexp + 1;
       }
@@ -1256,7 +1248,7 @@ int prnrel(void)
       nd2[i] = nd2[i + 1];
     }
     else {
-      j = exp + i;
+      j = expo + i;
       k = j + 1;
       d1[j] = d1[k];
       d2[j] = d2[k];

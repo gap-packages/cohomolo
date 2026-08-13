@@ -1,3 +1,4 @@
+#include "grp.h"
 #include "defs.h"
 #include "permfns.h"
 
@@ -8,7 +9,7 @@ extern int   imsp[], *done[], *imcos[];
 extern short perm[], sv[], cp[], orb[], base[], lorb[], pno[], *pptr[],
     *svptr[], inv[], rno[], mp, mrel, dnwds, mpt, mb;
 extern int psp, svsp, space;
-int nr, endr, maxcos, *fpt, *bpt, *def, scanno, nscan, nelim, bno, lo, ccos,
+int nr, endr, maxcos, *fpt, *bpt, *def, scanno, nscan, nelim, bno, lo, curcos,
     lastd, cind, nfree, stcr, endcr, fcos, bcos, lcl, np2, *rel, one = 1;
 short npt;
 int   rsp;
@@ -174,9 +175,9 @@ int grprog(void)
     fpt[lo] = 0;
     fpt[maxcos] = 0;
     while (1) {
-      ccos = 1;
+      curcos = 1;
       lkah = 0;
-      while (ccos != 0) {
+      while (curcos != 0) {
         clsd = 1;
         endcr = -1;
         scanno = -1;
@@ -185,12 +186,12 @@ int grprog(void)
           fullsc = 1;
           stcr = endcr + 2;
           endcr += (1 + rel[stcr - 1]);
-          if (RD(ccos, scanno) == 0)
+          if (RD(curcos, scanno) == 0)
             scanrel();
           if (fullsc == 0) {
             clsd = 0;
             if (lkah == 0) {
-              lcl = bpt[ccos];
+              lcl = bpt[curcos];
               lkah = 1;
               nscan = 0;
               nelim = 0;
@@ -198,17 +199,17 @@ int grprog(void)
             }
           }
         }
-        ccos = fpt[ccos];
+        curcos = fpt[curcos];
         if (lkah) {
           nscan++;
-          if (nscan > l1 || nelim >= l2 || ccos == 0) {
+          if (nscan > l1 || nelim >= l2 || curcos == 0) {
             if (cind !=
                 maxcos) { /* printf("Exiting lookahead. cind=%d.\n",cind); */
-              ccos = fpt[lcl];
+              curcos = fpt[lcl];
               lkah = 0;
             }
             else
-              ccos = 0;
+              curcos = 0;
           }
         }
       }
@@ -336,8 +337,8 @@ int scanrel(void)
 {
   int  i, j, k, l, m;
   char comp;
-  fcos = ccos;
-  bcos = ccos;
+  fcos = curcos;
+  bcos = curcos;
   comp = 1;
   for (i = stcr; i <= endcr; i++) {
     k = imcos[rel[i]][fcos];
@@ -350,7 +351,7 @@ int scanrel(void)
   if (comp) {
     if (fcos != bcos)
       coinc(fcos, bcos);
-    WD(ccos, scanno);
+    WD(curcos, scanno);
     return (0);
   }
   stcr = i;
@@ -367,7 +368,7 @@ int scanrel(void)
         }
         else if (k != bcos)
           coinc(k, bcos);
-        WD(ccos, scanno);
+        WD(curcos, scanno);
         return (0);
       }
       if (lkah || nfree == 0) {
@@ -394,7 +395,7 @@ int scanrel(void)
   }
   if (fcos != bcos)
     coinc(fcos, bcos);
-  WD(ccos, scanno);
+  WD(curcos, scanno);
   return (0);
 }
 
@@ -420,8 +421,8 @@ int coinc(int c1, int c2)
     lastd = bhc;
   else
     bpt[fhc] = bhc;
-  if (ccos == hc) {
-    ccos = bhc;
+  if (curcos == hc) {
+    curcos = bhc;
     endcr = endr;
     clsd = 0;
   }
@@ -477,8 +478,8 @@ int coinc(int c1, int c2)
               lastd = bhc;
             else
               bpt[fhc] = bhc;
-            if (ccos == him) {
-              ccos = bhc;
+            if (curcos == him) {
+              curcos = bhc;
               endcr = endr;
               clsd = 0;
             }

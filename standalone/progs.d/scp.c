@@ -1,4 +1,6 @@
+#include "scp.h"
 #include "defs.h"
+#include "pcscfns.h"
 #include "permfns.h"
 
 extern char mult, subgp, sgc, sgstr[], inf0[], inf1[], inf2[], inf3[], inf4[],
@@ -9,7 +11,7 @@ extern short perm[], sv[], cp[], fpt[], orb[], intpow[], base[], lorb[],
     dcrep[], dcrepinv[], tp[], mp, mb, mpt, mexp;
 extern int psp, svsp;
 char       norm;
-short npt, npt1, nb, exp, prime, hgen, coeff, intexp, nwt, stig, *itp, ngads,
+short npt, npt1, nb, expo, prime, hgen, coeff, intexp, nwt, stig, *itp, ngads,
     mxp;
 FILE *ip, *ipcr, *ipkp, *op, *opy;
 
@@ -25,7 +27,7 @@ int scprog(void)
     fprintf(stderr, "Cannot open %s.\n", inf1);
     return (-1);
   }
-  fscanf(ip, "%hd%hd%hd%hd", &npt, &exp, &nb, &l);
+  fscanf(ip, "%hd%hd%hd%hd", &npt, &expo, &nb, &l);
   if (npt > mpt) {
     fprintf(stderr, "npt too big. Increase MPT.\n");
     return (-1);
@@ -38,8 +40,8 @@ int scprog(void)
     fprintf(stderr, "svsp too small. Increase SVSP.\n");
     return (-1);
   }
-  if (exp >= mexp) {
-    fprintf(stderr, "exp too big. Increase MEXP.\n");
+  if (expo >= mexp) {
+    fprintf(stderr, "expo too big. Increase MEXP.\n");
     return (-1);
   }
   if (l != 2) {
@@ -53,7 +55,7 @@ int scprog(void)
     quot = mp;
   mxp = quot;
   mxp = 2 * (mxp / 2);
-  if (2 * exp > mxp) {
+  if (2 * expo > mxp) {
     fprintf(stderr, "Out of perm space. Increase PSP (or MP).\n");
     return (-1);
   }
@@ -61,22 +63,22 @@ int scprog(void)
     pptr[i] = perm + i * npt1 - 1;
   for (i = 1; i <= nb; i++)
     svptr[i] = sv + (i - 1) * npt - 1;
-  readpsv(0, nb, exp, svptr);
-  for (i = exp; i >= 1; i--)
+  readpsv(0, nb, expo, svptr);
+  for (i = expo; i >= 1; i--)
     fscanf(ip, "%hd", pwt + i);
   fscanf(ip, "%hd%hd", &prime, &ngads);
-  if (2 * exp + ngads > mxp) {
+  if (2 * expo + ngads > mxp) {
     fprintf(stderr, "Out of perm space. Increase PSP (or MP).\n");
     return (-1);
   }
-  for (i = 1; i <= exp; i++)
+  for (i = 1; i <= expo; i++)
     fscanf(ip, "%hd", power + i);
-  for (i = 1; i <= exp; i++) {
+  for (i = 1; i <= expo; i++) {
     j = 2 * (i - 1);
     ngno[i] = j;
     igno[j + 1] = i;
   }
-  k = 2 * exp - 1;
+  k = 2 * expo - 1;
   for (i = 1; i <= ngads; i++) {
     l = i + k;
     readvec(pptr[l], 1);
@@ -85,14 +87,14 @@ int scprog(void)
   }
   fclose(ip);
 
-  stconj = 2 * exp + ngads - 1;
+  stconj = 2 * expo + ngads - 1;
   itp = tp + npt1;
-  if (4 * exp + ngads > mxp) {
+  if (4 * expo + ngads > mxp) {
     fprintf(stderr, "Out of perm space. Increase PSP (or MP).\n");
     return (-1);
   }
   if (subgp) {
-    stig = stconj + 2 * exp;
+    stig = stconj + 2 * expo;
     for (i = 1; i <= nb; i++)
       sv2ptr[i] = sv + (nb + i - 1) * npt - 1;
     if (subgp > 1) {
@@ -157,7 +159,7 @@ int scprog(void)
     }
     if (lo != 1)
       printf("Warning. lo was not a power of p.\n");
-    intexp = exp - intexp;
+    intexp = expo - intexp;
     printf("dcct,intexp=%d,%d.\n", dcct, intexp);
     /* intexp is the exponent of Q = P ^ gPg(-1), for the current dcrep g */
     if (intexp == 0 || (intexp == 1 && mult)) {
@@ -175,16 +177,16 @@ int scprog(void)
       continue;
     }
     /* Now we compute the gens g(-1)h(i)g, where h(i) are the PCP gens of P */
-    for (i = 1; i <= exp; i++) {
+    for (i = 1; i <= expo; i++) {
       p1 = pptr[ngno[i]];
       p2 = pptr[stconj + i];
       for (n = 1; n <= npt; n++)
         p2[n] = dcrep[p1[dcrepinv[n]]];
     }
-    stint = stconj + exp;
+    stint = stconj + expo;
     pint = pptr[stint];
     intexsk = 0;
-    for (i = 1; i <= exp; i++)
+    for (i = 1; i <= expo; i++)
       intno[i] = 0;
     lpt = 1;
     stpt = 1;
@@ -192,10 +194,10 @@ int scprog(void)
     /* Now we search through the elements of g(-1)Pg, testing for membership
        of P, until we have found the intexp gens of g(-1)Qg.
     */
-    for (i = 1; i <= exp; i++) {
+    for (i = 1; i <= expo; i++) {
       olen = 1;
       cp[1] = stconj + i;
-      for (j = 1; j <= exp; j++)
+      for (j = 1; j <= expo; j++)
         co[j] = 0;
       while (1) {
         *cp = olen;
@@ -352,12 +354,12 @@ int scprog(void)
       fprintf(opy, "   %4d\n", olo);
       invert(dcrep, dcrepinv);
     }
-    norm = intexp == exp;
+    norm = intexp == expo;
     /* If norm, then we do not need to compute the PCP for Q */
     if (norm) {
       fprintf(op, "%4d\n", intexp);
       if (mult == 0) {
-        for (i = exp; i >= 1; i--) {
+        for (i = expo; i >= 1; i--) {
           wt[i] = pwt[i];
           fprintf(op, "%4d", wt[i]);
         }
@@ -514,7 +516,7 @@ int rsgp(void)
   seeknln();
   seeknln();
   seeknln();
-  if (4 * exp + 2 * np + ngads > mxp) {
+  if (4 * expo + 2 * np + ngads > mxp) {
     fprintf(stderr, "Out of perm space. Increase PSP (or MP).\n");
     return (-1);
   }

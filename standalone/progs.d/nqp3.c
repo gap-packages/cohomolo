@@ -1,9 +1,13 @@
+#include "nqp3.h"
 #include "defs.h"
+#include "matfns.h"
+#include "nqfns.h"
+#include "nqp2.h"
 
-extern char  inf[], inf1[], outf1[];
-extern short facexp, prime, exp, *rpf, *rpb, *eexpnt, **pcb, dim, onng,
+extern char  inf[], inf1[], outf1[], gap;
+extern short facexp, prime, expo, *rpf, *rpb, *eexpnt, **pcb, dim, onng,
     expnt[], **comptr[], *vec[], **mat[], cp[], *wf, *wc, **extno, **subno,
-    chsdim, chpdim, gap;
+    chsdim, chpdim;
 extern FILE *ip, *op;
 
 int comprels(void)
@@ -190,14 +194,14 @@ int comprels(void)
       fprintf(op, "%4d", covrel[j]);
     fprintf(op, "\n");
     zero(v1, v1 + dim);
-    for (n = 1; n <= exp; n++)
+    for (n = 1; n <= expo; n++)
       if ((l = expnt[n]) != 0) {
         if (n <= facexp) {
           fprintf(stderr, "relation error. i,n,l=%d,%d,%d\n", i, n, l);
           return (-1);
         }
         for (j = 1; j <= dim; j++) {
-          p = *(comptr[exp + j] + n);
+          p = *(comptr[expo + j] + n);
           if (p != 0) {
             r = p + *p;
             while (++p < r)
