@@ -700,6 +700,7 @@ restart:
     mnng--;
     enexpnt--;
     if (nng == 0) {
+      trivmult = 1;
       if (gap) {
         FILE * op = fopen(outfm, "w");
         fprintf(op, "COHOMOLO.Multiplier:=[];\n");

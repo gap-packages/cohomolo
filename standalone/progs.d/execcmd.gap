@@ -10,6 +10,6 @@ case $step in
         esac;;
 esac
 
-eval $cmd $cmdsource $cmddest || exit 1
+eval $cmd $cmdsource $cmddest || exit $?
 
 exit 0
