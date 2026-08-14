@@ -872,7 +872,7 @@ end );
 ##
 BindGlobal( "SchurMultiplier", function( chr )
    if not IsCHR(chr) then
-     Error("First argument of Cohomolo must be a cohomology record");
+     Error("First argument of SchurMultiplier must be a cohomology record");
    fi;
    if not IsBound(chr.multiplier) then
       Cohomolo(chr,true,false,false, TmpName() );
@@ -890,7 +890,7 @@ end );
 ##
 BindGlobal( "CoveringGroup", function( chr )
    if not IsCHR(chr) then
-     Error("First argument of Cohomolo must be a cohomology record");
+     Error("First argument of CoveringGroup must be a cohomology record");
    fi;
    if not IsBound(chr.multrelvals) then
       Cohomolo(chr,true,true,false, TmpName() );
@@ -907,7 +907,8 @@ end );
 ##
 BindGlobal( "FirstCohomologyDimension", function( chr )
    if not IsCHR(chr) then
-     Error("First argument of Cohomolo must be a cohomology record");
+     Error("First argument of FirstCohomologyDimension must be a ",
+           "cohomology record");
    fi;
    if not IsBound(chr.codim1) then
       Cohomolo(chr,false,false,true, TmpName() );
@@ -924,7 +925,8 @@ end );
 ##
 BindGlobal( "SecondCohomologyDimension", function( chr )
    if not IsCHR(chr) then
-     Error("First argument of Cohomolo must be a cohomology record");
+     Error("First argument of SecondCohomologyDimension must be a ",
+           "cohomology record");
    fi;
    if not IsBound(chr.codim2) then
      Cohomolo(chr,false,false,false, TmpName() );
@@ -942,7 +944,7 @@ end );
 ##
 BindGlobal( "SplitExtensionCHR", function( chr )
    if not IsCHR(chr) then
-     Error("First argument of Cohomolo must be a cohomology record");
+     Error("First argument of SplitExtensionCHR must be a cohomology record");
    fi;
    return CalcExtPres(chr,false,[]);
 end );
@@ -965,13 +967,13 @@ end );
 BindGlobal( "NonsplitExtension", function( arg )
    local chr, vec, i;
    if Number(arg)<>1 and Number(arg)<>2 then
-     Error("Number of arguments of NonSplitExtension wrong");
+     Error("Number of arguments of NonsplitExtension wrong");
    fi;
    chr := arg[1];
    vec := [];
    if Number(arg)=2 then vec := arg[2]; fi;
    if not IsCHR(chr) then
-     Error("First argument of Cohomolo must be a cohomology record");
+     Error("First argument of NonsplitExtension must be a cohomology record");
    fi;
    if not IsBound(chr.modrelvals) then
       Cohomolo(chr,false,true,false, TmpName() );

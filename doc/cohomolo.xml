@@ -5,10 +5,8 @@
 <P/>
 This chapter describes functions which may be used to perform certain
 cohomological calculations on a finite group <A>G</A>, based on <Cite Key="Holt85"/>.
-There is a file <C><A>gap-dir</A>/pkg/cohomolo/gap/cohomolo.tst</C> which contains
-simple commands that can be used to test the installation of the package.
-If you start &GAP; in the directory <C><A>gap-dir</A>/pkg/cohomolo/gap</C>, then
-you can read the file <F>cohomolo.tst</F> into &GAP; to perform the test.
+The installation of the package can be tested by calling
+<C>TestPackage("cohomolo")</C>.
 <P/>
 This package has been updated from the original &GAP;3 package
 with minimal changes, so the user should find the interface unchanged.
@@ -79,9 +77,9 @@ zero or a finitely presented group with the same number of generators as
 <A>G</A>, of which the relators are satisfied by the generators of <A>G</A>.
 In fact, to obtain meaningful results, <A>F</A> should almost certainly be
 isomorphic to <A>G</A>. If present, <A>mats</A> should be a list of invertible matrices
-over the finite field <A>K</A> = &lt;GF(p)&gt;. The list should have the same length as the
+over the finite field <A>K</A> = <M>GF(p)</M>. The list should have the same length as the
 number of generators of <A>G</A>, and the matrices should correspond to these
-generators, and define a &lt;GF(p)G&gt;-module, which we shall denote by <A>M</A>.
+generators, and define a <M>GF(p)G</M>-module, which we shall denote by <A>M</A>.
 </Description>
 </ManSection>
 </Section>
@@ -136,7 +134,7 @@ The relators fall into three classes:
 <C>CHR(<A>G</A>,<A>p</A>,<A>F</A>,<A>mats</A>)</C>. (If there is no finitely presented group <A>F</A>
 involved, then the third parameter of <C>CHR</C> should be given as 0.)
 <C>FirstCohomologyDimension</C> calculates and returns the dimension
-over <A>K</A> = &lt;GF(p)&gt; of the first cohomology group <M>H^1(G,M)</M> of the group
+over <A>K</A> = <M>GF(p)</M> of the first cohomology group <M>H^1(G,M)</M> of the group
 <A>G</A> in its action on the module <A>M</A> defined by the matrices <A>mats</A>.
 </Description>
 </ManSection>
@@ -152,7 +150,7 @@ over <A>K</A> = &lt;GF(p)&gt; of the first cohomology group <M>H^1(G,M)</M> of t
 (If there is no finitely presented group <A>F</A> involved,
 then the third parameter of <C>CHR</C> should be given as 0.)
 <C>SecondCohomologyDimension</C> calculates and returns the dimension
-over <A>K</A> = &lt;GF(p)&gt; of the second cohomology group <M>H^2(G,M)</M> of the group
+over <A>K</A> = <M>GF(p)</M> of the second cohomology group <M>H^2(G,M)</M> of the group
 <A>G</A> in its action on the module <A>M</A> defined by the matrices <A>mats</A>.
 </Description>
 </ManSection>
@@ -181,7 +179,7 @@ external cohomology programs. It is provided here for convenience.
 <A>chr</A> must be a cohomology-record, created by a call of
 <C>CHR(<A>G</A>,<A>p</A>,<A>F</A>,<A>mats</A>)</C>, where <A>F</A> is a finitely presented group.
 If present, <A>vec</A> must be a list of integers of length equal to the
-dimension over <A>K</A> = &lt;GF(p)&gt; of the second cohomology group <M>H^2(G,M)</M> of the
+dimension over <A>K</A> = <M>GF(p)</M> of the second cohomology group <M>H^2(G,M)</M> of the
 group <A>G</A> in its action on the module <A>M</A> defined by the matrices <A>mats</A>.
 <C>NonsplitExtension</C> calculates and returns a presentation of a nonsplit
 extension of <A>M</A> by <A>G</A>. Since there may be many such extensions, and
@@ -202,7 +200,7 @@ The relators fall into three classes:
 those of <A>M</A>; and</Item>
 <Mark>(c)</Mark>
 <Item>Those that give the values of the relators of <A>F</A> as elements of <M>M</M>.
-(<A>Note</A>: It is not particularly efficient to call <C>SecondCohomologyDimension</C>
+(<E>Note</E>: It is not particularly efficient to call <C>SecondCohomologyDimension</C>
 first to calculate the dimension of <M>H^2(G,M)</M>, which must of course be known
 if the second parameter is to be given; it is preferable to call
 <C>NonsplitExtension</C> immediately without the second parameter (which will
@@ -234,7 +232,7 @@ standard &GAP; function call
 <Heading>PermRep</Heading>
 <Index>PermRep!</Index>
 <ManSection>
-<Func Name="PermRep" Arg="G, K"/>
+<Func Name="PermRep" Arg="F, K"/>
 <Description>
 <C>PermRep</C> calculates the permutation representation of the finitely
 presented group <A>F</A> on the right cosets of the subgroup <A>K</A>, and returns
@@ -269,19 +267,14 @@ gap> G:=AlternatingGroup(16);;
 gap> chr:=CHR(G,2);;
 gap> SetInfoLevel(InfoCohomolo,1);;
 gap> SchurMultiplier(chr);
-#Indices in the subgroup chain are:  2027025 315 
+#I  Indices in the subgroup chain are:  2027025 315 
 #WARNING: An index in the subgroup chain found is larger than 50000.
 #This calculation may fail. See manual for possible remedies.
 #I   Cohomolo package: Calling external program.
 Out of tree space. Increase TRSP.
-#I   External program complete.
-Error 'Cohomolo' failed for some reason.
- at
-Error( "'Cohomolo' failed for some reason.\n" );
-Cohomology( chr, true, false, false, TmpName(  ) ); called from
-<function>( <arguments> ) called from read-eval-loop
-Entering break read-eval-print loop, you can 'quit;' to quit to outer loop,
-or you can return to continue
+Error, the cohomolo program cohomology.gap failed with exit code 1
+you can enter 'quit;' to quit to outer loop, or
+you can enter 'return;' to continue
 brk> quit;
 
 #The first index in the chain found by GAP was hopelessly large.
@@ -305,9 +298,9 @@ gap> Index(H2,P);
 81
 gap> chr.chain := [G,H1,H2,P];;
 gap> SchurMultiplier(chr);
-#Calling external program.
-#External program complete.
-#Removing temporary files.
+#I   Cohomolo package: Calling external program.
+#I   External program complete.
+#I   Removing temporary files.
 [ 2 ]
 gap> quit;
 ]]></Log>

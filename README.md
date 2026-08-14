@@ -34,11 +34,11 @@ would call
 
     ./configure ../..
 
-and then call
+The path can also be given as `--with-gaproot=PATH`. Then call
 
     make
 
-to compile the binary.
+to compile the binaries.
 
 If you installed GAP on several architectures, you must execute this
 configure/make step for the `cohomolo` package on each of the architectures
