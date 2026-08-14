@@ -1,5 +1,5 @@
 #! /bin/sh
-#Gap version of shell-script to find a presnetation of a permutation group
+#Gap version of shell-script to find a presentation of a permutation group
 #on the given generators.
 #Tests and checks that are done within GAP have been removed.
 #First set the path directory
