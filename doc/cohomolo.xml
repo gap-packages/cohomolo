@@ -98,6 +98,7 @@ abelian invariants of <M>Mul_p</M>. If the list is empty, then
 </Description>
 </ManSection>
 </Section>
+
 <Section>
 <Heading>CoveringGroup</Heading>
 <Index>CoveringGroup!</Index>
@@ -106,7 +107,7 @@ abelian invariants of <M>Mul_p</M>. If the list is empty, then
 <Description>
 <A>chr</A> must be a cohomology-record, created by a call of
 <C>CHR(<A>G</A>,<A>p</A>,<A>F</A>[,<A>mats</A>])</C>, where <A>F</A> is a finitely presented group.
-<C>CoveringGroup</C> calculates a presentation of a covering extension of <M>Mul_p</M>
+<Ref Func="CoveringGroup"/> calculates a presentation of a covering extension of <M>Mul_p</M>
 by <A>G</A>, where <M>Mul_p</M> is the <A>p</A>-part of the Schur multiplier <A>Mul</A> of <A>G</A>.
 The set of generators of the finitely presented group that is returned
 is a union of two sets, which are in one-one correspondence with the
@@ -121,9 +122,20 @@ The relators fall into three classes:
 <Mark>(c)</Mark>
 <Item>Those that give the values of the relators of <A>F</A> as elements of <M>Mul_p</M>.</Item>
 </List>
+
+<Example><![CDATA[
+gap> G:= AlternatingGroup( 5 );
+Alt( [ 1 .. 5 ] )
+gap> F:= Image( IsomorphismFpGroupByGenerators( G, GeneratorsOfGroup(G) ) );
+<fp group of size 60 on the generators [ F1, F2 ]>
+gap> C:= CHR( G, 2, F );;
+gap> CoveringGroup( C );
+<fp group of size 120 on the generators [ f1, f2, f3 ]>
+]]></Example>
 </Description>
 </ManSection>
 </Section>
+
 <Section>
 <Heading>FirstCohomologyDimension</Heading>
 <Index>FirstCohomologyDimension!</Index>
@@ -155,6 +167,7 @@ over <A>K</A> = <M>GF(p)</M> of the second cohomology group <M>H^2(G,M)</M> of t
 </Description>
 </ManSection>
 </Section>
+
 <Section>
 <Heading>SplitExtensionCHR</Heading>
 <Index>SplitExtensionCHR!</Index>
@@ -163,13 +176,25 @@ over <A>K</A> = <M>GF(p)</M> of the second cohomology group <M>H^2(G,M)</M> of t
 <Description>
 <A>chr</A> must be a cohomology-record, created by a call of
 <C>CHR(<A>G</A>,<A>p</A>,<A>F</A>,<A>mats</A>)</C>, where <A>F</A> is a finitely presented group.
-<C>SplitExtensionCHR</C> returns a presentation of the split extension of the module
+<Ref Func="SplitExtensionCHR"/> returns a presentation of the split extension of the module
 <A>M</A> defined by the matrices <A>mats</A> by the group <A>G</A>.
 This is a straightforward calculation, and involves no call of the
 external cohomology programs. It is provided here for convenience.
+
+<Example><![CDATA[
+gap> G:= Group( [ (1,2), (3,4) ] );;
+gap> F:= Image( IsomorphismFpGroupByGenerators( G, GeneratorsOfGroup(G) ) );
+<fp group of size 4 on the generators [ F1, F2 ]>
+gap> C:= CHR( G, 2, F, [ [[1]], [[1]] ] * Z(2) );;
+gap> ext:= SplitExtensionCHR( C );
+<fp group of size 8 on the generators [ f1, f2, f3 ]>
+gap> StructureDescription( ext );
+"C2 x C2 x C2"
+]]></Example>
 </Description>
 </ManSection>
 </Section>
+
 <Section>
 <Heading>NonsplitExtension</Heading>
 <Index>NonsplitExtension!</Index>
@@ -181,7 +206,7 @@ external cohomology programs. It is provided here for convenience.
 If present, <A>vec</A> must be a list of integers of length equal to the
 dimension over <A>K</A> = <M>GF(p)</M> of the second cohomology group <M>H^2(G,M)</M> of the
 group <A>G</A> in its action on the module <A>M</A> defined by the matrices <A>mats</A>.
-<C>NonsplitExtension</C> calculates and returns a presentation of a nonsplit
+<Ref Func="NonsplitExtension"/> calculates and returns a presentation of a nonsplit
 extension of <A>M</A> by <A>G</A>. Since there may be many such extensions, and
 the equivalence classes of these extensions are in one-one correspondence
 with the nonzero elements of <M>H^2(G,M)</M>, the optional second parameter
@@ -203,15 +228,34 @@ those of <A>M</A>; and</Item>
 (<E>Note</E>: It is not particularly efficient to call <C>SecondCohomologyDimension</C>
 first to calculate the dimension of <M>H^2(G,M)</M>, which must of course be known
 if the second parameter is to be given; it is preferable to call
-<C>NonsplitExtension</C> immediately without the second parameter (which will
-return one nonsplit extension), and then to call <C>SecondCohomologyDimension</C>,
+<Ref Func="NonsplitExtension"/> immediately without the second parameter (which will
+return one nonsplit extension), and then to call <Ref Func="SecondCohomologyDimension"/>,
 which will at that stage return the required dimension immediately -
-all subsequent calls of <C>NonsplitExtension</C> on <A>chr</A> will also yield
+all subsequent calls of <Ref Func="NonsplitExtension"/> on <A>chr</A> will also yield
 immediate results.)</Item>
 </List>
+
+<Example><![CDATA[
+gap> G:= ElementaryAbelianGroup( IsPermGroup, 4 );
+Group([ (1,2), (3,4) ])
+gap> F:= Image( IsomorphismFpGroupByGenerators( G, GeneratorsOfGroup(G) ) );
+<fp group of size 4 on the generators [ F1, F2 ]>
+gap> C:= CHR( G, 2, F, [ [[1]], [[1]] ] * Z(2) );;
+gap> SecondCohomologyDimension( C );
+3
+gap> ext:= NonsplitExtension( C, [ 1, 0, 0 ] );
+<fp group of size 8 on the generators [ f1, f2, f3 ]>
+gap> StructureDescription( ext );
+"D8"
+gap> ext:= NonsplitExtension( C, [ 1, 1, 1 ] );
+<fp group of size 8 on the generators [ f1, f2, f3 ]>
+gap> StructureDescription( ext );
+"Q8"
+]]></Example>
 </Description>
 </ManSection>
 </Section>
+
 <Section>
 <Heading>CalcPres</Heading>
 <Index>CalcPres!</Index>
