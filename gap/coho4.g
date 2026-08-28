@@ -859,7 +859,15 @@ BindGlobal( "CalcExtPres", function( arg )
       od;
       Add(Erels,w);
    od; 
-   return E/Erels;
+   E:= E/Erels;
+   if HasSize( F ) then
+     if mult then
+       SetSize( E, Size( F ) * Product( chr.multiplier, 1 ) );
+     else
+       SetSize( E, Size( F ) * chr.prime^dim );
+     fi;
+   fi;
+   return E;
 end );
 
 #############################################################################
@@ -990,7 +998,7 @@ end );
 
 #############################################################################
 ##
-#F  PermRep( <F>, <K> ). . . calculate permutation represenation of fp-group
+#F  PermRep( <F>, <K> ). . . calculate permutation representation of fp-group
 ##
 ##  <F> should be a finitely presented group and <K> a subgroup of finite
 ##  index.
