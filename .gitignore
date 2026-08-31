@@ -30,3 +30,5 @@ Makefile
 /doc/chap*_mj.txt
 /doc/chooser.html
 /doc/main.*
+
+/tst/cohomolo*.tst
