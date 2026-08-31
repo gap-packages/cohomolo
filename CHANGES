@@ -1,5 +1,10 @@
 This file describes changes in the cohomolo package.
 
+1.7.1 (2026-08-31)
+  - In SplitExtensionCHR, NonsplitExtension, and CoveringGroup, the
+    order of the result is known if the order of the given finitely
+    presented group is known
+
 1.7.0 (2026-08-13)
   - Report an error when an external program fails, instead of returning the
     result of an earlier stage of the computation
